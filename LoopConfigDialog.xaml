@@ -1,0 +1,59 @@
+﻿<Window x:Class="PredefinedControlAndInsertionAppProject.LoopConfigDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PredefinedControlAndInsertionAppProject"
+        mc:Ignorable="d"
+        Title="Loop Configuration" Height="480" Width="680"
+        WindowStartupLocation="CenterOwner" ResizeMode="NoResize">
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Hlavný nadpis -->
+        <TextBlock Grid.Row="0" Text="Configure Loop Parameters" FontSize="16" FontWeight="Bold" Margin="0,0,0,15"/>
+
+        <!-- Pevný počet opakovaní -->
+        <RadioButton Grid.Row="1" x:Name="rbFixedCount" Content="Fixed number of iterations:" GroupName="LoopType" IsChecked="True" Margin="0,0,0,10"/>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="20,0,0,15">
+            <TextBlock Text="Number of iterations:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+            <TextBox x:Name="txtIterationCount" Width="80" Text="10" VerticalContentAlignment="Center"/>
+        </StackPanel>
+
+        <!-- Nekonečná slučka -->
+        <RadioButton Grid.Row="3" x:Name="rbInfinite" Content="Repeat indefinitely (until manually stopped)" GroupName="LoopType" Margin="0,0,0,15"/>
+
+        <!-- Podmienená slučka -->
+        <RadioButton Grid.Row="4" x:Name="rbExitCondition" Content="Repeat until condition is met:" GroupName="LoopType" Margin="0,0,0,10"/>
+        <Grid Grid.Row="5" Margin="20,0,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="Element:" VerticalAlignment="Center" Margin="0,0,10,10"/>
+            <ComboBox Grid.Row="0" Grid.Column="1" x:Name="cmbExitElement" Margin="0,0,0,10" DisplayMemberPath="Name"/>
+
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="Value equals:" VerticalAlignment="Center" Margin="0,0,10,0"/>
+            <TextBox Grid.Row="1" Grid.Column="1" x:Name="txtExitValue" VerticalContentAlignment="Center"/>
+        </Grid>
+
+        <!-- Tlačidlá -->
+        <StackPanel Grid.Row="6" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,15,0,0">
+            <Button Content="OK" Width="80" Height="30" Margin="0,0,10,0" Click="BtnOk_Click" IsDefault="True"/>
+            <Button Content="Cancel" Width="80" Height="30" IsCancel="True"/>
+        </StackPanel>
+    </Grid>
+</Window>
