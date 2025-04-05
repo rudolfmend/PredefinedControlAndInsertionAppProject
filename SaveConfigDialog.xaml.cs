@@ -1,10 +1,11 @@
-﻿using System;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
+using System.Runtime.Versioning;
 using System.Windows;
 
 namespace PredefinedControlAndInsertionAppProject
 {
+    [SupportedOSPlatform("windows7.0")]
+
     /// <summary>
     /// Interaction logic for SaveConfigDialog.xaml
     /// </summary>

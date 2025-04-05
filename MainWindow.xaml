@@ -40,8 +40,17 @@
                 </Grid.ColumnDefinitions>
 
                 <!-- Application path -->
-                <Button Grid.Row="0" Grid.Column="3" Name="BtnDetectApp" Content="Detect Apps..." Margin="0,5,0,5" 
-                        Padding="10,5" Click="BtnDetectApp_Click"/>
+                <Button Grid.Column="1" Name="BtnDetectApp" Content="Detect Apps..." Margin="2,-4,99,34" 
+                        Padding="10,5" Click="BtnDetectApp_Click" RenderTransformOrigin="0.5,0.5" >
+                    <Button.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleY="1"/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Button.RenderTransform>
+                </Button>
 
                 <!-- Window title -->
                 <Label Grid.Row="1" Grid.Column="0" Content="Window Title:" Margin="0,5,5,5" 
@@ -57,9 +66,6 @@
                     <Button x:Name="BtnLaunchApp" Content="Launch Target Application" Padding="10,5" 
                             Click="BtnLaunchApp_Click"/>
                 </StackPanel>
-                <Label Grid.Row="0" Grid.Column="0" Content="Running Application:" Margin="0,5,5,5" VerticalAlignment="Center"/>
-                <ComboBox Grid.Row="0" Grid.Column="1" Name="CmbRunningApps" Margin="0,5,5,5" Padding="5" VerticalContentAlignment="Center"/>
-                <Button Grid.Row="0" Grid.Column="2" Name="BtnRefreshApps" Content="Refresh" Margin="0,5,5,5" Padding="10,5" Click="BtnRefreshApps_Click"/> 
             </Grid>
         </GroupBox>
 

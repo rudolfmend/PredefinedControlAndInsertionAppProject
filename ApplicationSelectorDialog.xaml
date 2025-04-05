@@ -42,7 +42,9 @@
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
-                    <ListView Grid.Row="0" Name="lvWindows" Margin="5" SelectionChanged="lvWindows_SelectionChanged">
+                    <ListView Grid.Row="0" Name="lvWindows" Margin="5" 
+                              SelectionChanged="lvWindows_SelectionChanged"
+                              MouseDoubleClick="lvWindows_MouseDoubleClick">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="Window Title" DisplayMemberBinding="{Binding WindowTitle}" Width="350" />

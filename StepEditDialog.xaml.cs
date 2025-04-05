@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Runtime.Versioning;
 using System.Windows;
 using System.Windows.Controls;
 using static PredefinedControlAndInsertionAppProject.MainWindow;
 
 namespace PredefinedControlAndInsertionAppProject
 {
+    [SupportedOSPlatform("windows7.0")]
+
     /// <summary>
     /// Dialog for editing automation step properties
     /// </summary>
@@ -13,10 +14,10 @@ namespace PredefinedControlAndInsertionAppProject
     {
         // Result properties
         public string SelectedAction { get; private set; } = string.Empty;
-        public UIElement SelectedTarget { get; private set; } = new UIElement();
+        public AppUIElement SelectedTarget { get; private set; } = new AppUIElement();
         public string Value { get; private set; } = string.Empty;
 
-        public StepEditDialog(IEnumerable<UIElement> availableElements, SequenceStep? currentStep = null)
+        public StepEditDialog(IEnumerable<AppUIElement> availableElements, SequenceStep? currentStep = null)
         {
             InitializeComponent();
 
@@ -39,7 +40,7 @@ namespace PredefinedControlAndInsertionAppProject
                 // Set target and value if provided
                 if (currentStep.Target != "Select a UI Element")
                 {
-                    foreach (UIElement element in availableElements)
+                    foreach (AppUIElement element in availableElements)
                     {
                         if (element.Name == currentStep.Target)
                         {
@@ -52,7 +53,7 @@ namespace PredefinedControlAndInsertionAppProject
                 // Set value (for Textbox or Wait actions)
                 if (currentStep.Action == "SetValue" || currentStep.Action == "Wait")
                 {
-                    if (cmbTarget.SelectedItem is UIElement target)
+                    if (cmbTarget.SelectedItem is AppUIElement target)
                     {
                         txtValue.Text = target.Value;
                     }
@@ -101,7 +102,7 @@ namespace PredefinedControlAndInsertionAppProject
 
         private void CmbTarget_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (cmbTarget.SelectedItem is UIElement selectedElement &&
+            if (cmbTarget.SelectedItem is AppUIElement selectedElement &&
                 cmbAction.SelectedItem is ComboBoxItem actionItem &&
                 actionItem.Content.ToString() == "SetValue")
             {
@@ -115,8 +116,8 @@ namespace PredefinedControlAndInsertionAppProject
             // Validate input
             if (cmbAction.SelectedItem == null)
             {
-                MessageBox.Show("Please select an action.", "Missing Input",
-                                MessageBoxButton.OK, MessageBoxImage.Warning);
+                TimedMessageBox.Show("Please select an action.", "Missing Input",
+                                5000);
                 return;
             }
 
@@ -124,21 +125,21 @@ namespace PredefinedControlAndInsertionAppProject
 
             if (action != "Wait" && cmbTarget.SelectedItem == null)
             {
-                MessageBox.Show("Please select a target element.", "Missing Input",
-                                MessageBoxButton.OK, MessageBoxImage.Warning);
+                TimedMessageBox.Show("Please select a target element.", "Missing Input",
+                                 5000);
                 return;
             }
 
             if (action == "Wait" && (string.IsNullOrEmpty(txtValue.Text) || !double.TryParse(txtValue.Text, out _)))
             {
-                MessageBox.Show("Please enter a valid number of seconds for the wait time.",
-                                "Invalid Input", MessageBoxButton.OK, MessageBoxImage.Warning);
+                TimedMessageBox.Show("Please enter a valid number of seconds for the wait time.",
+                                "Invalid Input", 5000);
                 return;
             }
 
             // Store results
             SelectedAction = action;
-            SelectedTarget = cmbTarget.SelectedItem as UIElement ?? new UIElement();
+            SelectedTarget = cmbTarget.SelectedItem as AppUIElement ?? new AppUIElement();
             Value = txtValue.Text;
 
             // Close dialog with success

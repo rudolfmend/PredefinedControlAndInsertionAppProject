@@ -25,9 +25,49 @@ namespace PredefinedControlAndInsertionAppProject
     {
         public LoopControl LoopParameters { get; private set; }
 
-        public LoopConfigDialog(IEnumerable<UIElement> availableElements, LoopControl? existingParams = null)
+        public LoopConfigDialog(IEnumerable<AppUIElement> availableElements, LoopControl? existingParams = null)
         {
+            InitializeComponent();
+
             LoopParameters = existingParams ?? new LoopControl();
+
+            // Nastavte ItemsSource pre ComboBox
+            cmbExitElement.ItemsSource = availableElements;
+
+            // Ak existuje existujúca konfigurácia, nastavte UI podľa nej
+            if (existingParams != null)
+            {
+                if (existingParams.IsInfiniteLoop)
+                {
+                    if (!string.IsNullOrEmpty(existingParams.ExitConditionElementName))
+                    {
+                        // Nastavte condition-based loop
+                        rbExitCondition.IsChecked = true;
+                        txtExitValue.Text = existingParams.ExitConditionValue ?? "";
+
+                        // Nájdite a nastavte vybraný element v ComboBoxe
+                        foreach (var element in availableElements)
+                        {
+                            if (element.Name == existingParams.ExitConditionElementName)
+                            {
+                                cmbExitElement.SelectedItem = element;
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        // Nastavte infinite loop
+                        rbInfinite.IsChecked = true;
+                    }
+                }
+                else
+                {
+                    // Nastavte fixed count loop
+                    rbFixedCount.IsChecked = true;
+                    txtIterationCount.Text = existingParams.IterationCount.ToString();
+                }
+            }
         }
 
         private void BtnOk_Click(object sender, RoutedEventArgs e)
@@ -45,7 +85,7 @@ namespace PredefinedControlAndInsertionAppProject
                 }
                 else
                 {
-                    MessageBox.Show("Please enter a valid iteration count", "Invalid Input");
+                    TimedMessageBox.Show("Please enter a valid iteration count", "Invalid Input", 5000);
                     return;
                 }
             }
@@ -56,7 +96,7 @@ namespace PredefinedControlAndInsertionAppProject
             }
             else if (rbExitCondition.IsChecked == true)
             {
-                if (cmbExitElement.SelectedItem is UIElement selectedElement)
+                if (cmbExitElement.SelectedItem is AppUIElement selectedElement)
                 {
                     LoopParameters.ExitConditionElementName = selectedElement.Name;
                     LoopParameters.ExitConditionValue = txtExitValue.Text;
@@ -64,7 +104,7 @@ namespace PredefinedControlAndInsertionAppProject
                 }
                 else
                 {
-                    MessageBox.Show("Please select an element for the exit condition", "Invalid Selection");
+                    TimedMessageBox.Show("Please select an element for the exit condition", "Invalid Selection", 5000);
                     return;
                 }
             }

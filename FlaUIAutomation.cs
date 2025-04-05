@@ -142,8 +142,8 @@ namespace PredefinedControlAndInsertionAppProject
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error capturing UI elements: {ex.Message}", "Capture Error",
-                               MessageBoxButton.OK, MessageBoxImage.Error);
+                TimedMessageBox.Show($"Error capturing UI elements: {ex.Message}", "Capture Error",
+                               5000);
             }
 
             return elements;
@@ -181,8 +181,8 @@ namespace PredefinedControlAndInsertionAppProject
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error setting value: {ex.Message}", "Set Value Error",
-                               MessageBoxButton.OK, MessageBoxImage.Error);
+                TimedMessageBox.Show($"Error setting value: {ex.Message}", "Set Value Error",
+                               5000);
                 return false;
             }
         }
@@ -234,8 +234,8 @@ namespace PredefinedControlAndInsertionAppProject
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error clicking element: {ex.Message}", "Click Error",
-                               MessageBoxButton.OK, MessageBoxImage.Error);
+                TimedMessageBox.Show($"Error clicking element: {ex.Message}", "Click Error",
+                               5000);
                 return false;
             }
         }

@@ -124,10 +124,10 @@ namespace PredefinedControlAndInsertionAppProject
             {
                 // Add the selected element to the results
                 SelectedElements.Add(selectedElement);
-                
+
                 // Show confirmation
-                MessageBox.Show($"Element '{selectedElement}' added to your automation.", 
-                              "Element Added", MessageBoxButton.OK, MessageBoxImage.Information);
+                TimedMessageBox.Show($"Element '{selectedElement}' added to your automation.", 
+                              "Element Added", 5000);
             }
         }
 
@@ -138,8 +138,8 @@ namespace PredefinedControlAndInsertionAppProject
             
             if (selectedItems.Count == 0)
             {
-                MessageBox.Show("Please select at least one element to add.", 
-                              "No Selection", MessageBoxButton.OK, MessageBoxImage.Warning);
+                TimedMessageBox.Show("Please select at least one element to add.", 
+                              "No Selection", 5000);
                 return;
             }
             
@@ -148,10 +148,12 @@ namespace PredefinedControlAndInsertionAppProject
             {
                 SelectedElements.Add(item);
             }
-            
+
             // Show confirmation
-            MessageBox.Show($"{selectedItems.Count} element(s) added to your automation.", 
-                          "Elements Added", MessageBoxButton.OK, MessageBoxImage.Information);
+            TimedMessageBox.Show(
+                $"{selectedItems.Count} element(s) added to your automation.", 
+                          "Elements Added", 
+                          5000);
         }
     }
 }

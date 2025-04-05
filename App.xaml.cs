@@ -27,8 +27,8 @@ namespace PredefinedControlAndInsertionAppProject
             if (!createdNew)
             {
                 // Another instance already exists
-                MessageBox.Show("The application is already running. Multiple instances cannot be run.",
-                        "Duplicate run", MessageBoxButton.OK, MessageBoxImage.Information);
+                TimedMessageBox.Show("The application is already running. Multiple instances cannot be run.",
+                        "Duplicate run", 5000);
                 // Activate the existing application window
                 ActivateRunningInstance();
                 // Terminate this instance

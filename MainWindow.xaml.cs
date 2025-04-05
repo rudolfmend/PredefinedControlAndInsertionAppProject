@@ -19,8 +19,11 @@ namespace PredefinedControlAndInsertionAppProject
     /// </summary>
     public partial class MainWindow : Window
     {
+        private ApplicationInfo? _selectedApplication;
+        private WindowInfo? _selectedWindow;
+
         // Collections for UI binding
-        private ObservableCollection<UIElement> _uiElements = [];
+        private ObservableCollection<AppUIElement> _uiElements = [];
         private ObservableCollection<CalculationRule> _calculationRules = [];
         private ObservableCollection<SequenceStep> _sequenceSteps = [];
 
@@ -71,6 +74,7 @@ namespace PredefinedControlAndInsertionAppProject
         {
             // Create the application selector dialog
             var appSelectorDialog = new ApplicationSelectorDialog();
+            appSelectorDialog.Owner = this;
 
             // Show the dialog as a modal dialog
             bool? result = appSelectorDialog.ShowDialog();
@@ -81,13 +85,12 @@ namespace PredefinedControlAndInsertionAppProject
                 // Check if application and window were selected
                 if (appSelectorDialog.SelectedApplication != null && appSelectorDialog.SelectedWindow != null)
                 {
-                    // Get the selected application and window
-                    ApplicationInfo selectedApp = appSelectorDialog.SelectedApplication;
-                    WindowInfo selectedWindow = appSelectorDialog.SelectedWindow;
+                    // Store selected application and window
+                    _selectedApplication = appSelectorDialog.SelectedApplication;
+                    _selectedWindow = appSelectorDialog.SelectedWindow;
 
                     // Update UI with selected application information
-                    SetSelectedProcessByName(selectedApp.ProcessName); // Treba implementovať túto metódu
-                    txtWindowTitle.Text = selectedWindow.WindowTitle;
+                    txtWindowTitle.Text = _selectedWindow.WindowTitle;
                 }
 
                 // Check if UI elements were selected
@@ -96,7 +99,7 @@ namespace PredefinedControlAndInsertionAppProject
                     // Add selected elements to the UI elements collection
                     foreach (var elementInfo in appSelectorDialog.SelectedElements)
                     {
-                        _uiElements.Add(new UIElement
+                        _uiElements.Add(new AppUIElement
                         {
                             Name = !string.IsNullOrEmpty(elementInfo.Name) ? elementInfo.Name :
                                    (!string.IsNullOrEmpty(elementInfo.AutomationId) ? elementInfo.AutomationId : elementInfo.ControlTypeName),
@@ -107,9 +110,21 @@ namespace PredefinedControlAndInsertionAppProject
                         });
                     }
 
-                    // Show confirmation message
-                    MessageBox.Show($"{appSelectorDialog.SelectedElements.Count} UI element(s) have been added to your automation.",
-                                  "Elements Added", MessageBoxButton.OK, MessageBoxImage.Information);
+                    // Refresh the DataGrid to show the new elements
+                    dgElements.Items.Refresh();
+
+                    // Optionally, select the first element in the DataGrid
+                    if (dgElements.Items.Count > 0)
+                    {
+                        dgElements.SelectedIndex = 0;
+                        dgElements.ScrollIntoView(dgElements.Items[0]);
+                    }
+
+                    // Show timed message box
+                    TimedMessageBox.Show(
+                        $"{appSelectorDialog.SelectedElements.Count} UI element(s) have been added to your automation.",
+                        "Elements Added",
+                        5000); // 5000 ms = 5 seconds
                 }
             }
         }
@@ -172,8 +187,8 @@ namespace PredefinedControlAndInsertionAppProject
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Error during element capture: {ex.Message}", "Capture Error",
-                                    MessageBoxButton.OK, MessageBoxImage.Error);
+                    TimedMessageBox.Show($"Error during element capture: {ex.Message}", "Capture Error",
+                                     5000);
                 }
                 finally
                 {
@@ -195,7 +210,7 @@ namespace PredefinedControlAndInsertionAppProject
 
         private void BtnAddElement_Click(object sender, RoutedEventArgs e)
         {
-            _uiElements.Add(new UIElement
+            _uiElements.Add(new AppUIElement
             {
                 Name = "NewElement",
                 ElementType = "TextBox",
@@ -207,14 +222,14 @@ namespace PredefinedControlAndInsertionAppProject
 
         private void BtnRemoveElement_Click(object sender, RoutedEventArgs e)
         {
-            if (dgElements.SelectedItem is UIElement selectedElement)
+            if (dgElements.SelectedItem is AppUIElement selectedElement)
             {
                 _uiElements.Remove(selectedElement);
             }
             else
             {
-                MessageBox.Show("Please select an element to remove.", "No Selection",
-                                MessageBoxButton.OK, MessageBoxImage.Information);
+                TimedMessageBox.Show("Please select an element to remove.", "No Selection",
+                                5000);
             }
         }
 
@@ -288,8 +303,8 @@ namespace PredefinedControlAndInsertionAppProject
             }
             else
             {
-                MessageBox.Show("Please select a step to edit.", "No Selection",
-                              MessageBoxButton.OK, MessageBoxImage.Information);
+                TimedMessageBox.Show("Please select a step to edit.", "No Selection",
+                              5000);
             }
         }
 
@@ -307,8 +322,8 @@ namespace PredefinedControlAndInsertionAppProject
             }
             else
             {
-                MessageBox.Show("Please select a step to remove.", "No Selection",
-                                MessageBoxButton.OK, MessageBoxImage.Information);
+                TimedMessageBox.Show("Please select a step to remove.", "No Selection",
+                                5000);
             }
         }
 
@@ -317,8 +332,8 @@ namespace PredefinedControlAndInsertionAppProject
             // Check if steps are selected
             if (LbSequence.SelectedItems.Count < 2)
             {
-                MessageBox.Show("Please select at least two steps to include in the loop",
-                              "Selection Required", MessageBoxButton.OK, MessageBoxImage.Warning);
+                TimedMessageBox.Show("Please select at least two steps to include in the loop",
+                              "Selection Required", 5000);
                 return;
             }
 
@@ -331,8 +346,8 @@ namespace PredefinedControlAndInsertionAppProject
             // Ensure selected steps are contiguous
             if (selectedIndices.Last() - selectedIndices.First() + 1 != selectedIndices.Count)
             {
-                MessageBox.Show("Please select contiguous steps for the loop",
-                              "Non-contiguous Selection", MessageBoxButton.OK, MessageBoxImage.Warning);
+                TimedMessageBox.Show("Please select contiguous steps for the loop",
+                              "Non-contiguous Selection", 5000);
                 return;
             }
 
@@ -417,7 +432,6 @@ namespace PredefinedControlAndInsertionAppProject
             // Open save dialog
             var saveDialog = new SaveConfigDialog();
             saveDialog.Owner = this;
-
             bool? result = saveDialog.ShowDialog();
 
             if (result == true && !string.IsNullOrEmpty(saveDialog.ConfigurationName))
@@ -425,10 +439,10 @@ namespace PredefinedControlAndInsertionAppProject
                 // Create configuration object
                 var config = new ConfigurationManager.AutomationConfiguration
                 {
-                    ProcessName = (CmbRunningApps.SelectedItem as ProcessInfo)?.Name ?? string.Empty,
-                    ProcessId = (CmbRunningApps.SelectedItem as ProcessInfo)?.ProcessId ?? 0,
+                    ProcessName = _selectedApplication?.ProcessName ?? string.Empty,
+                    ProcessId = _selectedApplication?.ProcessId ?? 0,
                     WindowTitle = txtWindowTitle.Text,
-                    UIElements = new List<ConfigurationManager.UIElementConfig>(),
+                    UIElements = new List<ConfigurationManager.AppUIElementConfig>(),
                     CalculationRules = new List<ConfigurationManager.CalculationRuleConfig>(),
                     SequenceSteps = new List<ConfigurationManager.SequenceStepConfig>()
                 };
@@ -436,7 +450,7 @@ namespace PredefinedControlAndInsertionAppProject
                 // Convert UI elements
                 foreach (var element in _uiElements)
                 {
-                    config.UIElements.Add(ConfigurationManager.ConvertUIElement(element));
+                    config.UIElements.Add(ConfigurationManager.ConvertAppUIElement(element));
                 }
 
                 // Convert calculation rules
@@ -454,8 +468,8 @@ namespace PredefinedControlAndInsertionAppProject
                 // Save configuration
                 if (ConfigurationManager.SaveConfiguration(saveDialog.ConfigurationName, config))
                 {
-                    MessageBox.Show($"Configuration '{saveDialog.ConfigurationName}' has been saved successfully.",
-                                  "Configuration Saved", MessageBoxButton.OK, MessageBoxImage.Information);
+                    TimedMessageBox.Show($"Configuration '{saveDialog.ConfigurationName}' has been saved successfully.",
+                                      "Configuration Saved", 5000);
                 }
             }
         }
@@ -484,7 +498,7 @@ namespace PredefinedControlAndInsertionAppProject
                         return;
 
                     // Update application path and window title
-                    SetSelectedProcessByName(config.ProcessName);
+                   // SetSelectedProcessByName(config.ProcessName);
                     txtWindowTitle.Text = config.WindowTitle;
 
                     // Clear current collections
@@ -495,7 +509,7 @@ namespace PredefinedControlAndInsertionAppProject
                     // Convert and add UI elements
                     foreach (var elementConfig in config.UIElements)
                     {
-                        _uiElements.Add(ConfigurationManager.ConvertUIElementConfig(elementConfig));
+                        _uiElements.Add(ConfigurationManager.ConvertAppUIElementConfig(elementConfig));
                     }
 
                     // Convert and add calculation rules
@@ -511,25 +525,9 @@ namespace PredefinedControlAndInsertionAppProject
                     }
 
                     // Display success message
-                    MessageBox.Show($"Configuration '{loadDialog.SelectedConfiguration}' loaded successfully.",
-                                  "Configuration Loaded", MessageBoxButton.OK, MessageBoxImage.Information);
+                    TimedMessageBox.Show($"Configuration '{loadDialog.SelectedConfiguration}' loaded successfully.",
+                                  "Configuration Loaded", 5000);
                 }
-            }
-        }
-
-        private void SetSelectedProcessByName(string processName)
-        {
-            if (string.IsNullOrEmpty(processName))
-                return;
-
-            var processes = CmbRunningApps.ItemsSource as List<ProcessInfo>;
-            if (processes == null)
-                return;
-
-            var matchingProcess = processes.FirstOrDefault(p => p.Name.Equals(processName, StringComparison.OrdinalIgnoreCase));
-            if (matchingProcess != null)
-            {
-                CmbRunningApps.SelectedItem = matchingProcess;
             }
         }
 
@@ -549,8 +547,8 @@ namespace PredefinedControlAndInsertionAppProject
                 {
                     if (!int.TryParse(txtInterval.Text, out interval) || interval <= 0)
                     {
-                        MessageBox.Show("Please enter a valid interval in seconds.", "Invalid Interval",
-                                        MessageBoxButton.OK, MessageBoxImage.Warning);
+                        TimedMessageBox.Show("Please enter a valid interval in seconds.", "Invalid Interval",
+                                        5000);
                         return;
                     }
                 }
@@ -569,8 +567,8 @@ namespace PredefinedControlAndInsertionAppProject
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Error during automation execution: {ex.Message}", "Execution Error",
-                                    MessageBoxButton.OK, MessageBoxImage.Error);
+                    TimedMessageBox.Show($"Error during automation execution: {ex.Message}", "Execution Error",
+                                    5000);
                 }
                 finally
                 {
@@ -672,22 +670,19 @@ namespace PredefinedControlAndInsertionAppProject
         // Metóda pre načítanie do UI
         private void RefreshRunningApplications()
         {
-            var apps = GetRunningApplications();
-            CmbRunningApps.ItemsSource = apps;
-
-            if (apps.Count > 0)
-                CmbRunningApps.SelectedIndex = 0;
+            // Táto metóda by mohla otvoriť ApplicationSelectorDialog
+            // a aktualizovať _selectedApplication a _selectedWindow
+            BtnDetectApp_Click(this, new RoutedEventArgs());
         }
 
-        // Úprava metódy LaunchTargetApplication
         private bool LaunchTargetApplication()
         {
-            if (CmbRunningApps.SelectedItem is ProcessInfo selectedApp)
+            if (_selectedApplication != null)
             {
                 try
                 {
                     // Skontrolovať, či proces stále beží
-                    Process process = Process.GetProcessById(selectedApp.ProcessId);
+                    Process process = Process.GetProcessById(_selectedApplication.ProcessId);
 
                     // Aktivovať okno
                     NativeMethods.SetForegroundWindow(process.MainWindowHandle);
@@ -699,22 +694,24 @@ namespace PredefinedControlAndInsertionAppProject
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Error connecting to application: {ex.Message}",
-                                  "Connection Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    TimedMessageBox.Show($"Error connecting to application: {ex.Message}",
+                                 "Connection Error", 5000);
                     return false;
                 }
             }
 
-            MessageBox.Show("Please select a running application.",
-                          "No Application Selected", MessageBoxButton.OK, MessageBoxImage.Warning);
+            TimedMessageBox.Show("Please select a running application.",
+                         "No Application Selected", 5000);
             return false;
         }
 
         private async Task StartElementCaptureAsync(CancellationToken cancellationToken)
         {
-            MessageBox.Show("Click on UI elements in the target application to capture them.\n\n" +
-                          "Press ESC or click 'Stop Capture' when done.",
-                          "Element Capture Mode", MessageBoxButton.OK, MessageBoxImage.Information);
+            TimedMessageBox.Show(
+            "Click on UI elements in the target application to capture them.\n\n" +
+            "Press ESC or click 'Stop Capture' when done.",
+            "Element Capture Mode",
+            5000); // 5000 ms = 5 seconds
 
             // Registrujeme globálny hook pre myš
             MouseHook.Start();
@@ -745,7 +742,7 @@ namespace PredefinedControlAndInsertionAppProject
                             // Pridať do kolekcie
                             Application.Current.Dispatcher.Invoke(() =>
                             {
-                                _uiElements.Add(new UIElement
+                                _uiElements.Add(new AppUIElement
                                 {
                                     Name = elementName,
                                     ElementType = elementType,
@@ -792,8 +789,8 @@ namespace PredefinedControlAndInsertionAppProject
 
                 if (targetAppWindow == null)
                 {
-                    MessageBox.Show("Could not find the target application window.", "Window Not Found",
-                                  MessageBoxButton.OK, MessageBoxImage.Error);
+                    TimedMessageBox.Show("Could not find the target application window.", "Window Not Found",
+                                  5000);
                     return;
                 }
 
@@ -869,12 +866,12 @@ namespace PredefinedControlAndInsertionAppProject
                     }
 
                     // Get UI element info for this step
-                    UIElement? targetElement = FindUIElementByName(step.Target);
+                    AppUIElement? targetElement = FindUIElementByName(step.Target);
 
                     if (targetElement == null)
                     {
-                        MessageBox.Show($"UI Element '{step.Target}' not found in the configuration.",
-                                      "Element Not Found", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        TimedMessageBox.Show($"UI Element '{step.Target}' not found in the configuration.",
+                                      "Element Not Found", 5000);
                         currentStepIndex++;
                         continue;
                     }
@@ -884,8 +881,8 @@ namespace PredefinedControlAndInsertionAppProject
 
                     if (element == null)
                     {
-                        MessageBox.Show($"Could not find element '{targetElement.Name}' in the target application.",
-                                      "Element Not Found", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        TimedMessageBox.Show($"Could not find element '{targetElement.Name}' in the target application.",
+                                      "Element Not Found", 5000);
                         currentStepIndex++;
                         continue;
                     }
@@ -935,7 +932,7 @@ namespace PredefinedControlAndInsertionAppProject
         }
 
 
-        private async Task ExecuteStepAction(SequenceStep step, AutomationElement element, UIElement elementConfig)
+        private async Task ExecuteStepAction(SequenceStep step, AutomationElement element, AppUIElement elementConfig)
         {
             // Try FlaUI approach first
             var flaElements = _flaAutomation.CaptureUIElements();
@@ -1002,8 +999,8 @@ namespace PredefinedControlAndInsertionAppProject
                         }
                         catch (Exception ex)
                         {
-                            MessageBox.Show($"Error sending keystrokes: {ex.Message}",
-                                          "Input Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                            TimedMessageBox.Show($"Error sending keystrokes: {ex.Message}",
+                                          "Input Error", 5000);
                         }
                     }
                     break;
@@ -1028,8 +1025,8 @@ namespace PredefinedControlAndInsertionAppProject
                         }
                         catch (Exception ex)
                         {
-                            MessageBox.Show($"Error simulating mouse click: {ex.Message}",
-                                          "Click Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                            TimedMessageBox.Show($"Error simulating mouse click: {ex.Message}",
+                                          "Click Error", 5000);
                         }
                     }
                     break;
@@ -1047,8 +1044,8 @@ namespace PredefinedControlAndInsertionAppProject
                     break;
 
                 default:
-                    MessageBox.Show($"Unknown action: {step.Action}", "Action Error",
-                                  MessageBoxButton.OK, MessageBoxImage.Warning);
+                    TimedMessageBox.Show($"Unknown action: {step.Action}", "Action Error",
+                                  5000);
                     break;
             }
         }
@@ -1135,7 +1132,7 @@ namespace PredefinedControlAndInsertionAppProject
             }
         }
 
-        private UIElement? FindUIElementByName(string name)
+        private AppUIElement? FindUIElementByName(string name)
         {
             foreach (var element in _uiElements)
             {
@@ -1148,7 +1145,7 @@ namespace PredefinedControlAndInsertionAppProject
             return null;
         }
 
-        private static AutomationElement? FindElementInWindow(AutomationElement window, UIElement elementConfig)
+        private static AutomationElement? FindElementInWindow(AutomationElement window, AppUIElement elementConfig)
         {
             // Try to find by automation ID first if available
             if (!string.IsNullOrEmpty(elementConfig.AutomationId))
@@ -1268,8 +1265,8 @@ namespace PredefinedControlAndInsertionAppProject
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error setting value: {ex.Message}", "Set Value Error",
-                                MessageBoxButton.OK, MessageBoxImage.Error);
+                TimedMessageBox.Show($"Error setting value: {ex.Message}", "Set Value Error",
+                                5000);
                 return false;
             }
         }
@@ -1328,8 +1325,8 @@ namespace PredefinedControlAndInsertionAppProject
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error clicking element: {ex.Message}", "Click Error",
-                                MessageBoxButton.OK, MessageBoxImage.Error);
+                TimedMessageBox.Show($"Error clicking element: {ex.Message}", "Click Error",
+                                5000);
                 return false;
             }
         }

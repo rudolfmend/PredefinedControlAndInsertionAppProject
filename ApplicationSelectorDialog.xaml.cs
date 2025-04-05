@@ -63,8 +63,8 @@ namespace PredefinedControlAndInsertionAppProject
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error loading running applications: {ex.Message}",
-                                "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                TimedMessageBox.Show($"Error loading running applications: {ex.Message}",
+                                "Error", 5000);
             }
             finally
             {
@@ -94,8 +94,8 @@ namespace PredefinedControlAndInsertionAppProject
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error loading windows for application: {ex.Message}",
-                                "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                TimedMessageBox.Show($"Error loading windows for application: {ex.Message}",
+                                "Error", 5000);
             }
             finally
             {
@@ -113,8 +113,8 @@ namespace PredefinedControlAndInsertionAppProject
 
                 if (elements.Count == 0)
                 {
-                    MessageBox.Show("No interactive UI elements found in this window.",
-                                  "No Elements", MessageBoxButton.OK, MessageBoxImage.Information);
+                    TimedMessageBox.Show("No interactive UI elements found in this window.",
+                                  "No Elements", 5000);
                     return;
                 }
 
@@ -140,8 +140,8 @@ namespace PredefinedControlAndInsertionAppProject
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error detecting UI elements: {ex.Message}",
-                              "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                TimedMessageBox.Show($"Error detecting UI elements: {ex.Message}",
+                              "Error", 5000);
             }
         }
 
@@ -195,6 +195,19 @@ namespace PredefinedControlAndInsertionAppProject
             }
         }
 
+        private void lvWindows_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            // Skontrolujte, či udalosť pochádza z platného ListView item
+            if (lvWindows.SelectedItem is WindowInfo selectedWindow)
+            {
+                // Aktualizujte vybrané okno
+                SelectedWindow = selectedWindow;
+
+                // Zavolajte tú istú funkciu, ktorá sa volá pri kliknutí na tlačidlo
+                ShowElementsForWindow(selectedWindow);
+            }
+        }
+
         private void BtnShowElements_Click(object sender, RoutedEventArgs e)
         {
             if (SelectedWindow != null)
@@ -217,8 +230,8 @@ namespace PredefinedControlAndInsertionAppProject
             }
             else
             {
-                MessageBox.Show("Please select both an application and a window.",
-                                "Selection Required", MessageBoxButton.OK, MessageBoxImage.Warning);
+                TimedMessageBox.Show("Please select both an application and a window.",
+                                "Selection Required", 5000);
             }
         }
 

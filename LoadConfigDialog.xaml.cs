@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Versioning;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace PredefinedControlAndInsertionAppProject
 {
+    [SupportedOSPlatform("windows7.0")]
+
     /// <summary>
     /// Interaction logic for LoadConfigDialog.xaml
     /// </summary>
@@ -106,14 +109,14 @@ namespace PredefinedControlAndInsertionAppProject
                     // Reload configurations
                     LoadConfigurations();
 
-                    MessageBox.Show($"Configuration '{config}' has been deleted.",
-                                  "Configuration Deleted", MessageBoxButton.OK, MessageBoxImage.Information);
+                    TimedMessageBox.Show($"Configuration '{config}' has been deleted.",
+                                  "Configuration Deleted", 5000);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error deleting configuration: {ex.Message}",
-                              "Delete Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                TimedMessageBox.Show($"Error deleting configuration: {ex.Message}",
+                              "Delete Error", 5000);
             }
         }
 

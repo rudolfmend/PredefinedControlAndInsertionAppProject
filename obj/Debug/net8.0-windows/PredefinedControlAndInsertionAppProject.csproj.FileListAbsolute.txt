@@ -35,3 +35,4 @@ C:\Users\rudol\source\repos\PredefinedControlAndInsertionAppProject\PredefinedCo
 C:\Users\rudol\source\repos\PredefinedControlAndInsertionAppProject\PredefinedControlAndInsertionAppProject\obj\Debug\net8.0-windows\PredefinedControlAndInsertionAppProject.pdb
 C:\Users\rudol\source\repos\PredefinedControlAndInsertionAppProject\PredefinedControlAndInsertionAppProject\obj\Debug\net8.0-windows\PredefinedControlAndInsertionAppProject.genruntimeconfig.cache
 C:\Users\rudol\source\repos\PredefinedControlAndInsertionAppProject\PredefinedControlAndInsertionAppProject\obj\Debug\net8.0-windows\ref\PredefinedControlAndInsertionAppProject.dll
+C:\Users\rudol\source\repos\PredefinedControlAndInsertionAppProject\PredefinedControlAndInsertionAppProject\obj\Debug\net8.0-windows\PredefinedControlAndInsertionAppProject.sourcelink.json

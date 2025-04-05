@@ -20,13 +20,13 @@ namespace PredefinedControlAndInsertionAppProject
             public string ProcessName { get; set; } = string.Empty; 
             public int ProcessId { get; set; } = -1; 
             public string WindowTitle { get; set; } = string.Empty;
-            public List<UIElementConfig> UIElements { get; set; } = new List<UIElementConfig>();
+            public List<AppUIElementConfig> UIElements { get; set; } = new List<AppUIElementConfig>();
             public List<CalculationRuleConfig> CalculationRules { get; set; } = new List<CalculationRuleConfig>();
             public List<SequenceStepConfig> SequenceSteps { get; set; } = new List<SequenceStepConfig>();
         }
 
         // Data classes for serialization
-        public class UIElementConfig
+        public class AppUIElementConfig
         {
             public string Name { get; set; } = string.Empty;
             public string ElementType { get; set; } = string.Empty;
@@ -80,8 +80,8 @@ namespace PredefinedControlAndInsertionAppProject
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error saving configuration: {ex.Message}",
-                                "Save Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                TimedMessageBox.Show($"Error saving configuration: {ex.Message}",
+                                "Save Error", 5000);
                 return false;
             }
         }
@@ -99,8 +99,8 @@ namespace PredefinedControlAndInsertionAppProject
                 // Check if file exists
                 if (!File.Exists(filePath))
                 {
-                    MessageBox.Show($"Configuration file '{fileName}' not found.",
-                                    "Load Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    TimedMessageBox.Show($"Configuration file '{fileName}' not found.",
+                                    "Load Error", 5000);
                     return null;
                 }
 
@@ -114,8 +114,8 @@ namespace PredefinedControlAndInsertionAppProject
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error loading configuration: {ex.Message}",
-                                "Load Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                TimedMessageBox.Show($"Error loading configuration: {ex.Message}",
+                                "Load Error", 5000);
                 return null;
             }
         }
@@ -152,9 +152,9 @@ namespace PredefinedControlAndInsertionAppProject
         /// <summary>
         /// Convert UIElement to UIElementConfig
         /// </summary>
-        public static UIElementConfig ConvertUIElement(UIElement element)
+        public static AppUIElementConfig ConvertAppUIElement(AppUIElement element)
         {
-            return new UIElementConfig
+            return new AppUIElementConfig
             {
                 Name = element.Name,
                 ElementType = element.ElementType,
@@ -167,9 +167,9 @@ namespace PredefinedControlAndInsertionAppProject
         /// <summary>
         /// Convert UIElementConfig to UIElement
         /// </summary>
-        public static UIElement ConvertUIElementConfig(UIElementConfig config)
+        public static AppUIElement ConvertAppUIElementConfig(AppUIElementConfig config)
         {
-            return new UIElement
+            return new AppUIElement
             {
                 Name = config.Name,
                 ElementType = config.ElementType,
