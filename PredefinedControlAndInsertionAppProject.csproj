@@ -1,25 +1,33 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<OutputType>WinExe</OutputType>
-		<TargetFramework>net8.0-windows</TargetFramework>
+		<TargetFramework>net472-windows10.0.19041.0</TargetFramework>
 		<Nullable>enable</Nullable>
-		<ImplicitUsings>enable</ImplicitUsings>
 		<UseWPF>true</UseWPF>
 		<GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-		<SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
+		<TargetPlatformVersion>10.0.19041.0</TargetPlatformVersion>
+		<LangVersion>9.0</LangVersion>
 	</PropertyGroup>
-
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<Deterministic>False</Deterministic>
 	</PropertyGroup>
-
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<Deterministic>False</Deterministic>
 	</PropertyGroup>
-
 	<ItemGroup>
 		<PackageReference Include="FlaUI.Core" Version="4.0.0" />
 		<PackageReference Include="FlaUI.UIA3" Version="4.0.0" />
 		<PackageReference Include="System.Runtime.InteropServices" Version="4.3.0" />
+		<PackageReference Include="System.Runtime.WindowsRuntime" Version="4.6.0" />
+	</ItemGroup>
+	<ItemGroup>
+		<Reference Include="Windows">
+			<HintPath>$(MSBuildProgramFiles32)\Windows Kits\10\UnionMetadata\10.0.19041.0\Windows.winmd</HintPath>
+			<IsWinMDFile>true</IsWinMDFile>
+		</Reference>
+		<Reference Include="System.Runtime.WindowsRuntime" />
+	</ItemGroup>
+	<ItemGroup>
+		<Reference Include="System.Runtime.WindowsRuntime.UI.Xaml" />
 	</ItemGroup>
 </Project>

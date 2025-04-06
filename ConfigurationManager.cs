@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text.Json;
-using System.Windows;
+﻿using System.IO;
 using System.Runtime.Versioning;
+using System.Text.Json;
 
 namespace PredefinedControlAndInsertionAppProject
 {

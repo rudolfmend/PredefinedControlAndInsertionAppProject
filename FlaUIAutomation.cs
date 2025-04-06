@@ -8,6 +8,8 @@ using FlaUI.UIA3;
 // Aliasy pre ďalšie konfliktné triedy
 using FlaUIApplication = FlaUI.Core.Application;
 using FlaUIWindow = FlaUI.Core.AutomationElements.Window;
+using System.Threading;
+using System;
 
 namespace PredefinedControlAndInsertionAppProject
 {
@@ -33,10 +35,18 @@ namespace PredefinedControlAndInsertionAppProject
                 // Wait for the application to initialize
                 Thread.Sleep(1000);
 
-                // Get the main window
-                _mainWindow = _application.GetMainWindow(_automation);
+                // Get the main window (aktualizovaná syntaxia pre FlaUI 4.0)
+                if (_application != null)
+                {
+                    var windows = _application.GetAllTopLevelWindows(_automation);
+                    if (windows.Length > 0)
+                    {
+                        _mainWindow = windows[0];
+                        return true;
+                    }
+                }
 
-                return _mainWindow != null;
+                return false;
             }
             catch (Exception ex)
             {

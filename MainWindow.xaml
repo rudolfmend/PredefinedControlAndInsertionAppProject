@@ -40,16 +40,8 @@
                 </Grid.ColumnDefinitions>
 
                 <!-- Application path -->
-                <Button Grid.Column="1" Name="BtnDetectApp" Content="Detect Apps..." Margin="2,-4,99,34" 
-                        Padding="10,5" Click="BtnDetectApp_Click" RenderTransformOrigin="0.5,0.5" >
-                    <Button.RenderTransform>
-                        <TransformGroup>
-                            <ScaleTransform ScaleY="1"/>
-                            <SkewTransform/>
-                            <RotateTransform/>
-                            <TranslateTransform/>
-                        </TransformGroup>
-                    </Button.RenderTransform>
+                <Button Name="BtnDetectApp" Content="Select the Application" Margin="0,10,0,10" 
+                        Padding="20,20" Click="BtnDetectApp_Click" RenderTransformOrigin="0.5,0.5" Grid.ColumnSpan="4" FontSize="17" >
                 </Button>
 
                 <!-- Window title -->
@@ -62,9 +54,9 @@
                 <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Horizontal" 
                             Margin="0,10,0,0">
                     <Button x:Name="BtnStartCapture" Content="Start Element Capture" Padding="10,5" 
-                            Margin="0,0,10,0" Click="BtnStartCapture_Click"/>
-                    <Button x:Name="BtnLaunchApp" Content="Launch Target Application" Padding="10,5" 
-                            Click="BtnLaunchApp_Click"/>
+                            Margin="0,0,10,0" Click="BtnStartCapture_Click" Width="170"/>
+                    <Button x:Name="BtnListOfAllApps" Content="List of All Apps" Padding="10,5" 
+                            Margin="0,0,10,0" Click="BtnListOfAllApps_Click" Width="170"/>
                 </StackPanel>
             </Grid>
         </GroupBox>

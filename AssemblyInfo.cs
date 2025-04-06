@@ -5,10 +5,17 @@ using System.Windows;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("PredefinedControlAndInsertionApp")]
-[assembly: AssemblyDescription("Automation tool for calculating values and interacting with text fields and buttons in other applications")]
+[assembly: AssemblyDescription("Automation tool for interacting with text fields and buttons in other applications. " +
+    "Allows you to calculate values, insert them into text fields, and confirm them using a button in the controlled application. " +
+    "The program can identify and manipulate user interface elements of external applications. " +
+    "Allows you to define, save, and load automation step configurations. " +
+    "Allows you to perform repeated actions (repeat in a loop). " +
+    "For automating repetitive tasks in various applications without the need for programming. " +
+    "Detection of all installed applications, including hidden system applications." +
+    "Supports OS from Windows 7 onwards.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Rudolf Mendzezof")]
-[assembly: AssemblyProduct("PredefinedControlAndInsertionApp")]
+[assembly: AssemblyProduct("AppCommander for Windows")]
 [assembly: AssemblyCopyright("Copyright © Rudolf Mendzezof 2025")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

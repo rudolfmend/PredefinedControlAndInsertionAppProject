@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR_GREATER;NET7_0_OR_GREATER;NET8_0_OR_GREATER;NETCOREAPP3_0_OR_GREATER;NETCOREAPP3_1_OR_GREATER;WINDOWS7_0_OR_GREATER
 C:\Users\rudol\source\repos\PredefinedControlAndInsertionAppProject\PredefinedControlAndInsertionAppProject\App.xaml
-7-150839101
+91934630636
 
-201032841355
-210431659185
-ApplicationSelectorDialog.xaml;ElementsPreviewDialog.xaml;LoadConfigDialog.xaml;LoopConfigDialog.xaml;MainWindow.xaml;SaveConfigDialog.xaml;StepEditDialog.xaml;
+26-756234674
+3051595559158
+ApplicationSelectorDialog.xaml;ElementsPreviewDialog.xaml;InstalledApplicationsDialog.xaml;ListOfAllAppsDialog.xaml;LoadConfigDialog.xaml;LoopConfigDialog.xaml;MainWindow.xaml;SaveConfigDialog.xaml;StepEditDialog.xaml;
 
 False
 

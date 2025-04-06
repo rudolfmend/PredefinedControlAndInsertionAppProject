@@ -11,9 +11,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
 using System.Windows.Media.Effects;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 
 namespace PredefinedControlAndInsertionAppProject
@@ -25,23 +23,33 @@ namespace PredefinedControlAndInsertionAppProject
     public class TimedMessageBox
     {
         /// <summary>
-        /// Displays a message box with timer and visual countdown.
+        /// Configuration options for TimedMessageBox
         /// </summary>
-        /// <param name="message">Message text</param>
-        /// <param name="title">Window title</param>
-        /// <param name="timeoutMs">Time in milliseconds after which the window will close</param>
-        /// <param name="width">Window width (optional, default 400)</param>
-        /// <param name="height">Window height (optional, default 200)</param>
-        public static void Show(string message, string title, int timeoutMs, double width = 400, double height = 200)
+        public class TimedMessageBoxOptions
         {
+            public double Width { get; set; } = 400;
+            public double Height { get; set; } = 200;
+            public int FontSize { get; set; } = 12;
+            public bool ShowDropShadow { get; set; } = true;
+        }
+
+        /// <summary>
+        /// Create a base UI for timed message box
+        /// </summary>
+        private static Grid CreateMessageBoxContainer(
+            string message,
+            int timeoutMs,
+            TimedMessageBoxOptions? options = null)
+        {
+            // Default options if not provided
+            options ??= new TimedMessageBoxOptions();
+
             // Create main container
             var container = new Grid();
-
-            // Define rows in grid
             container.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
             container.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
 
-            // Add text block to first row
+            // Text block
             var textBlock = new TextBlock
             {
                 Text = message,
@@ -53,299 +61,7 @@ namespace PredefinedControlAndInsertionAppProject
             Grid.SetRow(textBlock, 0);
             container.Children.Add(textBlock);
 
-            // Create countdown panel
-            var countdownPanel = new StackPanel
-            {
-                Orientation = Orientation.Vertical,
-                Margin = new Thickness(20, 0, 20, 20)
-            };
-            Grid.SetRow(countdownPanel, 1);
-
-            // Add countdown text
-            var countdownText = new TextBlock
-            {
-                Text = $"Window will close in {timeoutMs / 1000} seconds",
-                TextAlignment = TextAlignment.Center,
-                Margin = new Thickness(0, 0, 0, 5)
-            };
-            countdownPanel.Children.Add(countdownText);
-
-            // Add progress bar
-            var progressBar = new ProgressBar
-            {
-                Minimum = 0,
-                Maximum = timeoutMs,
-                Value = timeoutMs,
-                Height = 10,
-                Foreground = new SolidColorBrush(Colors.Green)
-            };
-            countdownPanel.Children.Add(progressBar);
-
-            // Add countdown panel to main container
-            container.Children.Add(countdownPanel);
-
-            // Create WPF window
-            var msgWindow = new Window
-            {
-                Title = title,
-                Width = width,
-                Height = height,
-                WindowStartupLocation = WindowStartupLocation.CenterScreen,
-                ResizeMode = ResizeMode.NoResize,
-                // Pridaný vlastný štýl pre posun krížika
-                WindowStyle = WindowStyle.SingleBorderWindow,
-                ShowInTaskbar = false,
-                Content = container
-            };
-
-            // Create DispatcherTimer for updating UI every 100ms
-            var updateTimer = new DispatcherTimer
-            {
-                Interval = TimeSpan.FromMilliseconds(100)
-            };
-
-            // Set initial time
-            var startTime = DateTime.Now;
-            var endTime = startTime.AddMilliseconds(timeoutMs);
-
-            updateTimer.Tick += (s, e) =>
-            {
-                var remaining = (endTime - DateTime.Now).TotalMilliseconds;
-
-                // Update progress bar
-                progressBar.Value = Math.Max(0, remaining);
-
-                // Update countdown text
-                var secondsRemaining = Math.Ceiling(remaining / 1000);
-                countdownText.Text = $"Window will close in {secondsRemaining} seconds";
-
-                // Change progress bar color based on remaining time with gradient effect
-                double progressPercentage = remaining / timeoutMs;
-
-                // Interpolate between colors
-                byte red, green, blue;
-
-                if (progressPercentage > 0.5)
-                {
-                    // From green to orange (0.5 to 1.0)
-                    double t = (progressPercentage - 0.5) * 2;
-                    red = (byte)(0 + t * 255);   // 0 → 255
-                    green = (byte)(255 - t * 127);  // 255 → 128
-                    blue = 0;
-                }
-                else
-                {
-                    // From orange to red (0.0 to 0.5)
-                    double t = progressPercentage * 2;
-                    red = 255;
-                    green = (byte)(128 * t);  // 0 → 128
-                    blue = 0;
-                }
-
-                progressBar.Foreground = new SolidColorBrush(Color.FromRgb(red, green, blue));
-
-                // Stop timer and close window when time expires
-                if (remaining <= 0)
-                {
-                    updateTimer.Stop();
-                    msgWindow.Close();
-                }
-            };
-
-            msgWindow.Loaded += (s, e) => updateTimer.Start();
-
-            // Show window
-            msgWindow.ShowDialog();
-        }
-
-        /// <summary>
-        /// Displays a message box with timer, visual countdown, and custom content.
-        /// </summary>
-        /// <param name="content">Custom UI element as window content</param>
-        /// <param name="title">Window title</param>
-        /// <param name="timeoutMs">Time in milliseconds after which the window will close</param>
-        /// <param name="width">Window width (optional, default 400)</param>
-        /// <param name="height">Window height (optional, default 200)</param>
-        public static void ShowCustomContent(System.Windows.UIElement content, string title, int timeoutMs, double width = 400, double height = 200)
-        {
-            // Create main container
-            var container = new Grid();
-
-            // Define rows in grid
-            container.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
-            container.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-
-            // Add content to first row
-            Grid.SetRow(content, 0);
-            container.Children.Add(content);
-
-            // Create countdown panel
-            var countdownPanel = new StackPanel
-            {
-                Orientation = Orientation.Vertical,
-                Margin = new Thickness(20, 0, 20, 20)
-            };
-            Grid.SetRow(countdownPanel, 1);
-
-            // Add countdown text
-            var countdownText = new TextBlock
-            {
-                Text = $"Window will close in {timeoutMs / 1000} seconds",
-                TextAlignment = TextAlignment.Center,
-                Margin = new Thickness(0, 0, 0, 5)
-            };
-            countdownPanel.Children.Add(countdownText);
-
-            // Add progress bar
-            var progressBar = new ProgressBar
-            {
-                Minimum = 0,
-                Maximum = timeoutMs,
-                Value = timeoutMs,
-                Height = 10,
-                Foreground = new SolidColorBrush(Colors.Green)
-            };
-            countdownPanel.Children.Add(progressBar);
-
-            // Add countdown panel to main container
-            container.Children.Add(countdownPanel);
-
-            // Create WPF window
-            var msgWindow = new Window
-            {
-                Title = title,
-                Width = width,
-                Height = height,
-                WindowStartupLocation = WindowStartupLocation.CenterScreen,
-                ResizeMode = ResizeMode.NoResize,
-                // Pridaný vlastný štýl pre posun krížika
-                WindowStyle = WindowStyle.SingleBorderWindow,
-                ShowInTaskbar = false,
-                Content = container
-            };
-
-            // Create DispatcherTimer for updating UI every 100ms
-            var updateTimer = new DispatcherTimer
-            {
-                Interval = TimeSpan.FromMilliseconds(100)
-            };
-
-            // Set initial time
-            var startTime = DateTime.Now;
-            var endTime = startTime.AddMilliseconds(timeoutMs);
-
-            updateTimer.Tick += (s, e) =>
-            {
-                var remaining = (endTime - DateTime.Now).TotalMilliseconds;
-
-                // Update progress bar
-                progressBar.Value = Math.Max(0, remaining);
-
-                // Update countdown text
-                var secondsRemaining = Math.Ceiling(remaining / 1000);
-                countdownText.Text = $"Window will close in {secondsRemaining} seconds";
-
-                // Change progress bar color based on remaining time
-                if (remaining < timeoutMs * 0.25)
-                {
-                    progressBar.Foreground = new SolidColorBrush(Colors.Red);
-                }
-                else if (remaining < timeoutMs * 0.5)
-                {
-                    progressBar.Foreground = new SolidColorBrush(Colors.Orange);
-                }
-
-                // Stop timer and close window when time expires
-                if (remaining <= 0)
-                {
-                    updateTimer.Stop();
-                    msgWindow.Close();
-                }
-            };
-
-            msgWindow.Loaded += (s, e) => updateTimer.Start();
-
-            // Show window
-            msgWindow.ShowDialog();
-        }
-    }
-}
-
-// --------------------------------------------------------------------------
-using System;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Media.Effects;
-using System.Windows.Threading;
-
-namespace PredefinedControlAndInsertionAppProject
-{
-    public enum MessageType
-    {
-        Information,
-        Warning,
-        Error
-    }
-
-    public class EnhancedTimedMessageBox
-    {
-        public static void Show(string message, string title, int timeoutMs,
-            MessageType messageType = MessageType.Information,
-            double width = 400,
-            double height = 200)
-        {
-            // Hlavný kontajner s efektami
-            var container = new Grid
-            {
-                Background = GetBackgroundBrush(messageType),
-                Effect = new DropShadowEffect
-                {
-                    Color = Colors.Gray,
-                    Direction = 330,
-                    ShadowDepth = 3,
-                    Opacity = 0.3
-                }
-            };
-
-            // Definícia riadkov s pomermi
-            container.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
-            container.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-
-            // Ikona podľa typu správy
-            var icon = CreateMessageIcon(messageType);
-            if (icon != null)
-            {
-                icon.Width = 50;
-                icon.Height = 50;
-                icon.Margin = new Thickness(10);
-                Grid.SetRow(icon, 0);
-                container.Children.Add(icon);
-            }
-
-            // Textový blok so štýlovaním
-            var textBlock = new TextBlock
-            {
-                Text = message,
-                TextWrapping = TextWrapping.Wrap,
-                TextAlignment = TextAlignment.Center,
-                VerticalAlignment = VerticalAlignment.Center,
-                Margin = new Thickness(icon != null ? 70 : 20, 20, 20, 20),
-                FontSize = 14,
-                Foreground = Brushes.Black,
-                Effect = new DropShadowEffect
-                {
-                    Color = Colors.LightGray,
-                    Direction = 320,
-                    ShadowDepth = 1,
-                    Opacity = 0.2
-                }
-            };
-            Grid.SetRow(textBlock, 0);
-            container.Children.Add(textBlock);
-
-            // Countdown panel s animáciou
+            // Countdown panel
             var countdownPanel = new StackPanel
             {
                 Orientation = Orientation.Vertical,
@@ -359,130 +75,216 @@ namespace PredefinedControlAndInsertionAppProject
                 Text = $"Window will close in {timeoutMs / 1000} seconds",
                 TextAlignment = TextAlignment.Center,
                 Margin = new Thickness(0, 0, 0, 5),
-                FontWeight = FontWeights.Bold
+                FontSize = options.FontSize,
+                Foreground = new SolidColorBrush(Color.FromRgb(100, 100, 100))
             };
+
+            // Optional drop shadow
+            if (options.ShowDropShadow)
+            {
+                countdownText.Effect = new DropShadowEffect
+                {
+                    Color = Colors.Gray,
+                    Direction = 320,
+                    ShadowDepth = 1,
+                    Opacity = 0.2
+                };
+            }
+
             countdownPanel.Children.Add(countdownText);
 
-            // Progress bar s animáciou
-            var progressBar = new ProgressBar
+            // Progress bar
+            var progressBar = CreateProgressBar(timeoutMs);
+            countdownPanel.Children.Add(progressBar);
+
+            container.Children.Add(countdownPanel);
+
+            return container;
+        }
+
+        /// <summary>
+        /// Create a styled progress bar
+        /// </summary>
+        private static ProgressBar CreateProgressBar(int timeoutMs)
+        {
+            return new ProgressBar
             {
                 Minimum = 0,
                 Maximum = timeoutMs,
                 Value = timeoutMs,
-                Height = 15,
+                Height = 2,
                 BorderThickness = new Thickness(1),
-                BorderBrush = Brushes.Gray,
-                Background = new SolidColorBrush(Color.FromArgb(50, 200, 200, 200))
+                BorderBrush = new SolidColorBrush(Color.FromArgb(50, 100, 100, 100)),
+                Background = new SolidColorBrush(Color.FromArgb(20, 200, 200, 200)),
+                Foreground = new LinearGradientBrush
+                {
+                    StartPoint = new Point(0, 0),
+                    EndPoint = new Point(1, 0),
+                    GradientStops = new GradientStopCollection
+                    {
+                        new GradientStop(Colors.Green, 0.0),
+                        new GradientStop(Color.FromRgb(0, 200, 0), 1.0)
+                    }
+                }
             };
+        }
 
-            // Pridanie svetelnej animácie do progress baru
-            var lightAnimation = new DoubleAnimation
+        /// <summary>
+        /// Compute color based on progress percentage
+        /// </summary>
+        private static Color ComputeProgressColor(double progressPercentage)
+        {
+            byte red, green, blue;
+
+            if (progressPercentage > 0.5)
             {
-                From = 0,
-                To = progressBar.Width,
-                Duration = TimeSpan.FromSeconds(2),
-                RepeatBehavior = RepeatBehavior.Forever
-            };
-
-            var lightRectangle = new Rectangle
+                // From green to orange (0.5 to 1.0)
+                double t = (progressPercentage - 0.5) * 2;
+                red = (byte)(0 + t * 255);
+                green = (byte)(255 - t * 127);
+                blue = 0;
+            }
+            else
             {
-                Width = 50,
-                Height = progressBar.Height,
-                Fill = new SolidColorBrush(Color.FromArgb(100, 255, 255, 255)),
-                RenderTransform = new TranslateTransform()
-            };
+                // From orange to red (0.0 to 0.5)
+                double t = progressPercentage * 2;
+                red = 255;
+                green = (byte)(128 * t);
+                blue = 0;
+            }
 
-            lightRectangle.RenderTransform.BeginAnimation(TranslateTransform.XProperty, lightAnimation);
+            return Color.FromRgb(red, green, blue);
+        }
 
-            var progressBarGrid = new Grid();
-            progressBarGrid.Children.Add(progressBar);
-            progressBarGrid.Children.Add(lightRectangle);
+        /// <summary>
+        /// Displays a message box with timer and visual countdown.
+        /// </summary>
+        public static void Show(
+            string message,
+            string title,
+            int timeoutMs,
+            TimedMessageBoxOptions? options = null)
+        {
+            options ??= new TimedMessageBoxOptions();
+            var container = CreateMessageBoxContainer(message, timeoutMs, options);
 
-            countdownPanel.Children.Add(progressBarGrid);
-            container.Children.Add(countdownPanel);
-
-            // Okno s vlastnými nastaveniami
             var msgWindow = new Window
             {
                 Title = title,
-                Width = width,
-                Height = height,
+                Width = options.Width,
+                Height = options.Height,
                 WindowStartupLocation = WindowStartupLocation.CenterScreen,
                 ResizeMode = ResizeMode.NoResize,
                 WindowStyle = WindowStyle.SingleBorderWindow,
                 ShowInTaskbar = false,
-                Content = container,
-                AllowsTransparency = true,
-                WindowOpacity = 0.95
+                Content = container
             };
 
-            // Zvyšok kódu zostáva rovnaký ako v predchádzajúcej verzii
-            // ... (implementácia timera a logiky zatvárania)
+            var progressBar = VisualTreeHelpers.FindChild<ProgressBar>(container);
+            var countdownText = VisualTreeHelpers.FindChild<TextBlock>(container);
 
+            // Kontrola, či sa podarilo nájsť progress bar a text
+            if (progressBar == null || countdownText == null)
+            {
+                throw new InvalidOperationException("Failed to find required UI elements in the message box");
+            }
+
+            var updateTimer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromMilliseconds(100)
+            };
+
+            var startTime = DateTime.Now;
+            var endTime = startTime.AddMilliseconds(timeoutMs);
+
+            updateTimer.Tick += (s, e) =>
+            {
+                var remaining = (endTime - DateTime.Now).TotalMilliseconds;
+                progressBar.Value = Math.Max(0, remaining);
+
+                var secondsRemaining = Math.Ceiling(remaining / 1000);
+                countdownText.Text = $"Window will close in {secondsRemaining} seconds";
+
+                double progressPercentage = remaining / timeoutMs;
+                progressBar.Foreground = new SolidColorBrush(ComputeProgressColor(progressPercentage));
+
+                if (remaining <= 0)
+                {
+                    updateTimer.Stop();
+                    msgWindow.Close();
+                }
+            };
+
+            msgWindow.Loaded += (s, e) => updateTimer.Start();
             msgWindow.ShowDialog();
         }
 
-        private static UIElement CreateMessageIcon(MessageType type)
+        /// <summary>
+        /// Displays a message box with timer, visual countdown, and custom content.
+        /// </summary>
+        public static void ShowCustomContent(
+            UIElement content,
+            string title,
+            int timeoutMs,
+            TimedMessageBoxOptions? options = null)
         {
-            // Jednoduchá implementácia ikon podľa typu správy
-            switch (type)
-            {
-                case MessageType.Information:
-                    return new Ellipse
-                    {
-                        Fill = Brushes.Blue,
-                        Stroke = Brushes.DarkBlue,
-                        StrokeThickness = 2
-                    };
-                case MessageType.Warning:
-                    return new Polygon
-                    {
-                        Points = new PointCollection
-                        {
-                            new Point(25, 0),
-                            new Point(50, 50),
-                            new Point(0, 50)
-                        },
-                        Fill = Brushes.Orange,
-                        Stroke = Brushes.DarkOrange,
-                        StrokeThickness = 2
-                    };
-                case MessageType.Error:
-                    return new Rectangle
-                    {
-                        Fill = Brushes.Red,
-                        Stroke = Brushes.DarkRed,
-                        StrokeThickness = 2
-                    };
-                default:
-                    return null;
-            }
-        }
+            options ??= new TimedMessageBoxOptions();
+            var container = CreateMessageBoxContainer(string.Empty, timeoutMs, options);
 
-        private static Brush GetBackgroundBrush(MessageType type)
-        {
-            // Gradient pozadia podľa typu správy
-            switch (type)
+            // Replace first row with custom content
+            container.Children.RemoveAt(0);
+            Grid.SetRow(content, 0);
+            container.Children.Insert(0, content);
+
+            var msgWindow = new Window
             {
-                case MessageType.Information:
-                    return new LinearGradientBrush(
-                        Color.FromRgb(200, 220, 255),
-                        Color.FromRgb(230, 240, 255),
-                        90);
-                case MessageType.Warning:
-                    return new LinearGradientBrush(
-                        Color.FromRgb(255, 230, 180),
-                        Color.FromRgb(255, 240, 200),
-                        90);
-                case MessageType.Error:
-                    return new LinearGradientBrush(
-                        Color.FromRgb(255, 200, 200),
-                        Color.FromRgb(255, 220, 220),
-                        90);
-                default:
-                    return Brushes.White;
+                Title = title,
+                Width = options.Width,
+                Height = options.Height,
+                WindowStartupLocation = WindowStartupLocation.CenterScreen,
+                ResizeMode = ResizeMode.NoResize,
+                WindowStyle = WindowStyle.SingleBorderWindow,
+                ShowInTaskbar = false,
+                Content = container
+            };
+
+            var progressBar = VisualTreeHelpers.FindChild<ProgressBar>(container);
+            var countdownText = VisualTreeHelpers.FindChild<TextBlock>(container);
+
+            // Kontrola, či sa podarilo nájsť progress bar a text
+            if (progressBar == null || countdownText == null)
+            {
+                throw new InvalidOperationException("Failed to find required UI elements in the message box");
             }
+
+            var updateTimer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromMilliseconds(100)
+            };
+
+            var startTime = DateTime.Now;
+            var endTime = startTime.AddMilliseconds(timeoutMs);
+
+            updateTimer.Tick += (s, e) =>
+            {
+                var remaining = (endTime - DateTime.Now).TotalMilliseconds;
+                progressBar.Value = Math.Max(0, remaining);
+
+                var secondsRemaining = Math.Ceiling(remaining / 1000);
+                countdownText.Text = $"Window will close in {secondsRemaining} seconds";
+
+                double progressPercentage = remaining / timeoutMs;
+                progressBar.Foreground = new SolidColorBrush(ComputeProgressColor(progressPercentage));
+
+                if (remaining <= 0)
+                {
+                    updateTimer.Stop();
+                    msgWindow.Close();
+                }
+            };
+
+            msgWindow.Loaded += (s, e) => updateTimer.Start();
+            msgWindow.ShowDialog();
         }
     }
 }
-// --------------------------------------------------------------------------

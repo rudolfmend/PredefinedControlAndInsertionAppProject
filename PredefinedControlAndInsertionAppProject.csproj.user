@@ -8,6 +8,12 @@
     <Compile Update="ElementsPreviewDialog.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="InstalledApplicationsDialog.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="ListOfAllAppsDialog.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="LoadConfigDialog.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

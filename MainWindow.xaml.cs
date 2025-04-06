@@ -162,6 +162,142 @@ namespace PredefinedControlAndInsertionAppProject
             LaunchTargetApplication();
         }
 
+
+        private void BtnListOfAllApps_Click(object sender, RoutedEventArgs e)
+        {
+            // Vytvorenie inštancie dialógu
+            var dialog = new ListOfAllAppsDialog();
+            dialog.Owner = this;
+
+            // Zobrazenie dialógu a získanie výsledku
+            bool? result = dialog.ShowDialog();
+
+            // Spracovanie výsledku
+            if (result == true)
+            {
+                // Kontrola, či bola vybraná klasická aplikácia
+                if (dialog.SelectedApplication != null)
+                {
+                    // Vybraná aplikácia je už správneho typu ApplicationInfo
+                    _selectedApplication = dialog.SelectedApplication;
+
+                    // Vytvoríme WindowInfo, ak nie je k dispozícii
+                    if (_selectedApplication.Windows.Count == 0 && _selectedApplication.MainWindowHandle != IntPtr.Zero)
+                    {
+                        _selectedWindow = new WindowInfo
+                        {
+                            WindowHandle = _selectedApplication.MainWindowHandle,
+                            WindowTitle = _selectedApplication.MainWindowTitle
+                        };
+
+                        _selectedApplication.Windows.Add(_selectedWindow);
+                    }
+                    else if (_selectedApplication.Windows.Count > 0)
+                    {
+                        // Vezmeme prvé okno
+                        _selectedWindow = _selectedApplication.Windows[0];
+                    }
+
+                    // Aktualizácia UI s informáciami o vybranej aplikácii
+                    txtWindowTitle.Text = _selectedApplication.MainWindowTitle;
+
+                    // Zobrazenie správy o úspešnom výbere aplikácie
+                    TimedMessageBox.Show(
+                        $"Selected application: {_selectedApplication.ProcessName} (PID: {_selectedApplication.ProcessId})",
+                        "Application Selected",
+                        3000);
+                }
+                // Ak je vybraná nainštalovaná desktop aplikácia, ale nie je spustená
+                else if (dialog.SelectedInstalledApplication != null)
+                {
+                    string appName = dialog.SelectedInstalledApplication.Name;
+                    string appPath = dialog.SelectedInstalledApplication.ExecutablePath;
+
+                    // Spýtať sa, či chce používateľ spustiť aplikáciu
+                    MessageBoxResult mbResult = MessageBox.Show(
+                        $"Would you like to launch the selected application?\n\n{appName}\n{appPath}",
+                        "Launch Application",
+                        MessageBoxButton.YesNo,
+                        MessageBoxImage.Question);
+
+                    if (mbResult == MessageBoxResult.Yes)
+                    {
+                        try
+                        {
+                            // Spustiť aplikáciu
+                            Process.Start(new ProcessStartInfo
+                            {
+                                FileName = appPath,
+                                UseShellExecute = true
+                            });
+
+                            // Informovať používateľa, že po spustení aplikácie bude potrebné ju vybrať znova
+                            TimedMessageBox.Show(
+                                "Application has been launched. You'll need to select it again from the running applications list once it starts.",
+                                "Application Launched",
+                                5000);
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show($"Error launching application: {ex.Message}", "Launch Error",
+                                MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
+                    }
+                }
+                // Ak je vybraná UWP aplikácia
+                else if (dialog.SelectedUwpApplication != null)
+                {
+                    string appName = dialog.SelectedUwpApplication.Name;
+                    string appId = dialog.SelectedUwpApplication.AppUserModelId;
+
+                    // Spýtať sa, či chce používateľ spustiť aplikáciu
+                    MessageBoxResult mbResult = MessageBox.Show(
+                        $"Would you like to launch the selected UWP application?\n\n{appName}\nApp ID: {appId}",
+                        "Launch UWP Application",
+                        MessageBoxButton.YesNo,
+                        MessageBoxImage.Question);
+
+                    if (mbResult == MessageBoxResult.Yes)
+                    {
+                        try
+                        {
+                            // Spustiť UWP aplikáciu asynchronne
+                            var launchTask = UwpApplicationHelper.LaunchUwpApplicationAsync(appId);
+
+                            // Zobraziť indikátor načítavania
+                            Mouse.OverrideCursor = Cursors.Wait;
+
+                            // Počkať na dokončenie úlohy
+                            bool success = launchTask.GetAwaiter().GetResult();
+
+                            // Obnoviť kurzor
+                            Mouse.OverrideCursor = null;
+
+                            if (success)
+                            {
+                                // Informovať používateľa, že po spustení aplikácie bude potrebné ju vybrať znova
+                                TimedMessageBox.Show(
+                                    "UWP application has been launched. You'll need to select it again from the running applications list once it starts.",
+                                    "Application Launched",
+                                    5000);
+                            }
+                            else
+                            {
+                                MessageBox.Show("Failed to launch the UWP application. The app might be restricted or unavailable.",
+                                    "Launch Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Mouse.OverrideCursor = null;
+                            MessageBox.Show($"Error launching UWP application: {ex.Message}", "Launch Error",
+                                MessageBoxButton.OK, MessageBoxImage.Error);
+                        }
+                    }
+                }
+            }
+        }
+
         private async void BtnStartCapture_Click(object sender, RoutedEventArgs e)
         {
             if (!_isCapturing)
