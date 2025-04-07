@@ -14,7 +14,7 @@ using Microsoft.Win32;
 
 namespace PredefinedControlAndInsertionAppProject
 {
-    [SupportedOSPlatform("windows7.0")]
+    //[SupportedOSPlatform("windows7.0")]
 
     /// <summary>
     /// Interaction logic for ListOfAllAppsDialog.xaml
@@ -406,15 +406,16 @@ namespace PredefinedControlAndInsertionAppProject
                                     {
                                         apps.Add(new InstalledApplicationInfo
                                         {
-                                            Name = displayName,
+                                            Name = displayName ?? string.Empty,
                                             ExecutablePath = exePath
                                         });
                                     }
                                 }
                             }
-                            catch
+                            catch(Exception ex)
                             {
                                 // Ignore errors with specific registry keys
+                                Console.WriteLine($"Error reading registry key: {subkeyName} - {ex.Message}");
                             }
                         }
                     }
@@ -466,7 +467,7 @@ namespace PredefinedControlAndInsertionAppProject
                                     {
                                         apps.Add(new InstalledApplicationInfo
                                         {
-                                            Name = displayName,
+                                            Name = displayName ?? string.Empty,
                                             ExecutablePath = exePath
                                         });
                                     }
@@ -474,6 +475,7 @@ namespace PredefinedControlAndInsertionAppProject
                             }
                             catch
                             {
+                                Console.WriteLine($"Error reading registry key: {subkeyName}");
                                 // Ignore errors with specific registry keys
                             }
                         }

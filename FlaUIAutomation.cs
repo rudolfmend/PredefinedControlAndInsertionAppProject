@@ -13,7 +13,6 @@ using System;
 
 namespace PredefinedControlAndInsertionAppProject
 {
-    [SupportedOSPlatform("windows7.0")]
     public class FlaUIAutomation : IDisposable
     {
         private UIA3Automation _automation;

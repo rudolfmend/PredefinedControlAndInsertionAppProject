@@ -1,7 +1,6 @@
 ﻿using Microsoft.Win32;
 using System.Diagnostics;
 using System.IO;
-using System.Runtime.Versioning;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -9,8 +8,6 @@ using System.Windows.Input;
 
 namespace PredefinedControlAndInsertionAppProject
 {
-    [SupportedOSPlatform("windows7.0")]
-
     /// <summary>
     /// Interaction logic for InstalledApplicationsDialog.xaml
     /// </summary>

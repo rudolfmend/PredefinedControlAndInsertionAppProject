@@ -1,11 +1,8 @@
-﻿using System.Runtime.Versioning;
-using System.Windows;
+﻿using System.Windows;
 using static PredefinedControlAndInsertionAppProject.MainWindow;
 
 namespace PredefinedControlAndInsertionAppProject
 {
-    [SupportedOSPlatform("windows7.0")]
-
     /// <summary>
     /// Interaction logic for LoopConfigDialog.xaml
     /// </summary>

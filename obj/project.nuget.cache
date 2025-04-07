@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "SC1vKtUpI2s=",
+  "dgSpecHash": "0e7B7e0ZJ4o=",
   "success": true,
   "projectFilePath": "C:\\Users\\rudol\\source\\repos\\PredefinedControlAndInsertionAppProject\\PredefinedControlAndInsertionAppProject\\PredefinedControlAndInsertionAppProject.csproj",
   "expectedPackageFiles": [
@@ -8,6 +8,7 @@
     "C:\\Users\\rudol\\.nuget\\packages\\flaui.uia3\\4.0.0\\flaui.uia3.4.0.0.nupkg.sha512",
     "C:\\Users\\rudol\\.nuget\\packages\\interop.uiautomationclient\\10.19041.0\\interop.uiautomationclient.10.19041.0.nupkg.sha512",
     "C:\\Users\\rudol\\.nuget\\packages\\microsoft.win32.registry\\5.0.0\\microsoft.win32.registry.5.0.0.nupkg.sha512",
+    "C:\\Users\\rudol\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
     "C:\\Users\\rudol\\.nuget\\packages\\system.diagnostics.performancecounter\\5.0.1\\system.diagnostics.performancecounter.5.0.1.nupkg.sha512",
     "C:\\Users\\rudol\\.nuget\\packages\\system.drawing.common\\5.0.2\\system.drawing.common.5.0.2.nupkg.sha512",
     "C:\\Users\\rudol\\.nuget\\packages\\system.management\\5.0.0\\system.management.5.0.0.nupkg.sha512",

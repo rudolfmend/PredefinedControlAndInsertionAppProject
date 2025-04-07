@@ -1,11 +1,10 @@
-﻿using System.IO;
-using System.Runtime.Versioning;
-using System.Text.Json;
+﻿using Newtonsoft.Json;
+using System;
+using System.IO;
+using System.Collections.Generic;
 
 namespace PredefinedControlAndInsertionAppProject
 {
-    [SupportedOSPlatform("windows7.0")]
-
     /// <summary>
     /// Manages saving and loading of application configuration
     /// </summary>
@@ -14,37 +13,71 @@ namespace PredefinedControlAndInsertionAppProject
         // Configuration data class
         public class AutomationConfiguration
         {
-            public string ProcessName { get; set; } = string.Empty; 
-            public int ProcessId { get; set; } = -1; 
+            [JsonProperty(PropertyName = "ProcessName")]
+            public string ProcessName { get; set; } = string.Empty;
+
+            [JsonProperty(PropertyName = "ProcessId")]
+            public int ProcessId { get; set; } = -1;
+
+            [JsonProperty(PropertyName = "WindowTitle")]
             public string WindowTitle { get; set; } = string.Empty;
+
+            [JsonProperty(PropertyName = "UIElements")]
             public List<AppUIElementConfig> UIElements { get; set; } = new List<AppUIElementConfig>();
+
+            [JsonProperty(PropertyName = "CalculationRules")]
             public List<CalculationRuleConfig> CalculationRules { get; set; } = new List<CalculationRuleConfig>();
+
+            [JsonProperty(PropertyName = "SequenceSteps")]
             public List<SequenceStepConfig> SequenceSteps { get; set; } = new List<SequenceStepConfig>();
         }
 
         // Data classes for serialization
         public class AppUIElementConfig
         {
+            [JsonProperty(PropertyName = "Name")]
             public string Name { get; set; } = string.Empty;
+
+            [JsonProperty(PropertyName = "ElementType")]
             public string ElementType { get; set; } = string.Empty;
+
+            [JsonProperty(PropertyName = "AutomationId")]
             public string AutomationId { get; set; } = string.Empty;
+
+            [JsonProperty(PropertyName = "Value")]
             public string Value { get; set; } = string.Empty;
+
+            [JsonProperty(PropertyName = "IsTarget")]
             public bool IsTarget { get; set; }
         }
 
         public class CalculationRuleConfig
         {
+            [JsonProperty(PropertyName = "TargetField")]
             public string TargetField { get; set; } = string.Empty;
+
+            [JsonProperty(PropertyName = "Operation")]
             public string Operation { get; set; } = string.Empty;
+
+            [JsonProperty(PropertyName = "Value1")]
             public string Value1 { get; set; } = string.Empty;
+
+            [JsonProperty(PropertyName = "Value2")]
             public string Value2 { get; set; } = string.Empty;
+
+            [JsonProperty(PropertyName = "Formula")]
             public string Formula { get; set; } = string.Empty;
         }
 
         public class SequenceStepConfig
         {
+            [JsonProperty(PropertyName = "StepNumber")]
             public int StepNumber { get; set; }
+
+            [JsonProperty(PropertyName = "Action")]
             public string Action { get; set; } = string.Empty;
+
+            [JsonProperty(PropertyName = "Target")]
             public string Target { get; set; } = string.Empty;
         }
 
@@ -66,9 +99,16 @@ namespace PredefinedControlAndInsertionAppProject
                 // Full path to the configuration file
                 string filePath = GetConfigFilePath(fileName);
 
-                // Serialize to JSON
-                var options = new JsonSerializerOptions { WriteIndented = true };
-                string jsonString = JsonSerializer.Serialize(config, options);
+                // Serialize to JSON using Newtonsoft.Json with enhanced settings
+                string jsonString = JsonConvert.SerializeObject(
+                    config,
+                    Formatting.Indented,
+                    new JsonSerializerSettings
+                    {
+                        NullValueHandling = NullValueHandling.Ignore,
+                        DefaultValueHandling = DefaultValueHandling.Populate
+                    }
+                );
 
                 // Write to file
                 File.WriteAllText(filePath, jsonString);
@@ -78,7 +118,7 @@ namespace PredefinedControlAndInsertionAppProject
             catch (Exception ex)
             {
                 TimedMessageBox.Show($"Error saving configuration: {ex.Message}",
-                                "Save Error", 5000);
+                              "Save Error", 5000);
                 return false;
             }
         }
@@ -104,8 +144,15 @@ namespace PredefinedControlAndInsertionAppProject
                 // Read JSON from file
                 string jsonString = File.ReadAllText(filePath);
 
-                // Deserialize from JSON
-                var config = JsonSerializer.Deserialize<AutomationConfiguration>(jsonString);
+                // Deserialize from JSON with enhanced settings
+                var config = JsonConvert.DeserializeObject<AutomationConfiguration>(
+                    jsonString,
+                    new JsonSerializerSettings
+                    {
+                        NullValueHandling = NullValueHandling.Ignore,
+                        DefaultValueHandling = DefaultValueHandling.Populate
+                    }
+                );
 
                 return config;
             }

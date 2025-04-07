@@ -1,12 +1,10 @@
-﻿using System.Runtime.Versioning;
+﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using static PredefinedControlAndInsertionAppProject.MainWindow;
 
 namespace PredefinedControlAndInsertionAppProject
 {
-    [SupportedOSPlatform("windows7.0")]
-
     /// <summary>
     /// Dialog for editing automation step properties
     /// </summary>

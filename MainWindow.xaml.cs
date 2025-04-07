@@ -1,31 +1,31 @@
-﻿using Microsoft.Win32;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.IO;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Automation;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Runtime.Versioning;
+using Windows.UI.Xaml;
 using static MouseHook;
-using System.ComponentModel.Design.Serialization;
 
 namespace PredefinedControlAndInsertionAppProject
 {
-    [SupportedOSPlatform("windows7.0")]
-
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : System.Windows.Window
     {
         private ApplicationInfo? _selectedApplication;
         private WindowInfo? _selectedWindow;
 
         // Collections for UI binding
-        private ObservableCollection<AppUIElement> _uiElements = [];
-        private ObservableCollection<CalculationRule> _calculationRules = [];
-        private ObservableCollection<SequenceStep> _sequenceSteps = [];
+        private ObservableCollection<AppUIElement> _uiElements;
+        private ObservableCollection<CalculationRule> _calculationRules;
+        private ObservableCollection<SequenceStep> _sequenceSteps;
 
         // For automation capture
         private bool _isCapturing = false;
@@ -34,11 +34,15 @@ namespace PredefinedControlAndInsertionAppProject
         // For automation execution
         private CancellationTokenSource? _executionTokenSource;
         private bool _isExecuting = false;
-
         private FlaUIAutomation _flaAutomation;
 
         public MainWindow()
         {
+            // Inicializácia ObservableCollection pre .NET Framework 4.7.2
+            _uiElements = new ObservableCollection<AppUIElement>();
+            _calculationRules = new ObservableCollection<CalculationRule>();
+            _sequenceSteps = new ObservableCollection<SequenceStep>();
+
             InitializeComponent();
             InitializeCollections();
             ConfigureDataGrid();
@@ -65,12 +69,12 @@ namespace PredefinedControlAndInsertionAppProject
 
         #region Event Handlers
 
-        private void BtnRefreshApps_Click(object sender, RoutedEventArgs e)
+        private void BtnRefreshApps_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             RefreshRunningApplications();
         }
 
-        private void BtnDetectApp_Click(object sender, RoutedEventArgs e)
+        private void BtnDetectApp_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             // Create the application selector dialog
             var appSelectorDialog = new ApplicationSelectorDialog();
@@ -157,13 +161,13 @@ namespace PredefinedControlAndInsertionAppProject
             }
         }
 
-        private void BtnLaunchApp_Click(object sender, RoutedEventArgs e)
+        private void BtnLaunchApp_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             LaunchTargetApplication();
         }
 
 
-        private void BtnListOfAllApps_Click(object sender, RoutedEventArgs e)
+        private void BtnListOfAllApps_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             // Vytvorenie inštancie dialógu
             var dialog = new ListOfAllAppsDialog();
@@ -298,7 +302,7 @@ namespace PredefinedControlAndInsertionAppProject
             }
         }
 
-        private async void BtnStartCapture_Click(object sender, RoutedEventArgs e)
+        private async void BtnStartCapture_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             if (!_isCapturing)
             {
@@ -344,7 +348,7 @@ namespace PredefinedControlAndInsertionAppProject
             }
         }
 
-        private void BtnAddElement_Click(object sender, RoutedEventArgs e)
+        private void BtnAddElement_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             _uiElements.Add(new AppUIElement
             {
@@ -356,7 +360,7 @@ namespace PredefinedControlAndInsertionAppProject
             });
         }
 
-        private void BtnRemoveElement_Click(object sender, RoutedEventArgs e)
+        private void BtnRemoveElement_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             if (dgElements.SelectedItem is AppUIElement selectedElement)
             {
@@ -369,7 +373,7 @@ namespace PredefinedControlAndInsertionAppProject
             }
         }
 
-        private void BtnAddStep_Click(object sender, RoutedEventArgs e)
+        private void BtnAddStep_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             // Open the edit dialog to create a new step
             var editDialog = new StepEditDialog(_uiElements);
@@ -397,7 +401,7 @@ namespace PredefinedControlAndInsertionAppProject
             }
         }
 
-        private void BtnEditStep_Click(object sender, RoutedEventArgs e)
+        private void BtnEditStep_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             EditSelectedStep();
         }
@@ -444,12 +448,11 @@ namespace PredefinedControlAndInsertionAppProject
             }
         }
 
-        private void BtnRemoveStep_Click(object sender, RoutedEventArgs e)
+        private void BtnRemoveStep_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             if (LbSequence.SelectedItem is SequenceStep selectedStep)
             {
                 _sequenceSteps.Remove(selectedStep);
-
                 // Update step numbers for remaining steps
                 for (int i = 0; i < _sequenceSteps.Count; i++)
                 {
@@ -463,7 +466,7 @@ namespace PredefinedControlAndInsertionAppProject
             }
         }
 
-        private void BtnAddLoop_Click(object sender, RoutedEventArgs e)
+        private void BtnAddLoop_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             // Check if steps are selected
             if (LbSequence.SelectedItems.Count < 2)
@@ -480,22 +483,23 @@ namespace PredefinedControlAndInsertionAppProject
                                             .ToList();
 
             // Ensure selected steps are contiguous
-            if (selectedIndices.Last() - selectedIndices.First() + 1 != selectedIndices.Count)
+            if (selectedIndices.Count > 1 &&
+                selectedIndices[selectedIndices.Count - 1] - selectedIndices[0] + 1 != selectedIndices.Count)
             {
                 TimedMessageBox.Show("Please select contiguous steps for the loop",
                               "Non-contiguous Selection", 5000);
                 return;
             }
 
-            // Open loop configuration dialog
-            var loopDialog = new LoopConfigDialog(_uiElements);
+            // Explicitly convert to List<AppUIElement>
+            var loopDialog = new LoopConfigDialog(_uiElements.ToList());
             loopDialog.Owner = this;
 
             if (loopDialog.ShowDialog() == true)
             {
                 // Create loop start and end steps
-                int loopStartIndex = selectedIndices.First();
-                int loopEndIndex = selectedIndices.Last();
+                int loopStartIndex = selectedIndices[0];
+                int loopEndIndex = selectedIndices[selectedIndices.Count - 1];
 
                 // Update loop parameters
                 var loopParams = loopDialog.LoopParameters;
@@ -519,7 +523,7 @@ namespace PredefinedControlAndInsertionAppProject
             LbSequence.Items.Refresh();
         }
 
-        private void BtnMoveUp_Click(object sender, RoutedEventArgs e)
+        private void BtnMoveUp_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             if (LbSequence.SelectedItem is SequenceStep selectedStep)
             {
@@ -541,7 +545,7 @@ namespace PredefinedControlAndInsertionAppProject
             }
         }
 
-        private void BtnMoveDown_Click(object sender, RoutedEventArgs e)
+        private void BtnMoveDown_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             if (LbSequence.SelectedItem is SequenceStep selectedStep)
             {
@@ -563,7 +567,7 @@ namespace PredefinedControlAndInsertionAppProject
             }
         }
 
-        private void BtnSaveConfig_Click(object sender, RoutedEventArgs e)
+        private void BtnSaveConfig_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             // Open save dialog
             var saveDialog = new SaveConfigDialog();
@@ -610,7 +614,7 @@ namespace PredefinedControlAndInsertionAppProject
             }
         }
 
-        private void BtnLoadConfig_Click(object sender, RoutedEventArgs e)
+        private void BtnLoadConfig_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             // Open load dialog
             var loadDialog = new LoadConfigDialog();
@@ -667,7 +671,7 @@ namespace PredefinedControlAndInsertionAppProject
             }
         }
 
-        private async void BtnExecute_Click(object sender, RoutedEventArgs e)
+        private async void BtnExecute_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             if (!_isExecuting)
             {
@@ -808,7 +812,7 @@ namespace PredefinedControlAndInsertionAppProject
         {
             // Táto metóda by mohla otvoriť ApplicationSelectorDialog
             // a aktualizovať _selectedApplication a _selectedWindow
-            BtnDetectApp_Click(this, new RoutedEventArgs());
+            BtnDetectApp_Click(this, new System.Windows.RoutedEventArgs());
         }
 
         private bool LaunchTargetApplication()
@@ -876,7 +880,7 @@ namespace PredefinedControlAndInsertionAppProject
                             Console.WriteLine($"Element: {elementName}, Type: {elementType}, AutomationId: {automationId}");
 
                             // Pridať do kolekcie
-                            Application.Current.Dispatcher.Invoke(() =>
+                            System.Windows.Application.Current.Dispatcher.Invoke(() =>
                             {
                                 _uiElements.Add(new AppUIElement
                                 {

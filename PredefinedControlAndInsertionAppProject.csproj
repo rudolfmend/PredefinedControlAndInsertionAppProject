@@ -17,6 +17,7 @@
 	<ItemGroup>
 		<PackageReference Include="FlaUI.Core" Version="4.0.0" />
 		<PackageReference Include="FlaUI.UIA3" Version="4.0.0" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
 		<PackageReference Include="System.Runtime.InteropServices" Version="4.3.0" />
 		<PackageReference Include="System.Runtime.WindowsRuntime" Version="4.6.0" />
 	</ItemGroup>
