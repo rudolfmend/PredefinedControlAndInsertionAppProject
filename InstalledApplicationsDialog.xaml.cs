@@ -1,16 +1,18 @@
 ﻿using Microsoft.Win32;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Management;
+using System.Windows.Forms;
 
 namespace PredefinedControlAndInsertionAppProject
 {
-    /// <summary>
-    /// Interaction logic for InstalledApplicationsDialog.xaml
-    /// </summary>
     public partial class InstalledApplicationsDialog : Window
     {
         private List<InstalledApplicationInfo> _allApplications = new List<InstalledApplicationInfo>();
@@ -31,7 +33,7 @@ namespace PredefinedControlAndInsertionAppProject
 
         private void LoadApplications()
         {
-            Mouse.OverrideCursor = Cursors.Wait;
+            Mouse.OverrideCursor = System.Windows.Input.Cursors.Wait;
             try
             {
                 _allApplications = GetInstalledApplications();
@@ -93,7 +95,7 @@ namespace PredefinedControlAndInsertionAppProject
                 catch (Exception ex)
                 {
                     Console.WriteLine($"Error launching application: {ex.Message}");
-                    MessageBox.Show($"Error launching application: {ex.Message}", "Launch Error",
+                    System.Windows.MessageBox.Show($"Error launching application: {ex.Message}", "Launch Error",
                         MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
@@ -122,7 +124,7 @@ namespace PredefinedControlAndInsertionAppProject
             {
                 Console.WriteLine($"Error getting installed applications: {ex.Message}");
 
-                MessageBox.Show($"Error getting installed applications: {ex.Message}", "Error",
+                System.Windows.MessageBox.Show($"Error getting installed applications: {ex.Message}", "Error",
                     MessageBoxButton.OK, MessageBoxImage.Error);
                 return installedApps;
             }
@@ -133,13 +135,69 @@ namespace PredefinedControlAndInsertionAppProject
             if (!Directory.Exists(directory))
                 return;
 
-            // Získať všetky .lnk súbory z adresára a podadresárov
-            foreach (var file in Directory.GetFiles(directory, "*.lnk", SearchOption.AllDirectories))
+            // Detekcia operačného systému Windows pomocou WMI
+            string osName = "Unknown";
+            string osVersion = "Unknown";
+            int osMajorVersion = 0;
+            int osMinorVersion = 0;
+            bool isWindows10OrNewer = false;
+
+            try
             {
-                try
+                // Použitie WMI na zistenie operačného systému
+                using (var searcher = new System.Management.ManagementObjectSearcher("SELECT Caption, Version FROM Win32_OperatingSystem"))
+                using (var results = searcher.Get())
                 {
-                    // Pre prácu so zástupcami potrebujeme Shell COM objekt
-                    if (OperatingSystem.IsWindows())
+                    foreach (var result in results)
+                    {
+                        osName = result["Caption"]?.ToString()?.Trim() ?? "Unknown";
+                        osVersion = result["Version"]?.ToString()?.Trim() ?? "Unknown";
+
+                        // Rozdelenie verzie na komponenty
+                        string[] versionParts = osVersion.Split('.');
+                        if (versionParts.Length >= 2)
+                        {
+                            int.TryParse(versionParts[0], out osMajorVersion);
+                            int.TryParse(versionParts[1], out osMinorVersion);
+                        }
+
+                        // Kontrola, či je Windows 10 alebo novší
+                        isWindows10OrNewer = osMajorVersion >= 10;
+
+                        break;
+                    }
+                }
+
+                Console.WriteLine($"Detected OS: {osName}, Version: {osVersion}, Major: {osMajorVersion}, Minor: {osMinorVersion}");
+            }
+            catch (Exception ex)
+            {
+                // Ak zlyhá WMI, použijeme fallback na Environment.OSVersion
+                Console.WriteLine($"WMI detection failed: {ex.Message}. Using fallback method.");
+
+                Version osVersionFallback = Environment.OSVersion.Version;
+                osMajorVersion = osVersionFallback.Major;
+                osMinorVersion = osVersionFallback.Minor;
+                isWindows10OrNewer = osMajorVersion >= 10;
+
+                Console.WriteLine($"Fallback OS detection: Major: {osMajorVersion}, Minor: {osMinorVersion}");
+            }
+
+            // Definícia search patterns - presunuté do vnútra metódy
+            string[] searchPatterns = { "*.lnk" };
+
+            // Pre Windows 10 a novšie môžeme hľadať aj ďalšie typy odkazov
+            if (isWindows10OrNewer)
+            {
+                // Pre Windows 10 a novšie - hľadáme aj ďalšie typy odkazov
+                searchPatterns = new[] { "*.lnk", "*.url" };
+            }
+
+            foreach (var pattern in searchPatterns)
+            {
+                foreach (var file in Directory.GetFiles(directory, pattern, SearchOption.AllDirectories))
+                {
+                    try
                     {
                         Type? shellType = Type.GetTypeFromProgID("WScript.Shell");
                         if (shellType == null)
@@ -149,35 +207,158 @@ namespace PredefinedControlAndInsertionAppProject
                         if (shell == null)
                             continue;
 
-                        dynamic shortcut = shell.CreateShortcut(file);
+                        // Ještě přísnější null-check
+                        dynamic? shortcut = null;
+                        try
+                        {
+                            shortcut = shell.CreateShortcut(file);
+                        }
+                        catch
+                        {
+                            System.Runtime.InteropServices.Marshal.FinalReleaseComObject(shell);
+                            continue;
+                        }
+
                         if (shortcut == null)
                         {
                             System.Runtime.InteropServices.Marshal.FinalReleaseComObject(shell);
                             continue;
                         }
 
-                        string? targetPath = shortcut.TargetPath;
+                        // Přidejte explicitní kontroly pro každou vlastnost
+                        string? targetPath = null;
+                        try
+                        {
+                            targetPath = shortcut.TargetPath as string;
+                        }
+                        catch
+                        {
+                            System.Runtime.InteropServices.Marshal.FinalReleaseComObject(shortcut);
+                            System.Runtime.InteropServices.Marshal.FinalReleaseComObject(shell);
+                            continue;
+                        }
+
                         string name = Path.GetFileNameWithoutExtension(file);
 
-                        // Ignorovať zástupcov, ktorí neukazujú na .exe súbory
-                        if (!string.IsNullOrEmpty(targetPath) && Path.GetExtension(targetPath).Equals(".exe", StringComparison.OrdinalIgnoreCase))
+                        // Ještě přísnější kontrola cesty
+                        bool isValidExe = !string.IsNullOrEmpty(targetPath) &&
+                            Path.GetExtension(targetPath ?? "").Equals(".exe", StringComparison.OrdinalIgnoreCase);
+
+                        bool isUwpApp = false;
+                        if (isWindows10OrNewer && !string.IsNullOrEmpty(targetPath))
+                        {
+                            // Přidejte try-catch pro případ, že by přístup k vlastnostem selhal
+                            try
+                            {
+                                isUwpApp = (targetPath ?? "").Contains("WindowsApps");
+                            }
+                            catch
+                            {
+                                isUwpApp = false;
+                            }
+                        }
+
+                        if (isValidExe || isUwpApp)
                         {
                             apps.Add(new InstalledApplicationInfo
                             {
                                 Name = name,
-                                ExecutablePath = targetPath,
+                                ExecutablePath = targetPath ?? string.Empty,
                                 ShortcutPath = file
                             });
                         }
 
+                        // Uvoľnenie COM objektov
                         System.Runtime.InteropServices.Marshal.FinalReleaseComObject(shortcut);
                         System.Runtime.InteropServices.Marshal.FinalReleaseComObject(shell);
                     }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Error processing shortcut {file}: {ex.Message}");
+                    }
                 }
-                catch
+            }
+
+            // Dodatočné spracovanie pre Windows 10 a novšie - vyhľadávanie UWP aplikácií v Start Menu
+            if (isWindows10OrNewer)
+            {
+                try
                 {
-                    // Ignorovať neplatné zástupcov
-                    Console.WriteLine($"Error reading shortcut: {file}");
+                    // Cesta k Start Menu pre všetkých používateľov
+                    string startMenuPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonStartMenu), "Programs");
+
+                    // Vyhľadajte UWP odkazy, ktoré mohli byť vynechané vyššie
+                    SearchUwpApplications(startMenuPath, apps);
+
+                    // Cesta k Start Menu pre aktuálneho používateľa
+                    string userStartMenuPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.StartMenu), "Programs");
+                    SearchUwpApplications(userStartMenuPath, apps);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error searching for UWP applications: {ex.Message}");
+                }
+            }
+        }
+
+        // Pomocná metóda pre vyhľadávanie UWP aplikácií
+        private void SearchUwpApplications(string directory, List<InstalledApplicationInfo> apps)
+        {
+            // Zbytek kódu zůstává stejný jako v předchozí verzi
+            if (!Directory.Exists(directory))
+                return;
+
+            foreach (var file in Directory.GetFiles(directory, "*.lnk", SearchOption.AllDirectories))
+            {
+                try
+                {
+                    // Preskočiť, ak sme už tento súbor spracovali
+                    if (apps.Any(a => a.ShortcutPath.Equals(file, StringComparison.OrdinalIgnoreCase)))
+                        continue;
+
+                    Type? shellType = Type.GetTypeFromProgID("WScript.Shell");
+                    if (shellType == null)
+                        continue;
+
+                    dynamic? shell = Activator.CreateInstance(shellType);
+                    if (shell == null)
+                        continue;
+
+                    dynamic? shortcut = shell?.CreateShortcut(file);
+                    if (shortcut == null)
+                    {
+                        System.Runtime.InteropServices.Marshal.FinalReleaseComObject(shell);
+                        continue;
+                    }
+
+                    string? targetPath = shortcut?.TargetPath as string;
+                    string? arguments = shortcut?.Arguments as string;
+                    string name = Path.GetFileNameWithoutExtension(file);
+
+                    // UWP aplikácie často ukazujú na explorer.exe s argumentmi obsahujúcimi protokol shell:AppsFolder
+                    bool isUwpLink = false;
+                    if (!string.IsNullOrEmpty(targetPath))
+                    {
+                        isUwpLink = (targetPath ?? "").Contains("WindowsApps") ||
+                                    (!string.IsNullOrEmpty(arguments) && arguments.Contains("shell:AppsFolder"));
+                    }
+
+                    if (isUwpLink)
+                    {
+                        apps.Add(new InstalledApplicationInfo
+                        {
+                            Name = name,
+                            ExecutablePath = targetPath ?? string.Empty,
+                            ShortcutPath = file
+                        });
+                    }
+
+                    System.Runtime.InteropServices.Marshal.FinalReleaseComObject(shortcut);
+                    System.Runtime.InteropServices.Marshal.FinalReleaseComObject(shell);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error processing UWP shortcut {file}: {ex.Message}");
                 }
             }
         }
@@ -185,7 +366,7 @@ namespace PredefinedControlAndInsertionAppProject
         private void GetAppsFromRegistry(List<InstalledApplicationInfo> apps)
         {
             // Prehľadať kľúč registra pre nainštalované aplikácie
-            using (var key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall"))
+            using (var key = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall"))
             {
                 if (key != null)
                 {
@@ -195,22 +376,18 @@ namespace PredefinedControlAndInsertionAppProject
                         {
                             if (subkey == null)
                                 continue;
-
                             try
                             {
                                 string? displayName = subkey.GetValue("DisplayName") as string;
                                 string? installLocation = subkey.GetValue("InstallLocation") as string;
                                 string? displayIcon = subkey.GetValue("DisplayIcon") as string;
-
                                 if (!string.IsNullOrEmpty(displayName))
                                 {
                                     string exePath = "";
-
                                     // Hľadať .exe súbory v inštalačnom adresári
                                     if (!string.IsNullOrEmpty(installLocation) && Directory.Exists(installLocation))
                                     {
                                         string[] exeFiles = Directory.GetFiles(installLocation, "*.exe", SearchOption.TopDirectoryOnly);
-
                                         if (exeFiles.Length > 0)
                                         {
                                             // Použiť prvý .exe súbor ako spustiteľný súbor
@@ -229,7 +406,7 @@ namespace PredefinedControlAndInsertionAppProject
                                     {
                                         apps.Add(new InstalledApplicationInfo
                                         {
-                                            Name = displayName,
+                                            Name = displayName ?? "",
                                             ExecutablePath = exePath
                                         });
                                     }
@@ -246,60 +423,65 @@ namespace PredefinedControlAndInsertionAppProject
             }
 
             // Prehľadať aj 64-bitový kľúč registra (pre 32-bitové aplikácie na 64-bitovom systéme)
-            using (var key = Registry.LocalMachine.OpenSubKey(@"SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall"))
+            var regKey = Microsoft.Win32.Registry.LocalMachine.OpenSubKey(@"SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall");
+            if (regKey != null)
             {
-                if (key != null)
+                using (var key = regKey)
                 {
-                    foreach (var subkeyName in key.GetSubKeyNames())
+                    // Zabezpečíme, že key.GetSubKeyNames() vráti prázdne pole, ak by key bolo null
+                    string[] subkeyNames = key?.GetSubKeyNames() ?? Array.Empty<string>();
+                    foreach (var subkeyName in subkeyNames)
                     {
-                        using (var subkey = key.OpenSubKey(subkeyName))
+                        if (key == null)  // Explicitne skontrolujte, či key nie je null
+                            continue;
+
+                        var subKey = key.OpenSubKey(subkeyName);
+                        if (subKey != null)
                         {
-                            if (subkey == null)
-                                continue;
-
-                            try
+                            using (var subkey = subKey)
                             {
-                                string? displayName = subkey.GetValue("DisplayName") as string;
-                                string? installLocation = subkey.GetValue("InstallLocation") as string;
-                                string? displayIcon = subkey.GetValue("DisplayIcon") as string;
-
-                                if (!string.IsNullOrEmpty(displayName))
+                                try
                                 {
-                                    string exePath = "";
+                                    string? displayName = subkey.GetValue("DisplayName") as string;
+                                    string? installLocation = subkey.GetValue("InstallLocation") as string;
+                                    string? displayIcon = subkey.GetValue("DisplayIcon") as string;
 
-                                    // Hľadať .exe súbory v inštalačnom adresári
-                                    if (!string.IsNullOrEmpty(installLocation) && Directory.Exists(installLocation))
+                                    if (!string.IsNullOrEmpty(displayName))
                                     {
-                                        string[] exeFiles = Directory.GetFiles(installLocation, "*.exe", SearchOption.TopDirectoryOnly);
-
-                                        if (exeFiles.Length > 0)
+                                        string exePath = "";
+                                        // Hľadať .exe súbory v inštalačnom adresári
+                                        if (!string.IsNullOrEmpty(installLocation) && Directory.Exists(installLocation))
                                         {
-                                            // Použiť prvý .exe súbor ako spustiteľný súbor
-                                            exePath = exeFiles[0];
+                                            string[] exeFiles = Directory.GetFiles(installLocation, "*.exe", SearchOption.TopDirectoryOnly);
+                                            if (exeFiles.Length > 0)
+                                            {
+                                                // Použiť prvý .exe súbor ako spustiteľný súbor
+                                                exePath = exeFiles[0];
+                                            }
+                                        }
+                                        // Alebo použiť DisplayIcon, ak ukazuje na .exe súbor
+                                        else if (!string.IsNullOrEmpty(displayIcon) && displayIcon.EndsWith(".exe", StringComparison.OrdinalIgnoreCase))
+                                        {
+                                            // Odstrániť prípadný parameter ikony (napr. ",0")
+                                            string[] iconParts = displayIcon.Split(',');
+                                            exePath = iconParts[0].Trim();
+                                        }
+
+                                        if (!string.IsNullOrEmpty(exePath) && File.Exists(exePath))
+                                        {
+                                            apps.Add(new InstalledApplicationInfo
+                                            {
+                                                Name = displayName ?? "",
+                                                ExecutablePath = exePath
+                                            });
                                         }
                                     }
-                                    // Alebo použiť DisplayIcon, ak ukazuje na .exe súbor
-                                    else if (!string.IsNullOrEmpty(displayIcon) && displayIcon.EndsWith(".exe", StringComparison.OrdinalIgnoreCase))
-                                    {
-                                        // Odstrániť prípadný parameter ikony (napr. ",0")
-                                        string[] iconParts = displayIcon.Split(',');
-                                        exePath = iconParts[0].Trim();
-                                    }
-
-                                    if (!string.IsNullOrEmpty(exePath) && File.Exists(exePath))
-                                    {
-                                        apps.Add(new InstalledApplicationInfo
-                                        {
-                                            Name = displayName,
-                                            ExecutablePath = exePath
-                                        });
-                                    }
                                 }
-                            }
-                            catch
-                            {
-                                // Ignorovať chyby pri konkrétnych kľúčoch registra
-                                Console.WriteLine($"Error reading registry key: {subkeyName}");
+                                catch
+                                {
+                                    // Ignorovať chyby pri konkrétnych kľúčoch registra
+                                    Console.WriteLine($"Error reading registry key: {subkeyName}");
+                                }
                             }
                         }
                     }

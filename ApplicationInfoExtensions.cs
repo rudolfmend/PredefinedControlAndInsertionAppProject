@@ -1,4 +1,6 @@
-﻿namespace PredefinedControlAndInsertionAppProject
+﻿using System.Collections.Generic;
+
+namespace PredefinedControlAndInsertionAppProject
 {
     /// <summary>
     /// Extension methods for ApplicationInfo class

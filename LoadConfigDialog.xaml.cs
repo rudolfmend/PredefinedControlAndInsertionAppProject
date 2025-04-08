@@ -1,4 +1,7 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -123,7 +126,7 @@ namespace PredefinedControlAndInsertionAppProject
                 return;
 
             // Set the result and close the dialog
-            SelectedConfiguration = config;
+            SelectedConfiguration = config ?? string.Empty;
             DialogResult = true;
             Close();
         }

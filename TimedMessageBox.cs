@@ -8,6 +8,7 @@
 // Color interpolation is based on remaining time
 // Uses RGB value interpolation for smoother color transition
 
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;

@@ -22,6 +22,8 @@
 		<PackageReference Include="System.Runtime.WindowsRuntime" Version="4.6.0" />
 	</ItemGroup>
 	<ItemGroup>
+		<Reference Include="Microsoft.CSharp" />
+		<Reference Include="System.Windows.Forms" />
 		<Reference Include="Windows">
 			<HintPath>$(MSBuildProgramFiles32)\Windows Kits\10\UnionMetadata\10.0.19041.0\Windows.winmd</HintPath>
 			<IsWinMDFile>true</IsWinMDFile>

@@ -9,7 +9,6 @@ using System.Windows;
 using System.Windows.Automation;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Windows.UI.Xaml;
 using static MouseHook;
 
 namespace PredefinedControlAndInsertionAppProject
@@ -98,8 +97,9 @@ namespace PredefinedControlAndInsertionAppProject
                 }
 
                 // Check if UI elements were selected
-                if (appSelectorDialog.SelectedElements.Count > 0)
+                if (appSelectorDialog.SelectedElements.Count() > 0)
                 {
+                    {
                     // Add selected elements to the UI elements collection
                     foreach (var elementInfo in appSelectorDialog.SelectedElements)
                     {
@@ -124,12 +124,17 @@ namespace PredefinedControlAndInsertionAppProject
                         dgElements.ScrollIntoView(dgElements.Items[0]);
                     }
 
-                    // Show timed message box
-                    TimedMessageBox.Show(
-                        $"{appSelectorDialog.SelectedElements.Count} UI element(s) have been added to your automation.",
+                        TimedMessageBox.Show(
+                        $"{appSelectorDialog.SelectedElements.Count()} UI element(s) have been added to your automation.",
                         "Elements Added",
                         5000); // 5000 ms = 5 seconds
+                    }
                 }
+            }
+            else
+            {
+                TimedMessageBox.Show("No application or window selected.",
+                    "Selection Error", 5000);
             }
         }
 
@@ -186,7 +191,7 @@ namespace PredefinedControlAndInsertionAppProject
                     _selectedApplication = dialog.SelectedApplication;
 
                     // Vytvoríme WindowInfo, ak nie je k dispozícii
-                    if (_selectedApplication.Windows.Count == 0 && _selectedApplication.MainWindowHandle != IntPtr.Zero)
+                    if (_selectedApplication.Windows.Count() == 0 && _selectedApplication.MainWindowHandle != IntPtr.Zero)
                     {
                         _selectedWindow = new WindowInfo
                         {
@@ -196,7 +201,7 @@ namespace PredefinedControlAndInsertionAppProject
 
                         _selectedApplication.Windows.Add(_selectedWindow);
                     }
-                    else if (_selectedApplication.Windows.Count > 0)
+                    else if (_selectedApplication.Windows.Count() > 0)
                     {
                         // Vezmeme prvé okno
                         _selectedWindow = _selectedApplication.Windows[0];
@@ -491,9 +496,10 @@ namespace PredefinedControlAndInsertionAppProject
                 return;
             }
 
-            // Explicitly convert to List<AppUIElement>
-            var loopDialog = new LoopConfigDialog(_uiElements.ToList());
+            var enumerable = _uiElements.AsEnumerable();
+            var loopDialog = new LoopConfigDialog(enumerable);
             loopDialog.Owner = this;
+
 
             if (loopDialog.ShowDialog() == true)
             {
@@ -974,11 +980,28 @@ namespace PredefinedControlAndInsertionAppProject
                             // Check for exit condition if applicable
                             if (!string.IsNullOrEmpty(currentLoop.ExitConditionElement))
                             {
-                                // Get the current value of the exit condition element
-                                string currentValue = GetElementValue(currentLoop.ExitConditionElement);
+                                try
+                                {
+                                    // Get the current value of the exit condition element
+                                    string exitConditionElement = currentLoop.ExitConditionElement ?? string.Empty;
+                                    if (!string.IsNullOrEmpty(exitConditionElement))
+                                    {
+                                        string currentValue = GetElementValue(exitConditionElement);
+                                        shouldContinueLoop = currentValue != currentLoop.ExitConditionValue;
+                                    }
+                                    else
+                                    {
+                                        shouldContinueLoop = true;  
+                                    }
+                                }
+                                catch (InvalidOperationException ex)
+                                {
+                                    // Element not found - handle the exception
+                                    TimedMessageBox.Show($"Error in loop condition: {ex.Message}", "Element Error", 5000);
 
-                                // Continue loop if exit condition is not met
-                                shouldContinueLoop = currentValue != currentLoop.ExitConditionValue;
+                                    // Exit the loop if we can't evaluate the condition
+                                    shouldContinueLoop = false;
+                                }
                             }
                             else
                             {
@@ -1061,14 +1084,24 @@ namespace PredefinedControlAndInsertionAppProject
         // Helper method to get the current value of an element
         private string GetElementValue(string elementName)
         {
+            if (string.IsNullOrEmpty(elementName))
+            {
+                return string.Empty;
+            }
+
             // Find the element by name in your UI elements collection
             var element = _uiElements.FirstOrDefault(e => e.Name == elementName);
+
+            if (element == null)
+            {
+                throw new InvalidOperationException($"No UI element found with the name '{elementName}'.");
+            }
 
             // Use your existing mechanisms to get the current value
             // This would likely involve FlaUI or UI Automation to fetch the current value
             // Return empty string if element not found or value can't be retrieved
 
-            return ""; // Placeholder - implement actual value retrieval
+            return element.Value ?? string.Empty; // Assuming `Value` is nullable
         }
 
 

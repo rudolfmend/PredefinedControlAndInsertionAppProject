@@ -1,15 +1,13 @@
 ﻿// FlaUIAutomation.cs
-using System.Windows;
-using System.Runtime.Versioning;
-using FlaUI.Core.Conditions;
 //  alias pre konfliktný ControlType
-using FlaUIControlType = FlaUI.Core.Definitions.ControlType;
 using FlaUI.UIA3;
+using System;
+using System.Collections.Generic;
+using System.Threading;
 // Aliasy pre ďalšie konfliktné triedy
 using FlaUIApplication = FlaUI.Core.Application;
+using FlaUIControlType = FlaUI.Core.Definitions.ControlType;
 using FlaUIWindow = FlaUI.Core.AutomationElements.Window;
-using System.Threading;
-using System;
 
 namespace PredefinedControlAndInsertionAppProject
 {
