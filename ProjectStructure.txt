@@ -1,0 +1,715 @@
+Folder PATH listing for volume Windows
+Volume serial number is D8BA-3BBB
+C:.
+-   .gitignore
+-   App.xaml
+-   App.xaml.cs
+-   ApplicationFinder.cs
+-   ApplicationInfoBase.cs
+-   ApplicationInfoExtensions.cs
+-   ApplicationSelectorDialog.xaml
+-   ApplicationSelectorDialog.xaml.cs
+-   AppUIElement.cs
+-   AssemblyInfo.cs
+-   AutomationElementExtensions.cs
+-   ConfigurationManager.cs
+-   DesktopApplicationInfo.cs
+-   ElementsPreviewDialog.xaml
+-   ElementsPreviewDialog.xaml.cs
+-   FlaUIAutomation.cs
+-   InstalledApplicationInfo.cs
+-   InstalledApplicationsDialog.xaml
+-   InstalledApplicationsDialog.xaml.cs
+-   LICENSE
+-   ListOfAllAppsDialog.xaml
+-   ListOfAllAppsDialog.xaml.cs
+-   LoadConfigDialog.xaml
+-   LoadConfigDialog.xaml.cs
+-   LoopConfigDialog.xaml
+-   LoopConfigDialog.xaml.cs
+-   MainWindow.xaml
+-   MainWindow.xaml.cs
+-   MouseHook.cs
+-   NativeMethods.cs
+-   PredefinedControlAndInsertionAppProject.csproj
+-   PredefinedControlAndInsertionAppProject.csproj.user
+-   ProjectStructure.txt
+-   RunningApplicationsService.cs
+-   SaveConfigDialog.xaml
+-   SaveConfigDialog.xaml.cs
+-   SendKeys.cs
+-   StepEditDialog.xaml
+-   StepEditDialog.xaml.cs
+-   TimedMessageBox.cs
+-   UwpApplicationHelper.cs
+-   UwpApplicationInfo.cs
+-   VisualTreeHelpers.cs
+-   
++¦¦¦bin
+-   L¦¦¦Debug
+-       +¦¦¦net4
+-       +¦¦¦net472
+-       +¦¦¦net472-windows10.0.19041.0
+-       -       FlaUI.Core.dll
+-       -       FlaUI.UIA3.dll
+-       -       Interop.UIAutomationClient.dll
+-       -       Microsoft.Win32.Registry.dll
+-       -       Newtonsoft.Json.dll
+-       -       PredefinedControlAndInsertionAppProject.exe
+-       -       PredefinedControlAndInsertionAppProject.exe.config
+-       -       PredefinedControlAndInsertionAppProject.pdb
+-       -       System.Diagnostics.PerformanceCounter.dll
+-       -       System.Drawing.Common.dll
+-       -       System.Security.AccessControl.dll
+-       -       System.Security.Permissions.dll
+-       -       System.Security.Principal.Windows.dll
+-       -       Windows.winmd
+-       -       
+-       +¦¦¦net8.0-windows
+-       -   L¦¦¦runtimes
+-       -       L¦¦¦win
+-       -           L¦¦¦lib
+-       -               L¦¦¦netcoreapp2.0
+-       L¦¦¦net8.0-windows10.0.19041.0
+L¦¦¦obj
+    -   PredefinedControlAndInsertionAppProject.csproj.nuget.dgspec.json
+    -   PredefinedControlAndInsertionAppProject.csproj.nuget.g.props
+    -   PredefinedControlAndInsertionAppProject.csproj.nuget.g.targets
+    -   PredefinedControlAndInsertionAppProject_0vqt1hgs_wpftmp.csproj.nuget.dgspec.json
+    -   PredefinedControlAndInsertionAppProject_0vqt1hgs_wpftmp.csproj.nuget.g.props
+    -   PredefinedControlAndInsertionAppProject_0vqt1hgs_wpftmp.csproj.nuget.g.targets
+    -   PredefinedControlAndInsertionAppProject_11clzd2b_wpftmp.csproj.nuget.dgspec.json
+    -   PredefinedControlAndInsertionAppProject_11clzd2b_wpftmp.csproj.nuget.g.props
+    -   PredefinedControlAndInsertionAppProject_11clzd2b_wpftmp.csproj.nuget.g.targets
+    -   PredefinedControlAndInsertionAppProject_2cmhvzqx_wpftmp.csproj.nuget.dgspec.json
+    -   PredefinedControlAndInsertionAppProject_2cmhvzqx_wpftmp.csproj.nuget.g.props
+    -   PredefinedControlAndInsertionAppProject_2cmhvzqx_wpftmp.csproj.nuget.g.targets
+    -   PredefinedControlAndInsertionAppProject_3kxkndko_wpftmp.csproj.nuget.dgspec.json
+    -   PredefinedControlAndInsertionAppProject_3kxkndko_wpftmp.csproj.nuget.g.props
+    -   PredefinedControlAndInsertionAppProject_3kxkndko_wpftmp.csproj.nuget.g.targets
+    -   PredefinedControlAndInsertionAppProject_4t3ej5d4_wpftmp.csproj.nuget.dgspec.json
+    -   PredefinedControlAndInsertionAppProject_4t3ej5d4_wpftmp.csproj.nuget.g.props
+    -   PredefinedControlAndInsertionAppProject_4t3ej5d4_wpftmp.csproj.nuget.g.targets
+    -   PredefinedControlAndInsertionAppProject_4yfhy4sa_wpftmp.csproj.nuget.dgspec.json
+    -   PredefinedControlAndInsertionAppProject_4yfhy4sa_wpftmp.csproj.nuget.g.props
+    -   PredefinedControlAndInsertionAppProject_4yfhy4sa_wpftmp.csproj.nuget.g.targets
+    -   PredefinedControlAndInsertionAppProject_50zlkoxu_wpftmp.csproj.nuget.dgspec.json
+    -   PredefinedControlAndInsertionAppProject_50zlkoxu_wpftmp.csproj.nuget.g.props
+    -   PredefinedControlAndInsertionAppProject_50zlkoxu_wpftmp.csproj.nuget.g.targets
+    -   PredefinedControlAndInsertionAppProject_afq41dpu_wpftmp.csproj.nuget.dgspec.json
+    -   PredefinedControlAndInsertionAppProject_afq41dpu_wpftmp.csproj.nuget.g.props
+    -   PredefinedControlAndInsertionAppProject_afq41dpu_wpftmp.csproj.nuget.g.targets
+    -   PredefinedControlAndInsertionAppProject_aig4late_wpftmp.csproj.nuget.dgspec.json
+    -   PredefinedControlAndInsertionAppProject_aig4late_wpftmp.csproj.nuget.g.props
+    -   PredefinedControlAndInsertionAppProject_aig4late_wpftmp.csproj.nuget.g.targets
+    -   PredefinedControlAndInsertionAppProject_ba5qredf_wpftmp.csproj.nuget.dgspec.json
+    -   PredefinedControlAndInsertionAppProject_ba5qredf_wpftmp.csproj.nuget.g.props
+    -   PredefinedControlAndInsertionAppProject_ba5qredf_wpftmp.csproj.nuget.g.targets
+    -   PredefinedControlAndInsertionAppProject_bmnffqvt_wpftmp.csproj.nuget.dgspec.json
+    -   PredefinedControlAndInsertionAppProject_bmnffqvt_wpftmp.csproj.nuget.g.props
+    -   PredefinedControlAndInsertionAppProject_bmnffqvt_wpftmp.csproj.nuget.g.targets
+    -   PredefinedControlAndInsertionAppProject_c5v0aap1_wpftmp.csproj.nuget.dgspec.json
+    -   PredefinedControlAndInsertionAppProject_c5v0aap1_wpftmp.csproj.nuget.g.props
+    -   PredefinedControlAndInsertionAppProject_c5v0aap1_wpftmp.csproj.nuget.g.targets
+    -   PredefinedControlAndInsertionAppProject_cho4ibse_wpftmp.csproj.nuget.dgspec.json
+    -   PredefinedControlAndInsertionAppProject_cho4ibse_wpftmp.csproj.nuget.g.props
+    -   PredefinedControlAndInsertionAppProject_cho4ibse_wpftmp.csproj.nuget.g.targets
+    -   PredefinedControlAndInsertionAppProject_cqgw3rz3_wpftmp.csproj.nuget.dgspec.json
+    -   PredefinedControlAndInsertionAppProject_cqgw3rz3_wpftmp.csproj.nuget.g.props
+    -   PredefinedControlAndInsertionAppProject_cqgw3rz3_wpftmp.csproj.nuget.g.targets
+    -   PredefinedControlAndInsertionAppProject_e5dd02c2_wpftmp.csproj.nuget.dgspec.json
+    -   PredefinedControlAndInsertionAppProject_e5dd02c2_wpftmp.csproj.nuget.g.props
+    -   PredefinedControlAndInsertionAppProject_e5dd02c2_wpftmp.csproj.nuget.g.targets
+    -   PredefinedControlAndInsertionAppProject_e5i5n2to_wpftmp.csproj.nuget.dgspec.json
+    -   PredefinedControlAndInsertionAppProject_e5i5n2to_wpftmp.csproj.nuget.g.props
+    -   PredefinedControlAndInsertionAppProject_e5i5n2to_wpftmp.csproj.nuget.g.targets
+    -   PredefinedControlAndInsertionAppProject_frr55jxz_wpftmp.csproj.nuget.dgspec.json
+    -   PredefinedControlAndInsertionAppProject_frr55jxz_wpftmp.csproj.nuget.g.props
+    -   PredefinedControlAndInsertionAppProject_frr55jxz_wpftmp.csproj.nuget.g.targets
+    -   PredefinedControlAndInsertionAppProject_gwin4jnw_wpftmp.csproj.nuget.dgspec.json
+    -   PredefinedControlAndInsertionAppProject_gwin4jnw_wpftmp.csproj.nuget.g.props
+    -   PredefinedControlAndInsertionAppProject_gwin4jnw_wpftmp.csproj.nuget.g.targets
+    -   PredefinedControlAndInsertionAppProject_jehjz3gw_wpftmp.csproj.nuget.dgspec.json
+    -   PredefinedControlAndInsertionAppProject_jehjz3gw_wpftmp.csproj.nuget.g.props
+    -   PredefinedControlAndInsertionAppProject_jehjz3gw_wpftmp.csproj.nuget.g.targets
+    -   PredefinedControlAndInsertionAppProject_jw1ievx5_wpftmp.csproj.nuget.dgspec.json
+    -   PredefinedControlAndInsertionAppProject_jw1ievx5_wpftmp.csproj.nuget.g.props
+    -   PredefinedControlAndInsertionAppProject_jw1ievx5_wpftmp.csproj.nuget.g.targets
+    -   PredefinedControlAndInsertionAppProject_kllrzjza_wpftmp.csproj.nuget.dgspec.json
+    -   PredefinedControlAndInsertionAppProject_kllrzjza_wpftmp.csproj.nuget.g.props
+    -   PredefinedControlAndInsertionAppProject_kllrzjza_wpftmp.csproj.nuget.g.targets
+    -   PredefinedControlAndInsertionAppProject_ljjssfmp_wpftmp.csproj.nuget.dgspec.json
+    -   PredefinedControlAndInsertionAppProject_ljjssfmp_wpftmp.csproj.nuget.g.props
+    -   PredefinedControlAndInsertionAppProject_ljjssfmp_wpftmp.csproj.nuget.g.targets
+    -   PredefinedControlAndInsertionAppProject_lofr2ydc_wpftmp.csproj.nuget.dgspec.json
+    -   PredefinedControlAndInsertionAppProject_lofr2ydc_wpftmp.csproj.nuget.g.props
+    -   PredefinedControlAndInsertionAppProject_lofr2ydc_wpftmp.csproj.nuget.g.targets
+    -   PredefinedControlAndInsertionAppProject_lumoihqp_wpftmp.csproj.nuget.dgspec.json
+    -   PredefinedControlAndInsertionAppProject_lumoihqp_wpftmp.csproj.nuget.g.props
+    -   PredefinedControlAndInsertionAppProject_lumoihqp_wpftmp.csproj.nuget.g.targets
+    -   PredefinedControlAndInsertionAppProject_mkjliogo_wpftmp.csproj.nuget.dgspec.json
+    -   PredefinedControlAndInsertionAppProject_mkjliogo_wpftmp.csproj.nuget.g.props
+    -   PredefinedControlAndInsertionAppProject_mkjliogo_wpftmp.csproj.nuget.g.targets
+    -   PredefinedControlAndInsertionAppProject_mwoklzeq_wpftmp.csproj.nuget.dgspec.json
+    -   PredefinedControlAndInsertionAppProject_mwoklzeq_wpftmp.csproj.nuget.g.props
+    -   PredefinedControlAndInsertionAppProject_mwoklzeq_wpftmp.csproj.nuget.g.targets
+    -   PredefinedControlAndInsertionAppProject_nspftvsm_wpftmp.csproj.nuget.dgspec.json
+    -   PredefinedControlAndInsertionAppProject_nspftvsm_wpftmp.csproj.nuget.g.props
+    -   PredefinedControlAndInsertionAppProject_nspftvsm_wpftmp.csproj.nuget.g.targets
+    -   PredefinedControlAndInsertionAppProject_o50hf15j_wpftmp.csproj.nuget.dgspec.json
+    -   PredefinedControlAndInsertionAppProject_o50hf15j_wpftmp.csproj.nuget.g.props
+    -   PredefinedControlAndInsertionAppProject_o50hf15j_wpftmp.csproj.nuget.g.targets
+    -   PredefinedControlAndInsertionAppProject_pgsk2grr_wpftmp.csproj.nuget.dgspec.json
+    -   PredefinedControlAndInsertionAppProject_pgsk2grr_wpftmp.csproj.nuget.g.props
+    -   PredefinedControlAndInsertionAppProject_pgsk2grr_wpftmp.csproj.nuget.g.targets
+    -   PredefinedControlAndInsertionAppProject_qfllqz0i_wpftmp.csproj.nuget.dgspec.json
+    -   PredefinedControlAndInsertionAppProject_qfllqz0i_wpftmp.csproj.nuget.g.props
+    -   PredefinedControlAndInsertionAppProject_qfllqz0i_wpftmp.csproj.nuget.g.targets
+    -   PredefinedControlAndInsertionAppProject_qgjndq30_wpftmp.csproj.nuget.dgspec.json
+    -   PredefinedControlAndInsertionAppProject_qgjndq30_wpftmp.csproj.nuget.g.props
+    -   PredefinedControlAndInsertionAppProject_qgjndq30_wpftmp.csproj.nuget.g.targets
+    -   PredefinedControlAndInsertionAppProject_qtkrsgry_wpftmp.csproj.nuget.dgspec.json
+    -   PredefinedControlAndInsertionAppProject_qtkrsgry_wpftmp.csproj.nuget.g.props
+    -   PredefinedControlAndInsertionAppProject_qtkrsgry_wpftmp.csproj.nuget.g.targets
+    -   PredefinedControlAndInsertionAppProject_quwfpmak_wpftmp.csproj.nuget.dgspec.json
+    -   PredefinedControlAndInsertionAppProject_quwfpmak_wpftmp.csproj.nuget.g.props
+    -   PredefinedControlAndInsertionAppProject_quwfpmak_wpftmp.csproj.nuget.g.targets
+    -   PredefinedControlAndInsertionAppProject_rkfscdym_wpftmp.csproj.nuget.dgspec.json
+    -   PredefinedControlAndInsertionAppProject_rkfscdym_wpftmp.csproj.nuget.g.props
+    -   PredefinedControlAndInsertionAppProject_rkfscdym_wpftmp.csproj.nuget.g.targets
+    -   PredefinedControlAndInsertionAppProject_s2x1k1f1_wpftmp.csproj.nuget.dgspec.json
+    -   PredefinedControlAndInsertionAppProject_s2x1k1f1_wpftmp.csproj.nuget.g.props
+    -   PredefinedControlAndInsertionAppProject_s2x1k1f1_wpftmp.csproj.nuget.g.targets
+    -   PredefinedControlAndInsertionAppProject_u3y4isgf_wpftmp.csproj.nuget.dgspec.json
+    -   PredefinedControlAndInsertionAppProject_u3y4isgf_wpftmp.csproj.nuget.g.props
+    -   PredefinedControlAndInsertionAppProject_u3y4isgf_wpftmp.csproj.nuget.g.targets
+    -   PredefinedControlAndInsertionAppProject_wmmcunlk_wpftmp.csproj.nuget.dgspec.json
+    -   PredefinedControlAndInsertionAppProject_wmmcunlk_wpftmp.csproj.nuget.g.props
+    -   PredefinedControlAndInsertionAppProject_wmmcunlk_wpftmp.csproj.nuget.g.targets
+    -   PredefinedControlAndInsertionAppProject_yfskgdfb_wpftmp.csproj.nuget.dgspec.json
+    -   PredefinedControlAndInsertionAppProject_yfskgdfb_wpftmp.csproj.nuget.g.props
+    -   PredefinedControlAndInsertionAppProject_yfskgdfb_wpftmp.csproj.nuget.g.targets
+    -   PredefinedControlAndInsertionAppProject_ze1fahl0_wpftmp.csproj.nuget.dgspec.json
+    -   PredefinedControlAndInsertionAppProject_ze1fahl0_wpftmp.csproj.nuget.g.props
+    -   PredefinedControlAndInsertionAppProject_ze1fahl0_wpftmp.csproj.nuget.g.targets
+    -   PredefinedControlAndInsertionAppProject_zigosz5m_wpftmp.csproj.nuget.dgspec.json
+    -   PredefinedControlAndInsertionAppProject_zigosz5m_wpftmp.csproj.nuget.g.props
+    -   PredefinedControlAndInsertionAppProject_zigosz5m_wpftmp.csproj.nuget.g.targets
+    -   project.assets.json
+    -   project.nuget.cache
+    -   
+    L¦¦¦Debug
+        +¦¦¦net4
+        -       .NETFramework,Version=v4.0.AssemblyAttributes.cs
+        -       App.g.i.cs
+        -       ApplicationSelectorDialog.g.i.cs
+        -       ElementsPreviewDialog.g.i.cs
+        -       InstalledApplicationsDialog.g.i.cs
+        -       ListOfAllAppsDialog.g.i.cs
+        -       LoadConfigDialog.g.i.cs
+        -       LoopConfigDialog.g.i.cs
+        -       MainWindow.g.i.cs
+        -       PredefinedControlAndInsertionAppProject.assets.cache
+        -       PredefinedControlAndInsertionAppProject.csproj.AssemblyReference.cache
+        -       PredefinedControlAndInsertionAppProject.csproj.FileListAbsolute.txt
+        -       PredefinedControlAndInsertionAppProject.exe.withSupportedRuntime.config
+        -       PredefinedControlAndInsertionAppProject.GeneratedMSBuildEditorConfig.editorconfig
+        -       PredefinedControlAndInsertionAppProject_MarkupCompile.i.cache
+        -       PredefinedControlAndInsertionAppProject_MarkupCompile.i.lref
+        -       SaveConfigDialog.g.i.cs
+        -       StepEditDialog.g.i.cs
+        -       
+        +¦¦¦net472
+        -       .NETFramework,Version=v4.7.2.AssemblyAttributes.cs
+        -       App.g.cs
+        -       App.g.i.cs
+        -       ApplicationSelectorDialog.baml
+        -       ApplicationSelectorDialog.g.cs
+        -       ApplicationSelectorDialog.g.i.cs
+        -       ElementsPreviewDialog.g.cs
+        -       ElementsPreviewDialog.g.i.cs
+        -       InstalledApplicationsDialog.baml
+        -       InstalledApplicationsDialog.g.cs
+        -       InstalledApplicationsDialog.g.i.cs
+        -       ListOfAllAppsDialog.g.cs
+        -       ListOfAllAppsDialog.g.i.cs
+        -       LoadConfigDialog.baml
+        -       LoadConfigDialog.g.cs
+        -       LoadConfigDialog.g.i.cs
+        -       LoopConfigDialog.g.cs
+        -       LoopConfigDialog.g.i.cs
+        -       MainWindow.g.cs
+        -       MainWindow.g.i.cs
+        -       PredefinedControlAndInsertionAppProject.assets.cache
+        -       PredefinedControlAndInsertionAppProject.csproj.AssemblyReference.cache
+        -       PredefinedControlAndInsertionAppProject.csproj.FileListAbsolute.txt
+        -       PredefinedControlAndInsertionAppProject.exe.withSupportedRuntime.config
+        -       PredefinedControlAndInsertionAppProject.GeneratedMSBuildEditorConfig.editorconfig
+        -       PredefinedControlAndInsertionAppProject_MarkupCompile.cache
+        -       PredefinedControlAndInsertionAppProject_MarkupCompile.i.cache
+        -       PredefinedControlAndInsertionAppProject_MarkupCompile.lref
+        -       PredefinedControlAndInsertionAppProject_yfskgdfb_wpftmp.assets.cache
+        -       PredefinedControlAndInsertionAppProject_yfskgdfb_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -       PredefinedControlAndInsertionAppProject_yfskgdfb_wpftmp.sourcelink.json
+        -       SaveConfigDialog.baml
+        -       SaveConfigDialog.g.cs
+        -       SaveConfigDialog.g.i.cs
+        -       StepEditDialog.baml
+        -       StepEditDialog.g.cs
+        -       StepEditDialog.g.i.cs
+        -       
+        +¦¦¦net472-windows10.0.19041.0
+        -       .NETFramework,Version=v4.7.2.AssemblyAttributes.cs
+        -       App.g.cs
+        -       App.g.i.cs
+        -       ApplicationSelectorDialog.baml
+        -       ApplicationSelectorDialog.g.cs
+        -       ApplicationSelectorDialog.g.i.cs
+        -       ElementsPreviewDialog.baml
+        -       ElementsPreviewDialog.g.cs
+        -       ElementsPreviewDialog.g.i.cs
+        -       InstalledApplicationsDialog.baml
+        -       InstalledApplicationsDialog.g.cs
+        -       InstalledApplicationsDialog.g.i.cs
+        -       ListOfAllAppsDialog.baml
+        -       ListOfAllAppsDialog.g.cs
+        -       ListOfAllAppsDialog.g.i.cs
+        -       LoadConfigDialog.baml
+        -       LoadConfigDialog.g.cs
+        -       LoadConfigDialog.g.i.cs
+        -       LoopConfigDialog.baml
+        -       LoopConfigDialog.g.cs
+        -       LoopConfigDialog.g.i.cs
+        -       MainWindow.baml
+        -       MainWindow.g.cs
+        -       MainWindow.g.i.cs
+        -       Predefin.95E8ED6B.Up2Date
+        -       PredefinedControlAndInsertionAppProject.assets.cache
+        -       PredefinedControlAndInsertionAppProject.csproj.AssemblyReference.cache
+        -       PredefinedControlAndInsertionAppProject.csproj.BuildWithSkipAnalyzers
+        -       PredefinedControlAndInsertionAppProject.csproj.CoreCompileInputs.cache
+        -       PredefinedControlAndInsertionAppProject.csproj.FileListAbsolute.txt
+        -       PredefinedControlAndInsertionAppProject.exe
+        -       PredefinedControlAndInsertionAppProject.exe.withSupportedRuntime.config
+        -       PredefinedControlAndInsertionAppProject.g.resources
+        -       PredefinedControlAndInsertionAppProject.GeneratedMSBuildEditorConfig.editorconfig
+        -       PredefinedControlAndInsertionAppProject.pdb
+        -       PredefinedControlAndInsertionAppProject.sourcelink.json
+        -       PredefinedControlAndInsertionAppProject_0vqt1hgs_wpftmp.assets.cache
+        -       PredefinedControlAndInsertionAppProject_0vqt1hgs_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -       PredefinedControlAndInsertionAppProject_0vqt1hgs_wpftmp.sourcelink.json
+        -       PredefinedControlAndInsertionAppProject_1y02pxii_wpftmp.assets.cache
+        -       PredefinedControlAndInsertionAppProject_1y02pxii_wpftmp.csproj.BuildWithSkipAnalyzers
+        -       PredefinedControlAndInsertionAppProject_1y02pxii_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -       PredefinedControlAndInsertionAppProject_1y02pxii_wpftmp.sourcelink.json
+        -       PredefinedControlAndInsertionAppProject_2cmhvzqx_wpftmp.assets.cache
+        -       PredefinedControlAndInsertionAppProject_2cmhvzqx_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -       PredefinedControlAndInsertionAppProject_2cmhvzqx_wpftmp.sourcelink.json
+        -       PredefinedControlAndInsertionAppProject_cxfdacih_wpftmp.assets.cache
+        -       PredefinedControlAndInsertionAppProject_cxfdacih_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -       PredefinedControlAndInsertionAppProject_cxfdacih_wpftmp.sourcelink.json
+        -       PredefinedControlAndInsertionAppProject_e5dd02c2_wpftmp.assets.cache
+        -       PredefinedControlAndInsertionAppProject_e5dd02c2_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -       PredefinedControlAndInsertionAppProject_e5dd02c2_wpftmp.sourcelink.json
+        -       PredefinedControlAndInsertionAppProject_gotskalr_wpftmp.assets.cache
+        -       PredefinedControlAndInsertionAppProject_gotskalr_wpftmp.csproj.BuildWithSkipAnalyzers
+        -       PredefinedControlAndInsertionAppProject_gotskalr_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -       PredefinedControlAndInsertionAppProject_gotskalr_wpftmp.sourcelink.json
+        -       PredefinedControlAndInsertionAppProject_lumoihqp_wpftmp.assets.cache
+        -       PredefinedControlAndInsertionAppProject_lumoihqp_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -       PredefinedControlAndInsertionAppProject_lumoihqp_wpftmp.sourcelink.json
+        -       PredefinedControlAndInsertionAppProject_MarkupCompile.cache
+        -       PredefinedControlAndInsertionAppProject_MarkupCompile.i.cache
+        -       PredefinedControlAndInsertionAppProject_MarkupCompile.lref
+        -       PredefinedControlAndInsertionAppProject_mkjliogo_wpftmp.assets.cache
+        -       PredefinedControlAndInsertionAppProject_mkjliogo_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -       PredefinedControlAndInsertionAppProject_mkjliogo_wpftmp.sourcelink.json
+        -       PredefinedControlAndInsertionAppProject_mwoklzeq_wpftmp.assets.cache
+        -       PredefinedControlAndInsertionAppProject_mwoklzeq_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -       PredefinedControlAndInsertionAppProject_mwoklzeq_wpftmp.sourcelink.json
+        -       PredefinedControlAndInsertionAppProject_nspftvsm_wpftmp.assets.cache
+        -       PredefinedControlAndInsertionAppProject_nspftvsm_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -       PredefinedControlAndInsertionAppProject_nspftvsm_wpftmp.sourcelink.json
+        -       PredefinedControlAndInsertionAppProject_wtpfdmub_wpftmp.assets.cache
+        -       PredefinedControlAndInsertionAppProject_wtpfdmub_wpftmp.csproj.BuildWithSkipAnalyzers
+        -       PredefinedControlAndInsertionAppProject_wtpfdmub_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -       PredefinedControlAndInsertionAppProject_wtpfdmub_wpftmp.sourcelink.json
+        -       PredefinedControlAndInsertionAppProject_yqyaxvyw_wpftmp.assets.cache
+        -       PredefinedControlAndInsertionAppProject_yqyaxvyw_wpftmp.csproj.BuildWithSkipAnalyzers
+        -       PredefinedControlAndInsertionAppProject_yqyaxvyw_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -       PredefinedControlAndInsertionAppProject_yqyaxvyw_wpftmp.sourcelink.json
+        -       SaveConfigDialog.baml
+        -       SaveConfigDialog.g.cs
+        -       SaveConfigDialog.g.i.cs
+        -       StepEditDialog.baml
+        -       StepEditDialog.g.cs
+        -       StepEditDialog.g.i.cs
+        -       
+        +¦¦¦net8.0-windows
+        -   -   .NETCoreApp,Version=v8.0.AssemblyAttributes.cs
+        -   -   App.g.i.cs
+        -   -   apphost.exe
+        -   -   ApplicationSelectorDialog.g.i.cs
+        -   -   ElementsPreviewDialog.g.i.cs
+        -   -   InstalledApplicationsDialog.g.i.cs
+        -   -   ListOfAllAppsDialog.g.i.cs
+        -   -   LoadConfigDialog.g.i.cs
+        -   -   LoopConfigDialog.g.i.cs
+        -   -   MainWindow.g.i.cs
+        -   -   PredefinedControlAndInsertionAppProject.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject.csproj.AssemblyReference.cache
+        -   -   PredefinedControlAndInsertionAppProject.csproj.BuildWithSkipAnalyzers
+        -   -   PredefinedControlAndInsertionAppProject.csproj.FileListAbsolute.txt
+        -   -   PredefinedControlAndInsertionAppProject.designer.deps.json
+        -   -   PredefinedControlAndInsertionAppProject.designer.runtimeconfig.json
+        -   -   PredefinedControlAndInsertionAppProject.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_04uypswe_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_04uypswe_wpftmp.csproj.BuildWithSkipAnalyzers
+        -   -   PredefinedControlAndInsertionAppProject_04uypswe_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_04uypswe_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_105xogae_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_105xogae_wpftmp.csproj.BuildWithSkipAnalyzers
+        -   -   PredefinedControlAndInsertionAppProject_105xogae_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_105xogae_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_105xogae_wpftmp.sourcelink.json
+        -   -   PredefinedControlAndInsertionAppProject_11clzd2b_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_11clzd2b_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_11clzd2b_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_2kofhyg4_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_2kofhyg4_wpftmp.csproj.BuildWithSkipAnalyzers
+        -   -   PredefinedControlAndInsertionAppProject_2kofhyg4_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_2kofhyg4_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_3kxkndko_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_3kxkndko_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_3kxkndko_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_3kxkndko_wpftmp.sourcelink.json
+        -   -   PredefinedControlAndInsertionAppProject_4t3ej5d4_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_4t3ej5d4_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_4t3ej5d4_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_4yfhy4sa_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_4yfhy4sa_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_4yfhy4sa_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_4yfhy4sa_wpftmp.sourcelink.json
+        -   -   PredefinedControlAndInsertionAppProject_50zlkoxu_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_50zlkoxu_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_50zlkoxu_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_50zlkoxu_wpftmp.sourcelink.json
+        -   -   PredefinedControlAndInsertionAppProject_5omwx02l_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_5omwx02l_wpftmp.csproj.BuildWithSkipAnalyzers
+        -   -   PredefinedControlAndInsertionAppProject_5omwx02l_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_5omwx02l_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_afq41dpu_wpftmp.AssemblyInfo.cs
+        -   -   PredefinedControlAndInsertionAppProject_afq41dpu_wpftmp.AssemblyInfoInputs.cache
+        -   -   PredefinedControlAndInsertionAppProject_afq41dpu_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_afq41dpu_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_afq41dpu_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_aig4late_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_aig4late_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_aig4late_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_aig4late_wpftmp.sourcelink.json
+        -   -   PredefinedControlAndInsertionAppProject_ajv5ddi1_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_ajv5ddi1_wpftmp.csproj.BuildWithSkipAnalyzers
+        -   -   PredefinedControlAndInsertionAppProject_ajv5ddi1_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_ajv5ddi1_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_aytgw1tn_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_aytgw1tn_wpftmp.csproj.BuildWithSkipAnalyzers
+        -   -   PredefinedControlAndInsertionAppProject_aytgw1tn_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_aytgw1tn_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_aytgw1tn_wpftmp.sourcelink.json
+        -   -   PredefinedControlAndInsertionAppProject_ba5qredf_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_ba5qredf_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_ba5qredf_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_ba5qredf_wpftmp.sourcelink.json
+        -   -   PredefinedControlAndInsertionAppProject_bcc3ieoj_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_bcc3ieoj_wpftmp.csproj.BuildWithSkipAnalyzers
+        -   -   PredefinedControlAndInsertionAppProject_bcc3ieoj_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_bcc3ieoj_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_bmnffqvt_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_bmnffqvt_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_bmnffqvt_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_bmnffqvt_wpftmp.sourcelink.json
+        -   -   PredefinedControlAndInsertionAppProject_c5v0aap1_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_c5v0aap1_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_c5v0aap1_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_c5v0aap1_wpftmp.sourcelink.json
+        -   -   PredefinedControlAndInsertionAppProject_cho4ibse_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_cho4ibse_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_cho4ibse_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_cqgw3rz3_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_cqgw3rz3_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_cqgw3rz3_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_cqgw3rz3_wpftmp.sourcelink.json
+        -   -   PredefinedControlAndInsertionAppProject_dame21wa_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_dame21wa_wpftmp.csproj.BuildWithSkipAnalyzers
+        -   -   PredefinedControlAndInsertionAppProject_dame21wa_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_dame21wa_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_dame21wa_wpftmp.sourcelink.json
+        -   -   PredefinedControlAndInsertionAppProject_dfopyw2e_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_dfopyw2e_wpftmp.csproj.BuildWithSkipAnalyzers
+        -   -   PredefinedControlAndInsertionAppProject_dfopyw2e_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_dfopyw2e_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_dnjqkjfp_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_dnjqkjfp_wpftmp.csproj.BuildWithSkipAnalyzers
+        -   -   PredefinedControlAndInsertionAppProject_dnjqkjfp_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_dnjqkjfp_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_dnjqkjfp_wpftmp.sourcelink.json
+        -   -   PredefinedControlAndInsertionAppProject_e454dw5s_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_e454dw5s_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_e454dw5s_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_e5i5n2to_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_e5i5n2to_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_e5i5n2to_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_ejqfl0fo_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_ejqfl0fo_wpftmp.csproj.BuildWithSkipAnalyzers
+        -   -   PredefinedControlAndInsertionAppProject_ejqfl0fo_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_ejqfl0fo_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_ejqfl0fo_wpftmp.sourcelink.json
+        -   -   PredefinedControlAndInsertionAppProject_frr55jxz_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_frr55jxz_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_frr55jxz_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_g12gg3mz_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_g12gg3mz_wpftmp.csproj.BuildWithSkipAnalyzers
+        -   -   PredefinedControlAndInsertionAppProject_g12gg3mz_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_g12gg3mz_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_gomg3it3_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_gomg3it3_wpftmp.csproj.BuildWithSkipAnalyzers
+        -   -   PredefinedControlAndInsertionAppProject_gomg3it3_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_gomg3it3_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_gomg3it3_wpftmp.sourcelink.json
+        -   -   PredefinedControlAndInsertionAppProject_gwin4jnw_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_gwin4jnw_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_gwin4jnw_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_gwin4jnw_wpftmp.sourcelink.json
+        -   -   PredefinedControlAndInsertionAppProject_h04hrjzy_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_h04hrjzy_wpftmp.csproj.BuildWithSkipAnalyzers
+        -   -   PredefinedControlAndInsertionAppProject_h04hrjzy_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_h04hrjzy_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_h04hrjzy_wpftmp.sourcelink.json
+        -   -   PredefinedControlAndInsertionAppProject_hwgq30fy_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_hwgq30fy_wpftmp.csproj.BuildWithSkipAnalyzers
+        -   -   PredefinedControlAndInsertionAppProject_hwgq30fy_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_hwgq30fy_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_i5st1yic_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_i5st1yic_wpftmp.csproj.BuildWithSkipAnalyzers
+        -   -   PredefinedControlAndInsertionAppProject_i5st1yic_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_i5st1yic_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_ikgqgqtm_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_ikgqgqtm_wpftmp.csproj.BuildWithSkipAnalyzers
+        -   -   PredefinedControlAndInsertionAppProject_ikgqgqtm_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_ikgqgqtm_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_ikgqgqtm_wpftmp.sourcelink.json
+        -   -   PredefinedControlAndInsertionAppProject_ilubqps4_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_ilubqps4_wpftmp.csproj.BuildWithSkipAnalyzers
+        -   -   PredefinedControlAndInsertionAppProject_ilubqps4_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_ilubqps4_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_iwmnhzv2_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_iwmnhzv2_wpftmp.csproj.BuildWithSkipAnalyzers
+        -   -   PredefinedControlAndInsertionAppProject_iwmnhzv2_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_iwmnhzv2_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_iwmnhzv2_wpftmp.sourcelink.json
+        -   -   PredefinedControlAndInsertionAppProject_jehjz3gw_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_jehjz3gw_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_jehjz3gw_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_jw1ievx5_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_jw1ievx5_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_jw1ievx5_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_jw1ievx5_wpftmp.sourcelink.json
+        -   -   PredefinedControlAndInsertionAppProject_kjjawiln_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_kjjawiln_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_kjjawiln_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_kllrzjza_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_kllrzjza_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_kllrzjza_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_kngmyt01_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_kngmyt01_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_kngmyt01_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_l2sq4s0i_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_l2sq4s0i_wpftmp.csproj.BuildWithSkipAnalyzers
+        -   -   PredefinedControlAndInsertionAppProject_l2sq4s0i_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_l2sq4s0i_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_l2sq4s0i_wpftmp.sourcelink.json
+        -   -   PredefinedControlAndInsertionAppProject_ljjssfmp_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_ljjssfmp_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_ljjssfmp_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_lofr2ydc_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_lofr2ydc_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_lofr2ydc_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_MarkupCompile.i.cache
+        -   -   PredefinedControlAndInsertionAppProject_mk1hjjlp_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_mk1hjjlp_wpftmp.csproj.BuildWithSkipAnalyzers
+        -   -   PredefinedControlAndInsertionAppProject_mk1hjjlp_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_mk1hjjlp_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_mk1hjjlp_wpftmp.sourcelink.json
+        -   -   PredefinedControlAndInsertionAppProject_o50hf15j_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_o50hf15j_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_o50hf15j_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_o5nuo2kl_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_o5nuo2kl_wpftmp.csproj.BuildWithSkipAnalyzers
+        -   -   PredefinedControlAndInsertionAppProject_o5nuo2kl_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_o5nuo2kl_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_o5nuo2kl_wpftmp.sourcelink.json
+        -   -   PredefinedControlAndInsertionAppProject_ozipau1j_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_ozipau1j_wpftmp.csproj.BuildWithSkipAnalyzers
+        -   -   PredefinedControlAndInsertionAppProject_ozipau1j_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_ozipau1j_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_ozipau1j_wpftmp.sourcelink.json
+        -   -   PredefinedControlAndInsertionAppProject_pgsk2grr_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_pgsk2grr_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_pgsk2grr_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_pgsk2grr_wpftmp.sourcelink.json
+        -   -   PredefinedControlAndInsertionAppProject_pquiwu0k_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_pquiwu0k_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_pquiwu0k_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_pvupn41h_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_pvupn41h_wpftmp.csproj.BuildWithSkipAnalyzers
+        -   -   PredefinedControlAndInsertionAppProject_pvupn41h_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_pvupn41h_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_qfllqz0i_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_qfllqz0i_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_qfllqz0i_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_qfllqz0i_wpftmp.sourcelink.json
+        -   -   PredefinedControlAndInsertionAppProject_qgjndq30_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_qgjndq30_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_qgjndq30_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_qijy0lv4_wpftmp.AssemblyInfo.cs
+        -   -   PredefinedControlAndInsertionAppProject_qijy0lv4_wpftmp.AssemblyInfoInputs.cache
+        -   -   PredefinedControlAndInsertionAppProject_qijy0lv4_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_qijy0lv4_wpftmp.csproj.BuildWithSkipAnalyzers
+        -   -   PredefinedControlAndInsertionAppProject_qijy0lv4_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_qijy0lv4_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_qsnbmu5y_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_qsnbmu5y_wpftmp.csproj.BuildWithSkipAnalyzers
+        -   -   PredefinedControlAndInsertionAppProject_qsnbmu5y_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_qsnbmu5y_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_qtkrsgry_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_qtkrsgry_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_qtkrsgry_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_quwfpmak_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_quwfpmak_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_quwfpmak_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_rkfscdym_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_rkfscdym_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_rkfscdym_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_rnuq1tig_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_rnuq1tig_wpftmp.csproj.BuildWithSkipAnalyzers
+        -   -   PredefinedControlAndInsertionAppProject_rnuq1tig_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_rnuq1tig_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_rnuq1tig_wpftmp.sourcelink.json
+        -   -   PredefinedControlAndInsertionAppProject_rtjxvu5g_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_rtjxvu5g_wpftmp.csproj.BuildWithSkipAnalyzers
+        -   -   PredefinedControlAndInsertionAppProject_rtjxvu5g_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_rtjxvu5g_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_s2x1k1f1_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_s2x1k1f1_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_s2x1k1f1_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_s2x1k1f1_wpftmp.sourcelink.json
+        -   -   PredefinedControlAndInsertionAppProject_sagednuh_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_sagednuh_wpftmp.csproj.BuildWithSkipAnalyzers
+        -   -   PredefinedControlAndInsertionAppProject_sagednuh_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_sagednuh_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_sagednuh_wpftmp.sourcelink.json
+        -   -   PredefinedControlAndInsertionAppProject_sb1kz54c_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_sb1kz54c_wpftmp.csproj.BuildWithSkipAnalyzers
+        -   -   PredefinedControlAndInsertionAppProject_sb1kz54c_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_sb1kz54c_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_sdy5ne2e_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_sdy5ne2e_wpftmp.csproj.BuildWithSkipAnalyzers
+        -   -   PredefinedControlAndInsertionAppProject_sdy5ne2e_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_sdy5ne2e_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_sdy5ne2e_wpftmp.sourcelink.json
+        -   -   PredefinedControlAndInsertionAppProject_segsafeg_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_segsafeg_wpftmp.csproj.BuildWithSkipAnalyzers
+        -   -   PredefinedControlAndInsertionAppProject_segsafeg_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_segsafeg_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_srnrcuw0_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_srnrcuw0_wpftmp.csproj.BuildWithSkipAnalyzers
+        -   -   PredefinedControlAndInsertionAppProject_srnrcuw0_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_srnrcuw0_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_stv3gwm2_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_stv3gwm2_wpftmp.csproj.BuildWithSkipAnalyzers
+        -   -   PredefinedControlAndInsertionAppProject_stv3gwm2_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_stv3gwm2_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_stv3gwm2_wpftmp.sourcelink.json
+        -   -   PredefinedControlAndInsertionAppProject_tmg5lhqb_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_tmg5lhqb_wpftmp.csproj.BuildWithSkipAnalyzers
+        -   -   PredefinedControlAndInsertionAppProject_tmg5lhqb_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_tmg5lhqb_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_tmg5lhqb_wpftmp.sourcelink.json
+        -   -   PredefinedControlAndInsertionAppProject_tnocm12s_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_tnocm12s_wpftmp.csproj.BuildWithSkipAnalyzers
+        -   -   PredefinedControlAndInsertionAppProject_tnocm12s_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_tnocm12s_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_tnocm12s_wpftmp.sourcelink.json
+        -   -   PredefinedControlAndInsertionAppProject_u3y4isgf_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_u3y4isgf_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_u3y4isgf_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_u3y4isgf_wpftmp.sourcelink.json
+        -   -   PredefinedControlAndInsertionAppProject_uel5pwfs_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_uel5pwfs_wpftmp.csproj.BuildWithSkipAnalyzers
+        -   -   PredefinedControlAndInsertionAppProject_uel5pwfs_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_uel5pwfs_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_venk25a2_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_venk25a2_wpftmp.csproj.BuildWithSkipAnalyzers
+        -   -   PredefinedControlAndInsertionAppProject_venk25a2_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_venk25a2_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_venk25a2_wpftmp.sourcelink.json
+        -   -   PredefinedControlAndInsertionAppProject_vyv0qea4_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_vyv0qea4_wpftmp.csproj.BuildWithSkipAnalyzers
+        -   -   PredefinedControlAndInsertionAppProject_vyv0qea4_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_vyv0qea4_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_vyv0qea4_wpftmp.sourcelink.json
+        -   -   PredefinedControlAndInsertionAppProject_w0egreaa_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_w0egreaa_wpftmp.csproj.BuildWithSkipAnalyzers
+        -   -   PredefinedControlAndInsertionAppProject_w0egreaa_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_w0egreaa_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_w0egreaa_wpftmp.sourcelink.json
+        -   -   PredefinedControlAndInsertionAppProject_wmmcunlk_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_wmmcunlk_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_wmmcunlk_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_woebw5d0_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_woebw5d0_wpftmp.csproj.BuildWithSkipAnalyzers
+        -   -   PredefinedControlAndInsertionAppProject_woebw5d0_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_woebw5d0_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_woebw5d0_wpftmp.sourcelink.json
+        -   -   PredefinedControlAndInsertionAppProject_wry4lmaa_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_wry4lmaa_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_wry4lmaa_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_ytq2eizi_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_ytq2eizi_wpftmp.csproj.BuildWithSkipAnalyzers
+        -   -   PredefinedControlAndInsertionAppProject_ytq2eizi_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_ytq2eizi_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_ytq2eizi_wpftmp.sourcelink.json
+        -   -   PredefinedControlAndInsertionAppProject_ze1fahl0_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_ze1fahl0_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_ze1fahl0_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_ze1fahl0_wpftmp.sourcelink.json
+        -   -   PredefinedControlAndInsertionAppProject_zigosz5m_wpftmp.assets.cache
+        -   -   PredefinedControlAndInsertionAppProject_zigosz5m_wpftmp.GeneratedMSBuildEditorConfig.editorconfig
+        -   -   PredefinedControlAndInsertionAppProject_zigosz5m_wpftmp.GlobalUsings.g.cs
+        -   -   PredefinedControlAndInsertionAppProject_zigosz5m_wpftmp.sourcelink.json
+        -   -   SaveConfigDialog.g.i.cs
+        -   -   StepEditDialog.g.i.cs
+        -   -   
+        -   +¦¦¦ref
+        -   L¦¦¦refint
+        L¦¦¦net8.0-windows10.0.19041.0
+            -   .NETCoreApp,Version=v8.0.AssemblyAttributes.cs
+            -   App.g.i.cs
+            -   ApplicationSelectorDialog.g.i.cs
+            -   ElementsPreviewDialog.g.i.cs
+            -   InstalledApplicationsDialog.g.i.cs
+            -   ListOfAllAppsDialog.g.i.cs
+            -   LoadConfigDialog.g.i.cs
+            -   LoopConfigDialog.g.i.cs
+            -   MainWindow.g.i.cs
+            -   PredefinedControlAndInsertionAppProject.csproj.FileListAbsolute.txt
+            -   PredefinedControlAndInsertionAppProject.GeneratedMSBuildEditorConfig.editorconfig
+            -   PredefinedControlAndInsertionAppProject.GlobalUsings.g.cs
+            -   PredefinedControlAndInsertionAppProject_MarkupCompile.i.cache
+            -   PredefinedControlAndInsertionAppProject_MarkupCompile.i.lref
+            -   SaveConfigDialog.g.i.cs
+            -   StepEditDialog.g.i.cs
+            -   
+            +¦¦¦ref
+            L¦¦¦refint

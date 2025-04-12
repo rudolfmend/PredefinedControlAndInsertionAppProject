@@ -443,7 +443,7 @@ namespace PredefinedControlAndInsertionAppProject
                                 try
                                 {
                                     string? displayName = subkey.GetValue("DisplayName") as string;
-                                    string? installLocation = subkey.GetValue("InstallLocation") as string;
+                                    string? installLocation = subkey.GetValue("InstallLocation") as string; 
                                     string? displayIcon = subkey.GetValue("DisplayIcon") as string;
 
                                     if (!string.IsNullOrEmpty(displayName))

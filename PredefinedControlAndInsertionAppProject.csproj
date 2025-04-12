@@ -15,6 +15,19 @@
 		<Deterministic>False</Deterministic>
 	</PropertyGroup>
 	<ItemGroup>
+	  <None Remove="Resources\copy.png" />
+	  <None Remove="Resources\delete.png" />
+	  <None Remove="Resources\edit.png" />
+	  <None Remove="Resources\loop.png" />
+	  <None Remove="Resources\move.png" />
+	  <None Remove="Resources\paste.png" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Resource Include="Resources\paste.png">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Resource>
+	</ItemGroup>
+	<ItemGroup>
 		<PackageReference Include="FlaUI.Core" Version="4.0.0" />
 		<PackageReference Include="FlaUI.UIA3" Version="4.0.0" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
@@ -32,5 +45,22 @@
 	</ItemGroup>
 	<ItemGroup>
 		<Reference Include="System.Runtime.WindowsRuntime.UI.Xaml" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Resource Include="Resources\copy.png">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Resources\delete.png">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Resources\edit.png">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Resources\loop.png">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Resource>
+	  <Resource Include="Resources\move.png">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </Resource>
 	</ItemGroup>
 </Project>

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using static PredefinedControlAndInsertionAppProject.MainWindow;
 
@@ -11,7 +12,9 @@ namespace PredefinedControlAndInsertionAppProject
     {
         public LoopControl LoopParameters { get; private set; }
 
-        public LoopConfigDialog(IEnumerable<AppUIElement> availableElements, LoopControl? existingParams = null)
+        public LoopConfigDialog(IEnumerable<AppUIElement> availableElements, 
+                                IEnumerable<SequenceStep>? selectedSteps = null, 
+                                LoopControl? existingParams = null) 
         {
             InitializeComponent();
 
@@ -19,6 +22,12 @@ namespace PredefinedControlAndInsertionAppProject
 
             // Nastavte ItemsSource pre ComboBox
             cmbExitElement.ItemsSource = availableElements;
+
+            // Ak existujú vybrané kroky, zobraziť ich v ListView
+            if (selectedSteps != null && lvSelectedSteps != null)
+            {
+                lvSelectedSteps.ItemsSource = selectedSteps.ToList();
+            }
 
             // Ak existuje existujúca konfigurácia, nastavte UI podľa nej
             if (existingParams != null)

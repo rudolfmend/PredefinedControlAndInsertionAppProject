@@ -29,6 +29,25 @@ namespace PredefinedControlAndInsertionAppProject
         [return: MarshalAs(UnmanagedType.Bool)]
         internal static extern bool IsWindowVisible(IntPtr hWnd);
 
+        // Pridaná metóda GetWindowThreadProcessId
+        [DllImport("user32.dll", SetLastError = true)]
+        internal static extern uint GetWindowThreadProcessId(IntPtr hWnd, out int lpdwProcessId);
+
+        // Pridaná zjednodušená verzia GetWindowThreadProcessId, ktorá vracia len ProcessId
+        internal static bool GetWindowProcessId(IntPtr hWnd, out int processId)
+        {
+            processId = 0;
+            try
+            {
+                GetWindowThreadProcessId(hWnd, out processId);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         internal const int MOUSEEVENTF_LEFTDOWN = 0x02;
         internal const int MOUSEEVENTF_LEFTUP = 0x04;
 

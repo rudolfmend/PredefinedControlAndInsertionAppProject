@@ -184,7 +184,7 @@ namespace PredefinedControlAndInsertionAppProject
             var progressBar = VisualTreeHelpers.FindChild<ProgressBar>(container);
             var countdownText = VisualTreeHelpers.FindChild<TextBlock>(container);
 
-            // Kontrola, či sa podarilo nájsť progress bar a text
+            // confirm that the progress bar and countdown text are found
             if (progressBar == null || countdownText == null)
             {
                 throw new InvalidOperationException("Failed to find required UI elements in the message box");
@@ -221,6 +221,120 @@ namespace PredefinedControlAndInsertionAppProject
         }
 
         /// <summary>
+        /// Helper class providing methods to search for elements in the WPF visual tree
+        /// </summary>
+        public static class VisualTreeHelpers
+        {
+            /// <summary>
+            /// Finds a child element of the specified type in the visual tree
+            /// </summary>
+            /// <typeparam name="T">Type of the element to find</typeparam>
+            /// <param name="parent">Parent element to start the search from</param>
+            /// <param name="childName">Optional name of the child element to find</param>
+            /// <returns>The first child element of the specified type, or null if not found</returns>
+            public static T? FindChild<T>(DependencyObject parent, string? childName = null) where T : DependencyObject
+            {
+                // Verify input parameters
+                if (parent == null)
+                    return null;
+
+                T? foundChild = null;
+
+                // Search in the children collection
+                int childrenCount = VisualTreeHelper.GetChildrenCount(parent);
+                for (int i = 0; i < childrenCount; i++)
+                {
+                    var child = VisualTreeHelper.GetChild(parent, i);
+
+                    // If this child is of the requested type
+                    if (child is T typedChild)
+                    {
+                        // If child name is specified and it doesn't match, continue
+                        if (childName != null && child is FrameworkElement frameworkElement && frameworkElement.Name != childName)
+                        {
+                            // Continue to search for a child with the requested name
+                            continue;
+                        }
+
+                        foundChild = typedChild;
+                        break;
+                    }
+
+                    // Recursively search in the child's children
+                    foundChild = FindChild<T>(child, childName);
+
+                    // If the child is found, break the loop
+                    if (foundChild != null)
+                        break;
+                }
+
+                return foundChild;
+            }
+
+            /// <summary>
+            /// Finds all child elements of the specified type in the visual tree
+            /// </summary>
+            /// <typeparam name="T">Type of the elements to find</typeparam>
+            /// <param name="parent">Parent element to start the search from</param>
+            /// <returns>Collection of all child elements of the specified type</returns>
+            public static System.Collections.Generic.List<T> FindAllChildren<T>(DependencyObject parent) where T : DependencyObject
+            {
+                var result = new System.Collections.Generic.List<T>();
+                FindAllChildren(parent, result);
+                return result;
+            }
+
+            /// <summary>
+            /// Helper method for finding all child elements of the specified type
+            /// </summary>
+            private static void FindAllChildren<T>(DependencyObject parent, System.Collections.Generic.List<T> results) where T : DependencyObject
+            {
+                // Verify input parameters
+                if (parent == null)
+                    return;
+
+                // Search in the children collection
+                int childrenCount = VisualTreeHelper.GetChildrenCount(parent);
+                for (int i = 0; i < childrenCount; i++)
+                {
+                    var child = VisualTreeHelper.GetChild(parent, i);
+
+                    // If this child is of the requested type, add it to the results
+                    if (child is T typedChild)
+                    {
+                        results.Add(typedChild);
+                    }
+
+                    // Recursively search in the child's children
+                    FindAllChildren<T>(child, results);
+                }
+            }
+
+            /// <summary>
+            /// Finds a parent element of the specified type in the visual tree
+            /// </summary>
+            /// <typeparam name="T">Type of the parent to find</typeparam>
+            /// <param name="child">Child element to start the search from</param>
+            /// <returns>The first parent element of the specified type, or null if not found</returns>
+            public static T? FindParent<T>(DependencyObject child) where T : DependencyObject
+            {
+                // Get the parent element
+                DependencyObject parentObject = VisualTreeHelper.GetParent(child);
+
+                // If we've reached the end of the tree, return null
+                if (parentObject == null)
+                    return null;
+
+                // Check if the parent is the requested type
+                if (parentObject is T parent)
+                    return parent;
+
+                // Recursively search up the visual tree
+                return FindParent<T>(parentObject);
+            }
+        }
+
+        /// <summary>
         /// Displays a message box with timer, visual countdown, and custom content.
         /// </summary>
         public static void ShowCustomContent(
@@ -252,7 +366,7 @@ namespace PredefinedControlAndInsertionAppProject
             var progressBar = VisualTreeHelpers.FindChild<ProgressBar>(container);
             var countdownText = VisualTreeHelpers.FindChild<TextBlock>(container);
 
-            // Kontrola, či sa podarilo nájsť progress bar a text
+            // control for whether the progress bar and text were found
             if (progressBar == null || countdownText == null)
             {
                 throw new InvalidOperationException("Failed to find required UI elements in the message box");
@@ -272,9 +386,13 @@ namespace PredefinedControlAndInsertionAppProject
                 progressBar.Value = Math.Max(0, remaining);
 
                 var secondsRemaining = Math.Ceiling(remaining / 1000);
-                countdownText.Text = $"Window will close in {secondsRemaining} seconds";
 
-                double progressPercentage = remaining / timeoutMs;
+                if (secondsRemaining == 1)
+                    countdownText.Text = $"Window will close in {secondsRemaining} second";
+                else 
+                    countdownText.Text = $"Window will close in {secondsRemaining} seconds";
+
+                    double progressPercentage = remaining / timeoutMs;
                 progressBar.Foreground = new SolidColorBrush(ComputeProgressColor(progressPercentage));
 
                 if (remaining <= 0)

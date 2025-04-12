@@ -1,0 +1,41 @@
+﻿# Implementácia funkcie "Loop step"
+
+Táto funkcia umožňuje používateľovi vytvoriť slučku (cyklus) z viacerých krokov automatizácie, ktoré sú spolu združené. Implementácia pozostáva z niekoľkých hlavných častí:
+
+## 1. Zobrazenie vybraných krokov v LoopConfigDialog
+
+- Do dialógu LoopConfigDialog bol pridaný ListView na zobrazenie krokov, ktoré budú zahrnuté v slučke
+- Konštruktor LoopConfigDialog bol upravený tak, aby prijímal zoznam vybraných krokov
+- Tieto kroky sa zobrazujú používateľovi pre lepšiu prehľadnosť
+
+## 2. Vizuálne odlíšenie krokov v slučke v ListBox-e
+
+- Trieda SequenceStep bola rozšírená o:
+  - Vlastnosť IsInLoop, ktorá označuje, či je krok súčasťou slučky
+  - Vlastnosti pre vizuálne zobrazenie (LoopBackground, LoopStartVisible, LoopEndVisible)
+- V ListBox-e sa kroky v slučke odlišujú:
+  - Farebným pozadím
+  - Indikátormi na začiatku a konci slučky (⟳ a ⊙)
+  - Špeciálnym štýlom pre položky ListBox-u
+
+## 3. Logika pre prácu so slučkou
+
+- Metóda BtnAddLoop_Click bola upravená tak, aby:
+  - Predávala vybrané kroky do LoopConfigDialog
+  - Po vytvorení slučky označila všetky kroky v rozsahu ako IsInLoop = true
+  - Aktualizovala vizuálne zobrazenie
+
+## 4. Výhody implementácie
+
+- Používateľ jasne vidí, ktoré kroky sú súčasťou slučky
+- V dialógu konfigurácie slučky je prehľad zahrnutých krokov
+- Vizuálne odlíšenie uľahčuje orientáciu v komplikovaných sekvenciách
+- Pri editácii slučky je ľahšie identifikovať, ktoré kroky sú súčasťou cyklu
+
+## Postup použitia
+
+1. Používateľ označí súvislý blok krokov v ListBox-e
+2. Klikne pravým tlačidlom a vyberie "Add to Loop" alebo použije tlačidlo "Add Loop"
+3. Otvorí sa dialóg s prehľadom vybraných krokov a možnosťami konfigurácie slučky
+4. Po potvrdení sa kroky vizuálne odlíšia v ListBox-e, aby bolo jasné, že sú súčasťou slučky
+

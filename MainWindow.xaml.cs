@@ -21,6 +21,8 @@ namespace PredefinedControlAndInsertionAppProject
         private ApplicationInfo? _selectedApplication;
         private WindowInfo? _selectedWindow;
 
+        private SequenceStep? _copiedStep = null; // context menu for "Step" in DataGrid "LbSequence"  in  "Automation Sequence"
+
         // Collections for UI binding
         private ObservableCollection<AppUIElement> _uiElements;
         private ObservableCollection<CalculationRule> _calculationRules;
@@ -93,7 +95,7 @@ namespace PredefinedControlAndInsertionAppProject
                     _selectedWindow = appSelectorDialog.SelectedWindow;
 
                     // Update UI with selected application information
-                    txtWindowTitle.Text = _selectedWindow.WindowTitle;
+                    //txtWindowTitle.Text = _selectedWindow.WindowTitle;
                 }
 
                 // Check if UI elements were selected
@@ -208,7 +210,7 @@ namespace PredefinedControlAndInsertionAppProject
                     }
 
                     // Aktualizácia UI s informáciami o vybranej aplikácii
-                    txtWindowTitle.Text = _selectedApplication.MainWindowTitle;
+                    //txtWindowTitle.Text = _selectedApplication.MainWindowTitle;
 
                     // Zobrazenie správy o úspešnom výbere aplikácie
                     TimedMessageBox.Show(
@@ -482,10 +484,8 @@ namespace PredefinedControlAndInsertionAppProject
             }
 
             // Get selected steps
-            var selectedIndices = LbSequence.SelectedItems.Cast<SequenceStep>()
-                                            .Select(s => _sequenceSteps.IndexOf(s))
-                                            .OrderBy(i => i)
-                                            .ToList();
+            var selectedSteps = LbSequence.SelectedItems.Cast<SequenceStep>().ToList();
+            var selectedIndices = selectedSteps.Select(s => _sequenceSteps.IndexOf(s)).OrderBy(i => i).ToList();
 
             // Ensure selected steps are contiguous
             if (selectedIndices.Count > 1 &&
@@ -496,10 +496,10 @@ namespace PredefinedControlAndInsertionAppProject
                 return;
             }
 
+            // Open the loop configuration dialog
             var enumerable = _uiElements.AsEnumerable();
-            var loopDialog = new LoopConfigDialog(enumerable);
+            var loopDialog = new LoopConfigDialog(enumerable, selectedSteps);
             loopDialog.Owner = this;
-
 
             if (loopDialog.ShowDialog() == true)
             {
@@ -517,10 +517,16 @@ namespace PredefinedControlAndInsertionAppProject
                 _sequenceSteps[loopStartIndex].LoopParameters = loopParams;
                 _sequenceSteps[loopEndIndex].IsLoopEnd = true;
 
+                // Mark all steps in loop
+                for (int i = loopStartIndex; i <= loopEndIndex; i++)
+                {
+                    _sequenceSteps[i].IsInLoop = true;
+                }
+
                 // Refresh the list to show visual indicators
                 RefreshSequenceList();
             }
-        }
+        } 
 
         private void RefreshSequenceList()
         {
@@ -587,7 +593,7 @@ namespace PredefinedControlAndInsertionAppProject
                 {
                     ProcessName = _selectedApplication?.ProcessName ?? string.Empty,
                     ProcessId = _selectedApplication?.ProcessId ?? 0,
-                    WindowTitle = txtWindowTitle.Text,
+                    //WindowTitle = txtWindowTitle.Text,
                     UIElements = new List<ConfigurationManager.AppUIElementConfig>(),
                     CalculationRules = new List<ConfigurationManager.CalculationRuleConfig>(),
                     SequenceSteps = new List<ConfigurationManager.SequenceStepConfig>()
@@ -645,7 +651,7 @@ namespace PredefinedControlAndInsertionAppProject
 
                     // Update application path and window title
                    // SetSelectedProcessByName(config.ProcessName);
-                    txtWindowTitle.Text = config.WindowTitle;
+                    //txtWindowTitle.Text = config.WindowTitle;
 
                     // Clear current collections
                     _uiElements.Clear();
@@ -833,8 +839,12 @@ namespace PredefinedControlAndInsertionAppProject
                     // Aktivovať okno
                     NativeMethods.SetForegroundWindow(process.MainWindowHandle);
 
-                    // Nastaviť názov okna
-                    txtWindowTitle.Text = process.MainWindowTitle;
+                    // Aktualizovať referenciu na okno, ak sa zmenil jeho názov
+                    _selectedWindow = new WindowInfo
+                    {
+                        WindowHandle = process.MainWindowHandle,
+                        WindowTitle = process.MainWindowTitle
+                    };
 
                     return true;
                 }
@@ -929,14 +939,73 @@ namespace PredefinedControlAndInsertionAppProject
                     return;
                 }
 
-                // Find the main window of the target application
-                string windowTitle = txtWindowTitle.Text.Trim();
-                AutomationElement? targetAppWindow = FindWindowByTitle(windowTitle);
+                // Get the target application window directly from _selectedApplication
+                AutomationElement? targetAppWindow = null;
+                if (_selectedApplication != null && _selectedWindow != null)
+                {
+                    // Try to find window by handle first
+                    IntPtr windowHandle = _selectedWindow.WindowHandle;
+                    if (windowHandle != IntPtr.Zero)
+                    {
+                        try
+                        {
+                            // Find element from handle
+                            targetAppWindow = AutomationElement.FromHandle(windowHandle);
+                        }
+                        catch (Exception ex)
+                        {
+                            Debug.WriteLine($"Error getting window from handle: {ex.Message}");
+                        }
+                    }
+
+                    // If that fails, try to find by window title
+                    // Opravený kód pre vyhľadávanie okna podľa ID procesu
+                    if (targetAppWindow == null)
+                    {
+                        try
+                        {
+                            // Get all automation elements that are windows
+                            var allWindows = AutomationElement.RootElement.FindAll(
+                                TreeScope.Children,
+                                new PropertyCondition(AutomationElement.ControlTypeProperty, ControlType.Window));
+
+                            // Look for a window belonging to our process
+                            foreach (AutomationElement window in allWindows)
+                            {
+                                try
+                                {
+                                    int windowProcessId = 0;
+                                    window.TryGetCurrentPattern(WindowPattern.Pattern, out object patternObj);
+
+                                    // Opravený kód - musíme kontrolovať návratovú hodnotu inak
+                                    NativeMethods.GetWindowThreadProcessId(
+                                        new IntPtr((int)window.Current.NativeWindowHandle),
+                                        out windowProcessId);
+
+                                    // Teraz porovnáme ID procesov
+                                    if (windowProcessId == _selectedApplication.ProcessId)
+                                    {
+                                        targetAppWindow = window;
+                                        break;
+                                    }
+                                }
+                                catch
+                                {
+                                    // Ignore errors and continue
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            Debug.WriteLine($"Error finding window by process ID: {ex.Message}");
+                        }
+                    }
+                }
 
                 if (targetAppWindow == null)
                 {
-                    TimedMessageBox.Show("Could not find the target application window.", "Window Not Found",
-                                  5000);
+                    TimedMessageBox.Show("Could not find the target application window. Please make sure the application is running and try again.",
+                                "Window Not Found", 5000);
                     return;
                 }
 
@@ -991,7 +1060,7 @@ namespace PredefinedControlAndInsertionAppProject
                                     }
                                     else
                                     {
-                                        shouldContinueLoop = true;  
+                                        shouldContinueLoop = true;
                                     }
                                 }
                                 catch (InvalidOperationException ex)
@@ -1034,7 +1103,7 @@ namespace PredefinedControlAndInsertionAppProject
                     if (targetElement == null)
                     {
                         TimedMessageBox.Show($"UI Element '{step.Target}' not found in the configuration.",
-                                      "Element Not Found", 5000);
+                                    "Element Not Found", 5000);
                         currentStepIndex++;
                         continue;
                     }
@@ -1045,7 +1114,7 @@ namespace PredefinedControlAndInsertionAppProject
                     if (element == null)
                     {
                         TimedMessageBox.Show($"Could not find element '{targetElement.Name}' in the target application.",
-                                      "Element Not Found", 5000);
+                                    "Element Not Found", 5000);
                         currentStepIndex++;
                         continue;
                     }
@@ -1552,6 +1621,216 @@ namespace PredefinedControlAndInsertionAppProject
         }
         #endregion
 
+
+
+        #region Context Menu Handlers
+
+        private void ContextMenu_Edit_Click(object sender, RoutedEventArgs e)
+        {
+            EditSelectedStep();
+        }
+
+        private void ContextMenu_Delete_Click(object sender, RoutedEventArgs e)
+        {
+            if (LbSequence.SelectedItem is SequenceStep selectedStep)
+            {
+                _sequenceSteps.Remove(selectedStep);
+                // Update step numbers for remaining steps
+                for (int i = 0; i < _sequenceSteps.Count; i++)
+                {
+                    _sequenceSteps[i].StepNumber = i + 1;
+                }
+            }
+            else
+            {
+                TimedMessageBox.Show("Please select a step to delete.", "No Selection", 5000);
+            }
+        }
+
+        private void ContextMenu_Copy_Click(object sender, RoutedEventArgs e)
+        {
+            if (LbSequence.SelectedItem is SequenceStep selectedStep)
+            {
+                // Create a deep copy of the selected step
+                _copiedStep = new SequenceStep
+                {
+                    Action = selectedStep.Action,
+                    Target = selectedStep.Target,
+                    IsLoopStart = selectedStep.IsLoopStart,
+                    IsLoopEnd = selectedStep.IsLoopEnd
+                };
+
+                // Copy LoopParameters if they exist
+                if (selectedStep.LoopParameters != null)
+                {
+                    _copiedStep.LoopParameters = new LoopControl
+                    {
+                        StartStepIndex = selectedStep.LoopParameters.StartStepIndex,
+                        EndStepIndex = selectedStep.LoopParameters.EndStepIndex,
+                        IterationCount = selectedStep.LoopParameters.IterationCount,
+                        IsInfiniteLoop = selectedStep.LoopParameters.IsInfiniteLoop,
+                        ExitConditionElementName = selectedStep.LoopParameters.ExitConditionElementName,
+                        ExitConditionValue = selectedStep.LoopParameters.ExitConditionValue
+                    };
+                }
+
+                TimedMessageBox.Show("Step copied to clipboard.", "Step Copied", 2000);
+            }
+            else
+            {
+                TimedMessageBox.Show("Please select a step to copy.", "No Selection", 5000);
+            }
+        }
+
+        private void ContextMenu_Paste_Click(object sender, RoutedEventArgs e)
+        {
+            if (_copiedStep != null)
+            {
+                // Determine insert position (after the selected item, or at the end)
+                int insertPosition = _sequenceSteps.Count;
+
+                if (LbSequence.SelectedItem is SequenceStep selectedStep)
+                {
+                    insertPosition = _sequenceSteps.IndexOf(selectedStep) + 1;
+                }
+
+                // Create a new instance of the copied step
+                SequenceStep newStep = new SequenceStep
+                {
+                    Action = _copiedStep.Action,
+                    Target = _copiedStep.Target,
+                    IsLoopStart = _copiedStep.IsLoopStart,
+                    IsLoopEnd = _copiedStep.IsLoopEnd
+                };
+
+                // Copy LoopParameters if they exist
+                if (_copiedStep.LoopParameters != null)
+                {
+                    newStep.LoopParameters = new LoopControl
+                    {
+                        StartStepIndex = _copiedStep.LoopParameters.StartStepIndex,
+                        EndStepIndex = _copiedStep.LoopParameters.EndStepIndex,
+                        IterationCount = _copiedStep.LoopParameters.IterationCount,
+                        IsInfiniteLoop = _copiedStep.LoopParameters.IsInfiniteLoop,
+                        ExitConditionElementName = _copiedStep.LoopParameters.ExitConditionElementName,
+                        ExitConditionValue = _copiedStep.LoopParameters.ExitConditionValue
+                    };
+                }
+
+                // Insert the new step at the determined position
+                _sequenceSteps.Insert(insertPosition, newStep);
+
+                // Update step numbers for all steps
+                for (int i = 0; i < _sequenceSteps.Count; i++)
+                {
+                    _sequenceSteps[i].StepNumber = i + 1;
+                }
+
+                // Refresh the list to show the new step
+                LbSequence.Items.Refresh();
+
+                // Select the newly inserted step
+                LbSequence.SelectedIndex = insertPosition;
+                LbSequence.ScrollIntoView(LbSequence.Items[insertPosition]);
+
+                TimedMessageBox.Show("Step pasted successfully.", "Step Pasted", 2000);
+            }
+            else
+            {
+                TimedMessageBox.Show("No step available to paste. Copy a step first.", "No Copied Step", 5000);
+            }
+        }
+
+        private void ContextMenu_AddLoop_Click(object sender, RoutedEventArgs e)
+        {
+            BtnAddLoop_Click(sender, e);
+        }
+
+        private void ContextMenu_MoveUp_Click(object sender, RoutedEventArgs e)
+        {
+            BtnMoveUp_Click(sender, e);
+        }
+
+        private void ContextMenu_MoveDown_Click(object sender, RoutedEventArgs e)
+        {
+            BtnMoveDown_Click(sender, e);
+        }
+
+        private void LbSequence_ContextMenuOpening(object sender, ContextMenuEventArgs e)
+        {
+            // Dynamicky povoliť alebo zakázať položky kontextového menu na základe výberu
+            bool isItemSelected = LbSequence.SelectedItem != null;
+            bool isMultipleItemsSelected = LbSequence.SelectedItems.Count > 1;
+
+            // Získaj referenciu na kontextové menu
+            if (LbSequence.ContextMenu != null)
+            {
+                foreach (var item in LbSequence.ContextMenu.Items)
+                {
+                    if (item is MenuItem menuItem)
+                    {
+                        // Nastavenie pre jednotlivé položky menu
+                        switch (menuItem.Header.ToString())
+                        {
+                            case "Edit Step":
+                                menuItem.IsEnabled = isItemSelected && !isMultipleItemsSelected;
+                                break;
+                            case "Delete Step":
+                                menuItem.IsEnabled = isItemSelected;
+                                break;
+                            case "Copy Step":
+                                menuItem.IsEnabled = isItemSelected && !isMultipleItemsSelected;
+                                break;
+                            case "Paste Step":
+                                menuItem.IsEnabled = _copiedStep != null;
+                                break;
+                            case "Add to Loop":
+                                menuItem.IsEnabled = isMultipleItemsSelected && LbSequence.SelectedItems.Count >= 2;
+                                break;
+                            case "Move":
+                                menuItem.IsEnabled = isItemSelected;
+                                // Nastavenie povolenia pre vnorené položky
+                                foreach (var subItem in ((MenuItem)menuItem).Items)
+                                {
+                                    if (subItem is MenuItem subMenuItem)
+                                    {
+                                        if (subMenuItem.Header.ToString() == "Move Up")
+                                        {
+                                            if (isItemSelected && LbSequence.SelectedItem != null)
+                                            {
+                                                SequenceStep selectedStep = (SequenceStep)LbSequence.SelectedItem;
+                                                int index = _sequenceSteps.IndexOf(selectedStep);
+                                                subMenuItem.IsEnabled = index > 0;
+                                            }
+                                            else
+                                            {
+                                                subMenuItem.IsEnabled = false;
+                                            }
+                                        }
+                                        else if (subMenuItem.Header.ToString() == "Move Down")
+                                        {
+                                            if (isItemSelected && LbSequence.SelectedItem != null)
+                                            {
+                                                SequenceStep selectedStep = (SequenceStep)LbSequence.SelectedItem;
+                                                int index = _sequenceSteps.IndexOf(selectedStep);
+                                                subMenuItem.IsEnabled = index < _sequenceSteps.Count - 1;
+                                            }
+                                            else
+                                            {
+                                                subMenuItem.IsEnabled = false;
+                                            }
+                                        }
+                                    }
+                                }
+                                break;
+                        }
+                    }
+                }
+            }
+        }
+
+        #endregion
+
         #region Model Classes
 
         public class LoopControl
@@ -1582,8 +1861,29 @@ namespace PredefinedControlAndInsertionAppProject
             public bool IsLoopStart { get; set; } = false;
             public bool IsLoopEnd { get; set; } = false;
             public LoopControl? LoopParameters { get; set; }
-        }
+            public bool IsInLoop { get; set; } = false;
 
+            // Vlastnosti pre vizuálne zobrazenie v UI
+            public System.Windows.Media.Brush LoopBackground
+            {
+                get
+                {
+                    if (IsInLoop)
+                        return System.Windows.Media.Brushes.SkyBlue;
+                    return System.Windows.Media.Brushes.Transparent;
+                }
+            }
+
+            public System.Windows.Visibility LoopStartVisible
+            {
+                get { return IsLoopStart ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed; }
+            }
+
+            public System.Windows.Visibility LoopEndVisible
+            {
+                get { return IsLoopEnd ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed; }
+            }
+        }
         #endregion
     }
 }
