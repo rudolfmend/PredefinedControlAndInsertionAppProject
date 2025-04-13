@@ -73,7 +73,7 @@ namespace PredefinedControlAndInsertionAppProject
             // Countdown text
             var countdownText = new TextBlock
             {
-                Text = $"Window will close in {timeoutMs / 1000} seconds",
+                Text = $"Automatically closed in {timeoutMs / 1000} seconds",
                 TextAlignment = TextAlignment.Center,
                 Margin = new Thickness(0, 0, 0, 5),
                 FontSize = options.FontSize,

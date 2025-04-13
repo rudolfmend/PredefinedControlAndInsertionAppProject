@@ -60,11 +60,13 @@ namespace PredefinedControlAndInsertionAppProject
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"Error loading running applications: {ex.Message}");
                 TimedMessageBox.Show($"Error loading running applications: {ex.Message}",
                                 "Error", 5000);
             }
             finally
             {
+                Console.WriteLine("Loading applications completed.");
                 // Hide loading indicator
                 Mouse.OverrideCursor = null;
             }
@@ -91,11 +93,13 @@ namespace PredefinedControlAndInsertionAppProject
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"Error loading windows for application: {ex.Message}");
                 TimedMessageBox.Show($"Error loading windows for application: {ex.Message}",
                                 "Error", 5000);
             }
             finally
             {
+                Console.WriteLine("Loading windows completed.");
                 // Hide loading indicator
                 Mouse.OverrideCursor = null;
             }
@@ -110,6 +114,7 @@ namespace PredefinedControlAndInsertionAppProject
 
                 if (elements.Count == 0)
                 {
+                    Console.WriteLine("No interactive UI elements found in this window.");
                     TimedMessageBox.Show("No interactive UI elements found in this window.",
                                   "No Elements", 5000);
                     return;
@@ -127,16 +132,18 @@ namespace PredefinedControlAndInsertionAppProject
                     SelectedElements = elementsDialog.SelectedElements;
 
                     // Optionally auto-close the dialog if elements were selected
-                    if (MessageBox.Show("Elements have been selected. Do you want to close this dialog and add them to your automation?",
-                                      "Elements Selected", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
-                    {
+
+                    //if (MessageBox.Show("Elements have been selected. Do you want to close this dialog and add them to your automation?",
+                    //                  "Elements Selected", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                    //{
                         DialogResult = true;
                         Close();
-                    }
+                    //}
                 }
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"Error detecting UI elements: {ex.Message}");
                 TimedMessageBox.Show($"Error detecting UI elements: {ex.Message}",
                               "Error", 5000);
             }

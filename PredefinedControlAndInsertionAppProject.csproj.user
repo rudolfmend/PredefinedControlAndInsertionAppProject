@@ -23,6 +23,9 @@
     <Compile Update="SaveConfigDialog.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="SearchableComboBox.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="StepEditDialog.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

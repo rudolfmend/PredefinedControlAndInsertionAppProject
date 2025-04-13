@@ -79,6 +79,61 @@ namespace PredefinedControlAndInsertionAppProject
 
             [JsonProperty(PropertyName = "Target")]
             public string Target { get; set; } = string.Empty;
+
+            [JsonProperty(PropertyName = "IsLoopStart")]
+            public bool IsLoopStart { get; set; } = false;
+
+            [JsonProperty(PropertyName = "IsLoopEnd")]
+            public bool IsLoopEnd { get; set; } = false;
+
+            [JsonProperty(PropertyName = "IsInLoop")]
+            public bool IsInLoop { get; set; } = false;
+
+            // Vlastnosti pre klikaníe
+            [JsonProperty(PropertyName = "ClickMode")]
+            public MainWindow.ClickMode ClickMode { get; set; } = MainWindow.ClickMode.SingleClick;
+
+            [JsonProperty(PropertyName = "ClickCount")]
+            public int ClickCount { get; set; } = 1;
+
+            [JsonProperty(PropertyName = "ClickConditionElement")]
+            public string? ClickConditionElement { get; set; }
+
+            [JsonProperty(PropertyName = "ClickConditionValue")]
+            public string? ClickConditionValue { get; set; }
+
+            [JsonProperty(PropertyName = "ClickInterval")]
+            public int ClickInterval { get; set; } = 500;
+
+            // Pre uloženie parametrov slučky
+            [JsonProperty(PropertyName = "LoopParameters")]
+            public LoopParametersConfig? LoopParameters { get; set; }
+        }
+
+        // Class for storing loop parameters
+        // Trieda pre ukladanie parametrov slučky
+        /// <summary>
+        /// Represents the parameters for a loop in the automation sequence
+        /// </summary>
+        public class LoopParametersConfig
+        {
+            [JsonProperty(PropertyName = "StartStepIndex")]
+            public int StartStepIndex { get; set; }
+
+            [JsonProperty(PropertyName = "EndStepIndex")]
+            public int EndStepIndex { get; set; }
+
+            [JsonProperty(PropertyName = "IterationCount")]
+            public int IterationCount { get; set; } = 1;
+
+            [JsonProperty(PropertyName = "IsInfiniteLoop")]
+            public bool IsInfiniteLoop { get; set; } = false;
+
+            [JsonProperty(PropertyName = "ExitConditionElementName")]
+            public string? ExitConditionElementName { get; set; }
+
+            [JsonProperty(PropertyName = "ExitConditionValue")]
+            public string? ExitConditionValue { get; set; }
         }
 
         // Default directory for configuration files
@@ -258,12 +313,37 @@ namespace PredefinedControlAndInsertionAppProject
         /// </summary>
         public static SequenceStepConfig ConvertSequenceStep(MainWindow.SequenceStep step)
         {
-            return new SequenceStepConfig
+            var config = new SequenceStepConfig
             {
                 StepNumber = step.StepNumber,
                 Action = step.Action,
-                Target = step.Target
+                Target = step.Target,
+                IsLoopStart = step.IsLoopStart,
+                IsLoopEnd = step.IsLoopEnd,
+                IsInLoop = step.IsInLoop,
+                ClickMode = step.ClickMode,
+                ClickCount = step.ClickCount,
+                ClickConditionElement = step.ClickConditionElement,
+                ClickConditionValue = step.ClickConditionValue,
+                ClickInterval = step.ClickInterval
             };
+
+            // If there are loop parameters, save them as well
+            // Ak existujú parametre slučky, uložiť ich tiež
+            if (step.LoopParameters != null)
+            {
+                config.LoopParameters = new LoopParametersConfig
+                {
+                    StartStepIndex = step.LoopParameters.StartStepIndex,
+                    EndStepIndex = step.LoopParameters.EndStepIndex,
+                    IterationCount = step.LoopParameters.IterationCount,
+                    IsInfiniteLoop = step.LoopParameters.IsInfiniteLoop,
+                    ExitConditionElementName = step.LoopParameters.ExitConditionElementName,
+                    ExitConditionValue = step.LoopParameters.ExitConditionValue
+                };
+            }
+
+            return config;
         }
 
         /// <summary>
@@ -271,12 +351,37 @@ namespace PredefinedControlAndInsertionAppProject
         /// </summary>
         public static MainWindow.SequenceStep ConvertSequenceStepConfig(SequenceStepConfig config)
         {
-            return new MainWindow.SequenceStep
+            var step = new MainWindow.SequenceStep
             {
                 StepNumber = config.StepNumber,
                 Action = config.Action,
-                Target = config.Target
+                Target = config.Target,
+                IsLoopStart = config.IsLoopStart,
+                IsLoopEnd = config.IsLoopEnd,
+                IsInLoop = config.IsInLoop,
+                ClickMode = config.ClickMode,
+                ClickCount = config.ClickCount,
+                ClickConditionElement = config.ClickConditionElement,
+                ClickConditionValue = config.ClickConditionValue,
+                ClickInterval = config.ClickInterval
             };
+
+            // If there are loop parameters, load them as well
+            // Ak existujú parametre slučky, načítať ich tiež
+            if (config.LoopParameters != null)
+            {
+                step.LoopParameters = new MainWindow.LoopControl
+                {
+                    StartStepIndex = config.LoopParameters.StartStepIndex,
+                    EndStepIndex = config.LoopParameters.EndStepIndex,
+                    IterationCount = config.LoopParameters.IterationCount,
+                    IsInfiniteLoop = config.LoopParameters.IsInfiniteLoop,
+                    ExitConditionElementName = config.LoopParameters.ExitConditionElementName,
+                    ExitConditionValue = config.LoopParameters.ExitConditionValue
+                };
+            }
+
+            return step;
         }
 
         // Helper methods

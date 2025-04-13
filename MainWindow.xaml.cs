@@ -102,39 +102,40 @@ namespace PredefinedControlAndInsertionAppProject
                 if (appSelectorDialog.SelectedElements.Count() > 0)
                 {
                     {
-                    // Add selected elements to the UI elements collection
-                    foreach (var elementInfo in appSelectorDialog.SelectedElements)
-                    {
-                        _uiElements.Add(new AppUIElement
+                        // Add selected elements to the UI elements collection
+                        foreach (var elementInfo in appSelectorDialog.SelectedElements)
                         {
-                            Name = !string.IsNullOrEmpty(elementInfo.Name) ? elementInfo.Name :
-                                   (!string.IsNullOrEmpty(elementInfo.AutomationId) ? elementInfo.AutomationId : elementInfo.ControlTypeName),
-                            ElementType = MapControlTypeNameToElementType(elementInfo.ControlTypeName),
-                            AutomationId = elementInfo.AutomationId,
-                            Value = "",
-                            IsTarget = false
-                        });
-                    }
+                            _uiElements.Add(new AppUIElement
+                            {
+                                Name = !string.IsNullOrEmpty(elementInfo.Name) ? elementInfo.Name :
+                                       (!string.IsNullOrEmpty(elementInfo.AutomationId) ? elementInfo.AutomationId : elementInfo.ControlTypeName),
+                                ElementType = MapControlTypeNameToElementType(elementInfo.ControlTypeName),
+                                AutomationId = elementInfo.AutomationId,
+                                Value = "",
+                                IsTarget = false
+                            });
+                        }
 
-                    // Refresh the DataGrid to show the new elements
-                    dgElements.Items.Refresh();
+                        // Refresh the DataGrid to show the new elements
+                        dgElements.Items.Refresh();
 
-                    // Optionally, select the first element in the DataGrid
-                    if (dgElements.Items.Count > 0)
-                    {
-                        dgElements.SelectedIndex = 0;
-                        dgElements.ScrollIntoView(dgElements.Items[0]);
-                    }
+                        // Optionally, select the first element in the DataGrid
+                        if (dgElements.Items.Count > 0)
+                        {
+                            dgElements.SelectedIndex = 0;
+                            dgElements.ScrollIntoView(dgElements.Items[0]);
+                        }
 
-                        TimedMessageBox.Show(
-                        $"{appSelectorDialog.SelectedElements.Count()} UI element(s) have been added to your automation.",
-                        "Elements Added",
-                        5000); // 5000 ms = 5 seconds
+                        //TimedMessageBox.Show(
+                        //$"{appSelectorDialog.SelectedElements.Count()} UI element(s) have been added to your automation.",
+                        //"Elements Added",
+                        //5000); // 5000 ms = 5 seconds
                     }
                 }
             }
             else
             {
+                Console.WriteLine("Dialog was closed without selection."); 
                 TimedMessageBox.Show("No application or window selected.",
                     "Selection Error", 5000);
             }
@@ -208,15 +209,12 @@ namespace PredefinedControlAndInsertionAppProject
                         // Vezmeme prvé okno
                         _selectedWindow = _selectedApplication.Windows[0];
                     }
-
                     // Aktualizácia UI s informáciami o vybranej aplikácii
                     //txtWindowTitle.Text = _selectedApplication.MainWindowTitle;
-
-                    // Zobrazenie správy o úspešnom výbere aplikácie
-                    TimedMessageBox.Show(
-                        $"Selected application: {_selectedApplication.ProcessName} (PID: {_selectedApplication.ProcessId})",
-                        "Application Selected",
-                        3000);
+                    //TimedMessageBox.Show(
+                    //    $"Selected application: {_selectedApplication.ProcessName} (PID: {_selectedApplication.ProcessId})",
+                    //    "Application Selected",
+                    //    3000);
                 }
                 // Ak je vybraná nainštalovaná desktop aplikácia, ale nie je spustená
                 else if (dialog.SelectedInstalledApplication != null)
@@ -334,8 +332,7 @@ namespace PredefinedControlAndInsertionAppProject
                 }
                 catch (Exception ex)
                 {
-                    TimedMessageBox.Show($"Error during element capture: {ex.Message}", "Capture Error",
-                                     5000);
+                    MessageBox.Show($"Error during element capture: {ex.Message}", "Capture Error");
                 }
                 finally
                 {
@@ -375,14 +372,14 @@ namespace PredefinedControlAndInsertionAppProject
             }
             else
             {
-                TimedMessageBox.Show("Please select an element to remove.", "No Selection",
-                                5000);
+                MessageBox.Show("Please select an element to remove.", "No Selection");
             }
         }
 
         private void BtnAddStep_Click(object sender, System.Windows.RoutedEventArgs e)
         {
             // Open the edit dialog to create a new step
+            // Otvorenie dialógu pre vytvorenie nového kroku
             var editDialog = new StepEditDialog(_uiElements);
             editDialog.Owner = this;
 
@@ -391,16 +388,33 @@ namespace PredefinedControlAndInsertionAppProject
             if (result == true)
             {
                 // Create a new step with the next step number
+                // Vytvorenie nového kroku s ďalším číslom kroku
                 int nextStepNumber = _sequenceSteps.Count + 1;
 
-                _sequenceSteps.Add(new SequenceStep
+                var newStep = new SequenceStep
                 {
                     StepNumber = nextStepNumber,
                     Action = editDialog.SelectedAction,
                     Target = editDialog.SelectedTarget?.Name ?? "Select a UI Element"
-                });
+                };
+
+                // If it's a "Click" action, set click properties
+                // Ak ide o "Click" akciu, nastavíme aj click vlastnosti
+                if (editDialog.SelectedAction == "Click")
+                {
+                    newStep.ClickMode = editDialog.SelectedClickMode;
+                    newStep.ClickCount = editDialog.ClickCount;
+                    newStep.ClickInterval = editDialog.ClickInterval;
+                    newStep.ClickConditionElement = editDialog.ClickConditionElement;
+                    newStep.ClickConditionValue = editDialog.ClickConditionValue;
+                }
+
+                // Add step to the sequence
+                // Pridať krok do sekvencie
+                _sequenceSteps.Add(newStep);
 
                 // If it's a SetValue action, update the element's value
+                // Ak ide o SetValue akciu, aktualizujeme hodnotu elementu
                 if (editDialog.SelectedAction == "SetValue" && editDialog.SelectedTarget != null)
                 {
                     editDialog.SelectedTarget.Value = editDialog.Value;
@@ -450,8 +464,7 @@ namespace PredefinedControlAndInsertionAppProject
             }
             else
             {
-                TimedMessageBox.Show("Please select a step to edit.", "No Selection",
-                              5000);
+                MessageBox.Show("Please select a step to edit.", "No Selection");
             }
         }
 
@@ -468,8 +481,7 @@ namespace PredefinedControlAndInsertionAppProject
             }
             else
             {
-                TimedMessageBox.Show("Please select a step to remove.", "No Selection",
-                                5000);
+                MessageBox.Show("Please select a step to remove.", "No Selection");
             }
         }
 
@@ -742,6 +754,7 @@ namespace PredefinedControlAndInsertionAppProject
 
         #region Automation Methods
 
+        // Helper method to get the value of an element
         // Pomocná konverzná metóda
         private static string ConvertControlTypeToElementType(string controlType)
         {
@@ -1024,7 +1037,7 @@ namespace PredefinedControlAndInsertionAppProject
                         {
                             StartIndex = currentStepIndex,
                             EndIndex = step.LoopParameters.EndStepIndex,
-                            CurrentIteration = 1,
+                            CurrentIteration = 1, 
                             MaxIterations = step.LoopParameters.IterationCount,
                             IsInfinite = step.LoopParameters.IsInfiniteLoop,
                             ExitConditionElement = step.LoopParameters.ExitConditionElementName,
@@ -1181,36 +1194,91 @@ namespace PredefinedControlAndInsertionAppProject
             var targetFlaElement = flaElements.FirstOrDefault(e => e.Name == elementConfig.Name ||
                                                                 e.AutomationId == elementConfig.AutomationId);
 
-            if (targetFlaElement != null)
+            // Upravená časť pre príkaz Click
+            if (step.Action == "Click")
             {
-                // FlaUI implementation
-                switch (step.Action)
+                switch (step.ClickMode)
                 {
-                    case "SetValue":
-                        string flaValueToSet = CalculateValueForElement(elementConfig.Name);
-                        if (_flaAutomation.SetElementValue(targetFlaElement, flaValueToSet))
-                            return; // Success, no need to try legacy method
+                    case ClickMode.SingleClick:
+                        // Pôvodná implementácia jedného kliknutia
+                        if (targetFlaElement != null)
+                        {
+                            if (_flaAutomation.ClickElement(targetFlaElement))
+                                return;
+                        }
+                        else if (ClickElement(element))
+                        {
+                            return;
+                        }
                         break;
 
-                    case "Click":
-                        if (_flaAutomation.ClickElement(targetFlaElement))
-                            return; // Success, no need to try legacy method
-                        break;
+                    case ClickMode.MultipleClicks:
+                        //  Multiple clicks (with specified count and interval)
+                        for (int i = 0; i < step.ClickCount && _executionTokenSource?.Token.IsCancellationRequested == false; i++)
+                      //for (int i = 0; i < step.ClickCount && !_executionTokenSource.Token.IsCancellationRequested; i++)
+                        {
+                            if (targetFlaElement != null)
+                            {
+                                _flaAutomation.ClickElement(targetFlaElement);
+                            }
+                            else
+                            {
+                                ClickElement(element);
+                            }
 
-                    case "Wait":
-                        // Wait for specified time
-                        if (int.TryParse(elementConfig.Value, out int flaWaitTime))
-                        {
-                            await Task.Delay(flaWaitTime * 1000);
+                            // Počkať stanovený interval medzi kliknutiami
+                            await Task.Delay(step.ClickInterval, _executionTokenSource.Token);
                         }
-                        else
+                        return;
+
+                    case ClickMode.EndlessClicks:
+                        // Nekonečné klikanie (pokým nie je zrušené)
+                        while (_executionTokenSource?.Token.IsCancellationRequested == false)
                         {
-                            await Task.Delay(1000); // Default to 1 second
+                            if (targetFlaElement != null)
+                            {
+                                _flaAutomation.ClickElement(targetFlaElement);
+                            }
+                            else
+                            {
+                                ClickElement(element);
+                            }
+
+                            // Počkať stanovený interval medzi kliknutiami
+                            await Task.Delay(step.ClickInterval, _executionTokenSource.Token);
                         }
-                        return; // Wait action always succeeds
+                        return;
+
+                    case ClickMode.ConditionalClicks:
+                        // Klikanie pokým nie je splnená podmienka
+                        bool conditionMet = false;
+
+                        while (!conditionMet && _executionTokenSource?.Token.IsCancellationRequested == false)
+                        {
+                            // Vykonať kliknutie
+                            if (targetFlaElement != null)
+                            {
+                                _flaAutomation.ClickElement(targetFlaElement);
+                            }
+                            else
+                            {
+                                ClickElement(element);
+                            }
+
+                            // Skontrolovať podmienku
+                            if (!string.IsNullOrEmpty(step.ClickConditionElement))
+                            {
+                                string currentValue = GetElementValue(step.ClickConditionElement = string.Empty);
+                                conditionMet = currentValue == step.ClickConditionValue;
+                            }
+
+                            // Počkať stanovený interval medzi kliknutiami
+                            await Task.Delay(step.ClickInterval, _executionTokenSource.Token);
+                        }
+                        Console.WriteLine("Condition met, stopping clicks. (MainWindow - private async Task ExecuteStepAction()");
+                        return;
                 }
             }
-
             // Fallback to traditional UI Automation (if FlaUI fails or element not found)
             switch (step.Action)
             {
@@ -1853,6 +1921,14 @@ namespace PredefinedControlAndInsertionAppProject
             public string Formula { get; set; } = string.Empty;
         }
 
+        public enum ClickMode
+        {
+            SingleClick,     // Jedno kliknutie (pôvodné správanie)
+            MultipleClicks,  // Viacnásobné kliknutie (zadaný počet)
+            EndlessClicks,   // Nekonečné klikanie (pokým nie je zastavené)
+            ConditionalClicks // Klikanie do splnenia podmienky
+        }
+
         public class SequenceStep
         {
             public int StepNumber { get; set; }
@@ -1863,7 +1939,18 @@ namespace PredefinedControlAndInsertionAppProject
             public LoopControl? LoopParameters { get; set; }
             public bool IsInLoop { get; set; } = false;
 
+            // Vlastnosti pre funkcionalitu klikania
+            // Properties for clicking functionality
+            public ClickMode ClickMode { get; set; } = ClickMode.SingleClick;
+            public int ClickCount { get; set; } = 1;
+            public string? ClickConditionElement { get; set; }
+            public string? ClickConditionValue { get; set; }
+            public int ClickInterval { get; set; } = 500; // miliseconds 
+
+
+
             // Vlastnosti pre vizuálne zobrazenie v UI
+            // Properties for visual representation in UI
             public System.Windows.Media.Brush LoopBackground
             {
                 get
@@ -1883,7 +1970,30 @@ namespace PredefinedControlAndInsertionAppProject
             {
                 get { return IsLoopEnd ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed; }
             }
+
+            public string ClickDescription
+            {
+                get
+                {
+                    if (Action != "Click") return string.Empty;
+
+                    switch (ClickMode)
+                    {
+                        case ClickMode.SingleClick:
+                            return "1×";
+                        case ClickMode.MultipleClicks:
+                            return $"{ClickCount}×";
+                        case ClickMode.EndlessClicks:
+                            return "∞";
+                        case ClickMode.ConditionalClicks:
+                            return $"Until {ClickConditionElement} = {ClickConditionValue}";
+                        default:
+                            return string.Empty;
+                    }
+                }
+            }
         }
+
         #endregion
     }
 }
