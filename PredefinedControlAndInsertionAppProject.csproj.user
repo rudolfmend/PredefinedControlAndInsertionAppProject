@@ -29,5 +29,8 @@
     <Compile Update="StepEditDialog.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="VirtualKeyboard.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
 </Project>

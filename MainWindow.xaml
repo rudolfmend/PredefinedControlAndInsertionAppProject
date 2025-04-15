@@ -224,6 +224,8 @@
                 Click="BtnMoveDown_Click"/>
                         <Button x:Name="BtnAddLoop" Content="Add Loop" Padding="10,5" 
                         Click="BtnAddLoop_Click" Margin="5,0,0,0"/>
+                        <Button x:Name="BtnVirtualKeyboard" Content="Virtual Keyboard" Padding="10,5" 
+                            Click="BtnVirtualKeyboard_Click"  Margin="5,0,0,0"/>
                     </StackPanel>
                 </Grid>
             </TabItem>

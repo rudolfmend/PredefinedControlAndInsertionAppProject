@@ -1,0 +1,159 @@
+﻿<Window x:Class="PredefinedControlAndInsertionAppProject.VirtualKeyboard"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PredefinedControlAndInsertionAppProject"
+        mc:Ignorable="d"
+        Title="Virtual keyboard" Height="460" Width="1000" 
+        WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+    <Window.Resources>
+        <Style x:Key="KeyboardButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="40"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Margin" Value="2"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="Background" Value="#EFEFEF"/>
+            <Setter Property="BorderBrush" Value="#CCCCCC"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
+        <Style x:Key="SpecialKeyStyle" TargetType="Button" BasedOn="{StaticResource KeyboardButtonStyle}">
+            <Setter Property="Background" Value="#D8D8D8"/>
+        </Style>
+        <Style x:Key="WideKeyStyle" TargetType="Button" BasedOn="{StaticResource SpecialKeyStyle}">
+            <Setter Property="Width" Value="80"/>
+        </Style>
+        <Style x:Key="SpaceKeyStyle" TargetType="Button" BasedOn="{StaticResource SpecialKeyStyle}">
+            <Setter Property="Width" Value="328"/>
+        </Style>
+        <Style x:Key="TabKeyStyle" TargetType="Button" BasedOn="{StaticResource SpecialKeyStyle}">
+            <Setter Property="Width" Value="60"/>
+        </Style>
+        <Style x:Key="CapsKeyStyle" TargetType="Button" BasedOn="{StaticResource SpecialKeyStyle}">
+            <Setter Property="Width" Value="80"/>
+        </Style>
+        <Style x:Key="EnterKeyStyle" TargetType="Button" BasedOn="{StaticResource SpecialKeyStyle}">
+            <Setter Property="Width" Value="84"/>
+        </Style>
+        <Style x:Key="ShiftKeyStyle" TargetType="Button" BasedOn="{StaticResource SpecialKeyStyle}">
+            <Setter Property="Width" Value="104"/>
+        </Style>
+        <Style x:Key="BackspaceKeyStyle" TargetType="Button" BasedOn="{StaticResource SpecialKeyStyle}">
+            <Setter Property="Width" Value="84"/>
+        </Style>
+    </Window.Resources>
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Informácie o stlačených klávesoch -->
+        <TextBlock Grid.Row="0" x:Name="txtKeyInfo" Height="30" Margin="0,0,0,0" 
+                   VerticalAlignment="Center" HorizontalAlignment="Left" 
+                   Text="Key pressed: none" FontSize="19"/>
+
+        <TextBlock x:Name="txtShortcutInfo" Height="25" 
+            VerticalAlignment="Bottom" HorizontalAlignment="Left" 
+            Text="Shortcut pressed: none" FontSize="19"/>
+
+        <!-- Toggle pre zobrazenie Shift charakterov -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,64,3,61" Grid.RowSpan="2">
+            <CheckBox x:Name="chkShiftMode" Content="Shift mode" VerticalAlignment="Center" Margin="0,0,20,0"
+                      Checked="ChkShiftMode_CheckedChanged" Unchecked="ChkShiftMode_CheckedChanged"/>
+            <CheckBox x:Name="chkAltGrMode" Content="AltGr mode" 
+                      Checked="ChkAltGrMode_CheckedChanged" Unchecked="ChkAltGrMode_CheckedChanged"/>
+        </StackPanel>
+
+        <!-- Klávesnica -->
+        <Grid HorizontalAlignment="Center" Margin="0,15,0,59" Grid.RowSpan="2" Grid.Row="1" Width="751">
+            <!-- Riadok 1 - čísla -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="12,0,0,190" Width="688">
+                <Button Tag="Oem3" Content="``" Style="{StaticResource KeyboardButtonStyle}" Click="KeyButton_Click" x:Name="btnOem3"/>
+                <Button Tag="D1" Content="1" Style="{StaticResource KeyboardButtonStyle}" Click="KeyButton_Click" x:Name="btnD1"/>
+                <Button Tag="D2" Content="2" Style="{StaticResource KeyboardButtonStyle}" Click="KeyButton_Click" x:Name="btnD2"/>
+                <Button Tag="D3" Content="3" Style="{StaticResource KeyboardButtonStyle}" Click="KeyButton_Click" x:Name="btnD3"/>
+                <Button Tag="D4" Content="4" Style="{StaticResource KeyboardButtonStyle}" Click="KeyButton_Click" x:Name="btnD4"/>
+                <Button Tag="D5" Content="5" Style="{StaticResource KeyboardButtonStyle}" Click="KeyButton_Click" x:Name="btnD5"/>
+                <Button Tag="D6" Content="6" Style="{StaticResource KeyboardButtonStyle}" Click="KeyButton_Click" x:Name="btnD6"/>
+                <Button Tag="D7" Content="7" Style="{StaticResource KeyboardButtonStyle}" Click="KeyButton_Click" x:Name="btnD7"/>
+                <Button Tag="D8" Content="8" Style="{StaticResource KeyboardButtonStyle}" Click="KeyButton_Click" x:Name="btnD8"/>
+                <Button Tag="D9" Content="9" Style="{StaticResource KeyboardButtonStyle}" Click="KeyButton_Click" x:Name="btnD9"/>
+                <Button Tag="D0" Content="0" Style="{StaticResource KeyboardButtonStyle}" Click="KeyButton_Click" x:Name="btnD0"/>
+                <Button Tag="OemMinus" Content="-" Style="{StaticResource KeyboardButtonStyle}" Click="KeyButton_Click" x:Name="btnOemMinus"/>
+                <Button Tag="OemPlus" Content="=" Style="{StaticResource KeyboardButtonStyle}" Click="KeyButton_Click" x:Name="btnOemPlus"/>
+                <Button Tag="Back" Content="Backspace" Style="{StaticResource BackspaceKeyStyle}" Click="KeyButton_Click" Width="98"/>
+            </StackPanel>
+
+            <!-- Riadok 2 - QWERTZ -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,45,0,145" Width="758">
+                <Button Tag="Tab" Content="Tab" Style="{StaticResource TabKeyStyle}" Click="KeyButton_Click"/>
+                <Button Tag="Q" Content="q" Style="{StaticResource KeyboardButtonStyle}" Click="KeyButton_Click" x:Name="btnQ"/>
+                <Button Tag="W" Content="w" Style="{StaticResource KeyboardButtonStyle}" Click="KeyButton_Click" x:Name="btnW"/>
+                <Button Tag="E" Content="e" Style="{StaticResource KeyboardButtonStyle}" Click="KeyButton_Click" x:Name="btnE"/>
+                <Button Tag="R" Content="r" Style="{StaticResource KeyboardButtonStyle}" Click="KeyButton_Click" x:Name="btnR"/>
+                <Button Tag="T" Content="t" Style="{StaticResource KeyboardButtonStyle}" Click="KeyButton_Click" x:Name="btnT"/>
+                <Button Tag="Z" Content="z" Style="{StaticResource KeyboardButtonStyle}" Click="KeyButton_Click" x:Name="btnZ"/>
+                <Button Tag="U" Content="u" Style="{StaticResource KeyboardButtonStyle}" Click="KeyButton_Click" x:Name="btnU"/>
+                <Button Tag="I" Content="i" Style="{StaticResource KeyboardButtonStyle}" Click="KeyButton_Click" x:Name="btnI"/>
+                <Button Tag="O" Content="o" Style="{StaticResource KeyboardButtonStyle}" Click="KeyButton_Click" x:Name="btnO"/>
+                <Button Tag="P" Content="p" Style="{StaticResource KeyboardButtonStyle}" Click="KeyButton_Click" x:Name="btnP"/>
+                <Button Tag="OemOpenBrackets" Content="[" Style="{StaticResource KeyboardButtonStyle}" Click="KeyButton_Click" x:Name="btnOemOpenBrackets"/>
+                <Button Tag="Oem6" Content="]" Style="{StaticResource KeyboardButtonStyle}" Click="KeyButton_Click" x:Name="btnOem6"/>
+                <Button Tag="Return" Content="Enter" Style="{StaticResource EnterKeyStyle}" Click="KeyButton_Click"/>
+                <Button Tag="Delete" Content="Delete" Style="{StaticResource SpecialKeyStyle}" Click="KeyButton_Click" Width="Auto" Padding="5" Margin="9,0,0,0"/>
+            </StackPanel>
+
+            <!-- Riadok 3 - ASDFG -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,91,0,101" Width="685">
+                <Button Tag="Capital" Content="Caps Lock" Style="{StaticResource CapsKeyStyle}" Click="KeyButton_Click" Width="92"/>
+                <Button Tag="A" Content="a" Style="{StaticResource KeyboardButtonStyle}" Click="KeyButton_Click" x:Name="btnA"/>
+                <Button Tag="S" Content="s" Style="{StaticResource KeyboardButtonStyle}" Click="KeyButton_Click" x:Name="btnS"/>
+                <Button Tag="D" Content="d" Style="{StaticResource KeyboardButtonStyle}" Click="KeyButton_Click" x:Name="btnD"/>
+                <Button Tag="F" Content="f" Style="{StaticResource KeyboardButtonStyle}" Click="KeyButton_Click" x:Name="btnF"/>
+                <Button Tag="G" Content="g" Style="{StaticResource KeyboardButtonStyle}" Click="KeyButton_Click" x:Name="btnG"/>
+                <Button Tag="H" Content="h" Style="{StaticResource KeyboardButtonStyle}" Click="KeyButton_Click" x:Name="btnH"/>
+                <Button Tag="J" Content="j" Style="{StaticResource KeyboardButtonStyle}" Click="KeyButton_Click" x:Name="btnJ"/>
+                <Button Tag="K" Content="k" Style="{StaticResource KeyboardButtonStyle}" Click="KeyButton_Click" x:Name="btnK"/>
+                <Button Tag="L" Content="l" Style="{StaticResource KeyboardButtonStyle}" Click="KeyButton_Click" x:Name="btnL"/>
+                <Button Tag="OemSemicolon" Content=";" Style="{StaticResource KeyboardButtonStyle}" Click="KeyButton_Click" x:Name="btnOemSemicolon"/>
+                <Button Tag="Oem7" Content="''" Style="{StaticResource KeyboardButtonStyle}" Click="KeyButton_Click" x:Name="btnOem7"/>
+                <Button Tag="Oem5" Content="\" Style="{StaticResource KeyboardButtonStyle}" Click="KeyButton_Click" x:Name="btnOem5" Width="49"/>
+            </StackPanel>
+
+            <!-- Riadok 4 - YXCVB -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="-36,137,0,56">
+                <Button Tag="LeftShift" Content="Shift" Style="{StaticResource ShiftKeyStyle}" Click="KeyButton_Click"/>
+                <Button Tag="Oem102" Content="\" Style="{StaticResource KeyboardButtonStyle}" Click="KeyButton_Click" x:Name="btnOem102"/>
+                <Button Tag="Y" Content="y" Style="{StaticResource KeyboardButtonStyle}" Click="KeyButton_Click" x:Name="btnY"/>
+                <Button Tag="X" Content="x" Style="{StaticResource KeyboardButtonStyle}" Click="KeyButton_Click" x:Name="btnX"/>
+                <Button Tag="C" Content="c" Style="{StaticResource KeyboardButtonStyle}" Click="KeyButton_Click" x:Name="btnC"/>
+                <Button Tag="V" Content="v" Style="{StaticResource KeyboardButtonStyle}" Click="KeyButton_Click" x:Name="btnV"/>
+                <Button Tag="B" Content="b" Style="{StaticResource KeyboardButtonStyle}" Click="KeyButton_Click" x:Name="btnB"/>
+                <Button Tag="N" Content="n" Style="{StaticResource KeyboardButtonStyle}" Click="KeyButton_Click" x:Name="btnN"/>
+                <Button Tag="M" Content="m" Style="{StaticResource KeyboardButtonStyle}" Click="KeyButton_Click" x:Name="btnM"/>
+                <Button Tag="OemComma" Content="," Style="{StaticResource KeyboardButtonStyle}" Click="KeyButton_Click" x:Name="btnOemComma"/>
+                <Button Tag="OemPeriod" Content="." Style="{StaticResource KeyboardButtonStyle}" Click="KeyButton_Click" x:Name="btnOemPeriod"/>
+                <Button Tag="OemQuestion" Content="/" Style="{StaticResource KeyboardButtonStyle}" Click="KeyButton_Click" x:Name="btnOemQuestion"/>
+                <Button Tag="RightShift" Content="Shift" Style="{StaticResource ShiftKeyStyle}" Click="KeyButton_Click"/>
+            </StackPanel>
+
+            <!-- Riadok 5 - spodný riadok -->
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,181,0,0" Width="736" Height="48" VerticalAlignment="Top">
+                <Button Tag="LeftCtrl" Content="Ctrl" Style="{StaticResource WideKeyStyle}" Click="KeyButton_Click"/>
+                <Button Tag="LWin" Content="Win" Style="{StaticResource KeyboardButtonStyle}" Click="KeyButton_Click"/>
+                <Button Tag="LeftAlt" Content="Alt" Style="{StaticResource KeyboardButtonStyle}" Click="KeyButton_Click"/>
+                <Button Tag="Space" Content="Space" Style="{StaticResource SpaceKeyStyle}" Click="KeyButton_Click"/>
+                <Button Tag="RightAlt" Content="AltGr" Style="{StaticResource KeyboardButtonStyle}" Click="KeyButton_Click"/>
+                <Button Tag="RWin" Content="Win" Style="{StaticResource KeyboardButtonStyle}" Click="KeyButton_Click"/>
+                <Button Tag="Apps" Content="Menu" Style="{StaticResource KeyboardButtonStyle}" Click="KeyButton_Click" Width="Auto"  />
+                <Button Tag="RightCtrl" Content="Ctrl" Style="{StaticResource WideKeyStyle}" Click="KeyButton_Click"/>
+            </StackPanel>
+        </Grid>
+
+        <Button Grid.Row="2" Content="Press to create a keyboard shortcut" Width="Auto" Height="35" 
+            HorizontalAlignment="Stretch" VerticalAlignment="Bottom" x:Name="ButtonCreateShortcut"
+            Click="ButtonCreateShortcut_Click"/>
+    </Grid>
+</Window>

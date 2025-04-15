@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -1995,5 +1996,26 @@ namespace PredefinedControlAndInsertionAppProject
         }
 
         #endregion
+
+        private void BtnVirtualKeyboard_Click(object sender, RoutedEventArgs e)
+        {
+            // Vytvorenie a zobrazenie klávesnice
+            var keyboard = new VirtualKeyboard();
+
+            // Pripojenie handlera pre stlačenie klávesy
+            keyboard.KeyPressed += (keyName, keyValue) => {
+                // Spracovanie stlačenej klávesy
+                Console.WriteLine($"Key pressed: {keyName}, value: {keyValue}");
+            };
+
+            // Zobrazenie klávesnice ako modálne okno
+            if (keyboard.ShowDialog() == true)
+            {
+                // Získanie naposledy stlačenej klávesy po zatvorení
+                var lastKey = keyboard.GetLastPressedKey();
+                string keyName = lastKey.Item1;
+                string keyValue = lastKey.Item2;
+            }
+        }
     }
 }
